@@ -19,13 +19,20 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        @livewireStyles
 
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
+        @livewireScripts
 
     </head>
 
     <body class="h-full">
-        {{ $slot }}
+        <div class="min-h-full">
+
+            @include('includes.nav')
+
+            {{ $slot }}
+        </div>
     </body>
 </html>
