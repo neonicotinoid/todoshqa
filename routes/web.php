@@ -25,6 +25,6 @@ Route::get('/dashboard', function () {
 Route::get('/{project}/tasks', [\App\Http\Controllers\TaskController::class, 'index'])->name('project.tasks')->middleware(['auth']);
 Route::get('/projects', [\App\Http\Controllers\ProjectController::class, 'index'])->name('projects')->middleware(['auth']);
 
-Route::view('/components', 'library')->middleware(['prod']);
+Route::view('/ui-library', 'library')->middleware(['prod']);
 
 require __DIR__.'/auth.php';
