@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Project;
 use App\Models\Task;
+use DebugBar\DebugBar;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 
@@ -16,6 +17,8 @@ class TasksListPage extends Component
 
     public ?Task $openedTask = null;
 
+    public string $newTaskTitle = '';
+
     public function mount(Project $project)
     {
         $this->project = $project;
@@ -26,7 +29,8 @@ class TasksListPage extends Component
     {
         return [
             'openedTask.title' => ['string', 'required'],
-            'openedTask.description' => ['string', 'nullable']
+            'openedTask.description' => ['string', 'nullable'],
+            'newTaskTitle' => ['string', 'required', 'min:3'],
         ];
     }
 
@@ -51,6 +55,15 @@ class TasksListPage extends Component
         }
         $task->save();
         $this->emit('update');
+    }
+
+    public function addNewTask(): Task
+    {
+        $this->validateOnly('newTaskTitle');
+        $task = new Task(['title' => $this->newTaskTitle]);
+        $task->project()->associate($this->project)->save();
+        $this->newTaskTitle = '';
+        return $task;
     }
 
     public function getActualTasksProperty(): Collection
