@@ -54,6 +54,18 @@
 
 
         <div>
+            <h2 class="text-3xl font-bold mb-4">Datepicker</h2>
+
+            <div class="space-y-2">
+                <x-form.datepicker/>
+                <x-form.group label="Пример поля для выбора даты">
+                    <x-form.datepicker/>
+                </x-form.group>
+            </div>
+        </div>
+
+
+        <div>
             <h2 class="text-3xl font-bold mb-4">Text input</h2>
 
             <div class="space-y-2">

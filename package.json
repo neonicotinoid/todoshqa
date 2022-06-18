@@ -19,7 +19,8 @@
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
         "postcss": "^8.4.6",
-        "tailwindcss": "^3.0.18"
+        "tailwindcss": "^3.0.18",
+        "vanillajs-datepicker": "^1.2.0"
     },
     "dependencies": {
         "@alpinejs/focus": "^3.10.2"
