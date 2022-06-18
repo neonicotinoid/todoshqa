@@ -10,7 +10,8 @@ use Livewire\Component;
 class TasksListPage extends Component
 {
     public Project $project;
-    public Collection $tasks;
+    public Collection $actualTasks;
+    public Collection $completedTasks;
     public bool $isTaskModalOpen;
 
     public ?Task $openedTask = null;
@@ -18,7 +19,6 @@ class TasksListPage extends Component
     public function mount(Project $project)
     {
         $this->project = $project;
-        $this->tasks = $project->tasks;
         $this->isTaskModalOpen = false;
     }
 
@@ -40,6 +40,27 @@ class TasksListPage extends Component
     {
         $this->openedTask = null;
         $this->isTaskModalOpen = false;
+    }
+
+    public function toggleTaskState(Task $task)
+    {
+        if ($task->completed_at) {
+            $task->completed_at = null;
+        } else {
+            $task->completed_at = now();
+        }
+        $task->save();
+        $this->emit('update');
+    }
+
+    public function getActualTasksProperty(): Collection
+    {
+        return $this->project->tasks()->actual()->get();
+    }
+
+    public function getCompletedTasksProperty(): Collection
+    {
+        return $this->project->tasks()->completed()->get();
     }
 
     public function render()
