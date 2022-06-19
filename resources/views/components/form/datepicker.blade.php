@@ -1,28 +1,17 @@
 @props(['title' => null])
 
-<div x-data="{datepicker: null}" wire:ignore
-     x-init="datepicker = new window.Datepicker($refs.datepickerInput, {
-        title: @js('title')
-     });"
-    @task-sidebar-open.window="
-        console.log($event.detail.deadline_date);
-        if ($event.detail.deadline_date) {
-            datepicker.setDate(new Date($event.detail.deadline_date));
-        }
-    "
+<div x-data="datepickerDeadline()" wire:ignore
+     x-bind="wrapper"
     >
 
-    <x-form.text class="hidden" x-ref="wireable" {{ $attributes->thatStartWith('wire:') }} hidden/>
-    <x-form.text x-ref="dateForUser"/>
+    <div class="flex items-center justify-between">
+        <x-form.text class="hidden" x-ref="wireable" {{ $attributes->thatStartWith('wire:') }} hidden/>
+        <x-form.text class="w-auto" x-ref="dateForUser"/>
+        <x-button type="button" @click="resetDate" size="xs" color="white">Сбросить</x-button>
+    </div>
     <div x-ref="datepickerInput"
            x-bind:id="$id('input')"
-           x-on:change-date.camel="$dispatch('input', $event.detail.date)"
-           @input.prevent.stop
-           @change-date.camel="
-           $refs.wireable.value = formatDate($event.detail.date);
-           $refs.wireable.dispatchEvent(new Event('input'));
-           $refs.dateForUser.value = formatDate($event.detail.date);
-            "
+            x-bind="datepickerElem"
            class="block mt-1.5 w-full px-2.5 py-2 rounded-lg border border-black
                 hover:border-purple-300
                 placeholder:text-gray-500 placeholder:font-normal

@@ -1,6 +1,9 @@
 import Alpine from 'alpinejs';
 import focus from '@alpinejs/focus'
 import Datepicker from 'vanillajs-datepicker/Datepicker';
+import datepickerDeadline from "./components/datepicker-deadline";
+
+Alpine.data('datepickerDeadline', datepickerDeadline);
 
 window.formatDate = function (inputDate) {
     let date, month, year;

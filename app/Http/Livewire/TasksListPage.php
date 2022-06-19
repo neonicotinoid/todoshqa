@@ -31,7 +31,7 @@ class TasksListPage extends Component
         return [
             'openedTask.title' => ['string', 'required'],
             'openedTask.description' => ['string', 'nullable'],
-            'openedTask.deadline_date' => ['date'],
+            'openedTask.deadline_date' => ['date', 'nullable'],
             'newTaskTitle' => ['string', 'required', 'min:3'],
         ];
     }
@@ -71,6 +71,11 @@ class TasksListPage extends Component
     {
         $this->validateOnly('openedTask.deadline_date');
         return $this->openedTask->save();
+    }
+
+    public function resetDeadlineDateForOpenedTask()
+    {
+        $this->openedTask->deadline_date = null;
     }
 
     public function getActualTasksProperty(): Collection
