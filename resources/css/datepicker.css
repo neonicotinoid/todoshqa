@@ -3,7 +3,7 @@
 }
 
 .datepicker.active {
-    @apply block;
+    @apply block z-50;
 }
 
 .datepicker-dropdown {

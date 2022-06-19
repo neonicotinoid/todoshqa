@@ -50,6 +50,10 @@
                                         <x-form.group label="Описание задачи">
                                             <x-form.textarea class="text-sm" rows="4" wire:model="openedTask.description"/>
                                         </x-form.group>
+
+                                        <x-form.group label="Срок выполнения">
+                                            <x-form.datepicker title="Дэдлайн" wire:model.defer="openedTask.deadline_date"/>
+                                        </x-form.group>
                                     </div>
                                     <div class="pt-4 pb-6">
                                         <div class="flex text-sm">
@@ -75,7 +79,7 @@
                             </div>
                         </div>
                         <div class="flex flex-shrink-0 justify-end space-x-4 px-4 py-4">
-                            <x-button icon="heroicon-s-save">Сохранить изменения</x-button>
+                            <x-button wire:click.prevent="saveOpenedTask" icon="heroicon-s-save">Сохранить изменения</x-button>
                             <x-button color="secondary" icon="heroicon-s-check">Выполнено!</x-button>
                         </div>
                     </form>

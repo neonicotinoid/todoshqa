@@ -17,10 +17,19 @@
             >
             {{$task->title}}
         </div>
-        <div class="mt-1 flex items-center text-xs md:text-sm text-yellow-400">
-            <x-heroicon-o-calendar class="w-4 h-4 mr-1.5"/>
-            tomorrow
-        </div>
+        @if($task->deadline_date?->isPast() && !$task->deadline_date?->isToday())
+            <div class="mt-1 inline-flex items-center justify-center bg-red-100 text-xs md:text-sm text-red-600 px-2 py-0.5 rounded-lg">
+                <x-heroicon-o-calendar class="w-3.5 h-3.5 mr-1.5"/>
+                {{$task->deadline_date->format('d M')}}
+            </div>
+        @endif
+
+        @if($task->deadline_date?->isFuture() || $task->deadline_date?->isToday())
+            <div class="mt-1 inline-flex items-center justify-center bg-yellow-100 text-xs md:text-sm text-yellow-600 px-2 py-0.5 rounded-lg">
+                <x-heroicon-o-calendar class="w-3.5 h-3.5 mr-1.5"/>
+                {{$task->deadline_date->format('d M')}}
+            </div>
+        @endif
     </div>
 
     <div class="relative ml-auto">

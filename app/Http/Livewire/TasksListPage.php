@@ -14,6 +14,7 @@ class TasksListPage extends Component
     public Collection $actualTasks;
     public Collection $completedTasks;
     public bool $isTaskModalOpen;
+    public $taskDeadline;
 
     public ?Task $openedTask = null;
 
@@ -30,6 +31,7 @@ class TasksListPage extends Component
         return [
             'openedTask.title' => ['string', 'required'],
             'openedTask.description' => ['string', 'nullable'],
+            'openedTask.deadline_date' => ['date'],
             'newTaskTitle' => ['string', 'required', 'min:3'],
         ];
     }
@@ -38,6 +40,7 @@ class TasksListPage extends Component
     {
         $this->openedTask = Task::find($id);
         $this->isTaskModalOpen = true;
+        $this->dispatchBrowserEvent('task-sidebar-open', $this->openedTask);
     }
 
     public function closeTask()
@@ -48,13 +51,11 @@ class TasksListPage extends Component
 
     public function toggleTaskState(Task $task)
     {
-        if ($task->completed_at) {
-            $task->completed_at = null;
-        } else {
-            $task->completed_at = now();
-        }
+        $task->completed_at
+            ? $task->completed_at = null
+            : $task->completed_at = now();
+
         $task->save();
-        $this->emit('update');
     }
 
     public function addNewTask(): Task
@@ -64,6 +65,12 @@ class TasksListPage extends Component
         $task->project()->associate($this->project)->save();
         $this->newTaskTitle = '';
         return $task;
+    }
+
+    public function saveOpenedTask(): bool
+    {
+        $this->validateOnly('openedTask.deadline_date');
+        return $this->openedTask->save();
     }
 
     public function getActualTasksProperty(): Collection
