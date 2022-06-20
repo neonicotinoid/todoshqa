@@ -2,7 +2,7 @@
 
 @if($fieldset)
     <fieldset {{$attributes}}>
-        <legend class="block font-medium text-gray-900">
+        <legend class="block text-sm text-gray-500">
             {{ $label }}
         </legend>
         @if($tip)
@@ -14,7 +14,7 @@
     </fieldset>
 @else
     <div x-data x-id="['input']" {{$attributes}}>
-        <label x-bind:for="$id('input')" class="block font-medium text-gray-900">
+        <label x-bind:for="$id('input')" class="block text-sm text-gray-500">
             {{ $label }}
         </label>
         @if($tip)

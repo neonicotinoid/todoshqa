@@ -16,6 +16,9 @@ class TasksListPage extends Component
     public bool $isTaskModalOpen;
     public $taskDeadline;
 
+    public bool $isProjectModalOpen = false;
+    public bool $isProjectAccessModalOpen = false;
+
     public ?Task $openedTask = null;
 
     public string $newTaskTitle = '';
@@ -33,7 +36,20 @@ class TasksListPage extends Component
             'openedTask.description' => ['string', 'nullable'],
             'openedTask.deadline_date' => ['date', 'nullable'],
             'newTaskTitle' => ['string', 'required', 'min:3'],
+
+            'project.title' => ['string'],
+            'project.description' => ['string', 'nullable']
         ];
+    }
+
+    public function openProjectSettings()
+    {
+        $this->isProjectModalOpen = true;
+    }
+
+    public function openProjectAccessSettings()
+    {
+        $this->isProjectAccessModalOpen = true;
     }
 
     public function openTask(int $id)

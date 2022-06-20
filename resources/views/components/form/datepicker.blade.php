@@ -8,7 +8,7 @@
         <x-form.text class="hidden" x-ref="wireable" {{ $attributes->thatStartWith('wire:') }} hidden/>
         <x-form.text class="w-auto" placeholder="Срок не установлен" @focusin="isOpen = true" @focusout="isOpen = false" x-ref="dateForUser" />
 
-        <button @click="resetDate" class="inline-flex items-center bg-red-50 text-red-600 rounded-full py-1 px-2 text-xs" title="Сбросить дэдлайн">
+        <button @click.prevent="resetDate" class="inline-flex items-center bg-red-50 text-red-600 rounded-full py-1 px-2 text-xs" title="Сбросить дэдлайн">
             <x-heroicon-s-x class="w-3 h-3 mr-1.5"/>
             <span>Сбросить</span>
         </button>

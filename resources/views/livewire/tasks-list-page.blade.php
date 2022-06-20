@@ -1,14 +1,26 @@
 <div>
     <header class="bg-white shadow">
-        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-            <h1 class="text-xl md:text-3xl font-bold text-gray-900">
-                {{$project->title}}
-            </h1>
-            @if($project->description)
-                <div class="text-xs md:text-sm text-gray-400 mt-2">
-                    {{$project->description}}
-                </div>
-            @endif
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div>
+                <h1 class="text-xl md:text-3xl font-bold text-gray-900">
+                    {{$project->title}}
+                </h1>
+                @if($project->description)
+                    <div class="text-xs md:text-sm text-gray-400 mt-2">
+                        {{$project->description}}
+                    </div>
+                @endif
+            </div>
+            <div>
+                <button class="w-6 h-6 inline-flex justify-center items-center shadow-sm bg-white border border-gray-200 rounded p-1"
+                        wire:click="openProjectSettings">
+                    <x-heroicon-s-cog class="text-gray-400"/>
+                </button>
+                <button class="w-6 h-6 inline-flex justify-center items-center shadow-sm bg-white border border-gray-200 rounded p-1"
+                        wire:click="openProjectAccessSettings">
+                    <x-heroicon-s-share class="text-gray-400"/>
+                </button>
+            </div>
         </div>
     </header>
     <main>
@@ -65,8 +77,8 @@
             </form>
         </div>
 
-
-
+        @include('includes.project-settings-modal')
+        @include('includes.project-sharings-modal')
         @include('includes.task-sidebar')
 
 
