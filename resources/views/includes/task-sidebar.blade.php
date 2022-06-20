@@ -20,7 +20,7 @@
                      x-transition:leave="transform transition ease-in-out duration-150 sm:duration-150"
                      x-transition:leave-start="translate-x-0"
                      x-transition:leave-end="translate-x-full"
-                     class="pointer-events-auto w-screen max-w-md">
+                     class="pointer-events-auto w-screen max-w-md" @click.outside="rendered = false">
                     <form class="flex h-full flex-col divide-y divide-gray-200 bg-white shadow-xl">
                         <div class="h-0 flex-1 overflow-y-auto">
                             <div class="bg-gray-900 py-4 px-4 sm:px-6">
@@ -45,12 +45,13 @@
                                 <div class="divide-y divide-gray-200 px-4 sm:px-6">
                                     <div class="space-y-6 pt-6 pb-5">
                                         <x-form.group label="Название задачи">
-                                            <x-form.textarea rows="2" class="text-sm" wire:model="openedTask.title"/>
+                                            <x-form.textarea rows="2" class="text-sm" wire:model.debounce.defer="openedTask.title"/>
                                         </x-form.group>
                                         <x-form.group label="Описание задачи">
-                                            <x-form.textarea class="text-sm" rows="4" wire:model="openedTask.description"/>
+                                            <x-form.textarea placeholder="Введите описание задачи..." class="text-sm" rows="4" wire:model.defer="openedTask.description"/>
                                         </x-form.group>
 
+                                        
                                         <x-form.group label="Срок выполнения">
                                             <x-form.datepicker title="Дэдлайн" wire:model.defer="openedTask.deadline_date"/>
                                         </x-form.group>

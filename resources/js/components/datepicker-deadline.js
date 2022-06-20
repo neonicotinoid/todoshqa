@@ -2,6 +2,7 @@ import th from "vanillajs-datepicker/locales/th";
 
 export default (title = null) => ({
     datepicker: null,
+    isOpen: false,
     init() {
         this.datepicker = new window.Datepicker(this.$refs.datepickerInput, {
             title: title,
