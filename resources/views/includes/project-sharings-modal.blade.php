@@ -42,15 +42,25 @@
                             </div>
 
                             <div class="mt-2">
-                                <x-form.group label="Введите email пользователя:">
-                                    <x-form.text placeholder="user@mail.com"/>
+                                <x-form.group class="relative" label="Введите email пользователя:" wire:ignore>
+                                    <x-form.text wire:model.defer="sharingEmail"
+                                                 placeholder="user@mail.com"/>
+                                    <svg wire:loading class="absolute right-4 bottom-2.5 animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
                                 </x-form.group>
-                                <div class="mt-1 text-green-600 text-sm">
-                                    Есть пользователь с таким email
+                                <div class="mt-2 flex">
+                                    <div class="text-left mr-4 leading-tight">
+                                        @error('sharingEmail')
+                                        <div class="text-red-600 text-xs">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                    </div>
+                                    <x-button wire:click="findUserForSharing" class="ml-auto" color="secondary" size="sm">Поделиться проектом</x-button>
                                 </div>
-                                <div class="mt-1 text-red-600 text-sm">
-                                    Пользователь с таким email не зарегистрирован
-                                </div>
+
                             </div>
                         </div>
 

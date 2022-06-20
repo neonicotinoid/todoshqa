@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Project;
 use App\Models\Task;
+use App\Models\User;
 use DebugBar\DebugBar;
 use Illuminate\Support\Collection;
 use Livewire\Component;
@@ -14,7 +15,7 @@ class TasksListPage extends Component
     public Collection $actualTasks;
     public Collection $completedTasks;
     public bool $isTaskModalOpen;
-    public $taskDeadline;
+    public ?string $taskDeadline;
 
     public bool $isProjectModalOpen = false;
     public bool $isProjectAccessModalOpen = false;
@@ -22,6 +23,8 @@ class TasksListPage extends Component
     public ?Task $openedTask = null;
 
     public string $newTaskTitle = '';
+
+    public string $sharingEmail = '';
 
     public function mount(Project $project)
     {
@@ -38,9 +41,16 @@ class TasksListPage extends Component
             'newTaskTitle' => ['string', 'required', 'min:3'],
 
             'project.title' => ['string'],
-            'project.description' => ['string', 'nullable']
+            'project.description' => ['string', 'nullable'],
+
+            'sharingEmail' => ['email', 'exists:users,email'],
         ];
     }
+
+    protected array $messages = [
+        'sharingEmail.email' => 'Невалидный формат email-адреса',
+        'sharingEmail.exists' => 'Не найден пользователь с таким email!'
+    ];
 
     public function openProjectSettings()
     {
@@ -93,6 +103,13 @@ class TasksListPage extends Component
     {
         $this->openedTask->deadline_date = null;
     }
+
+    public function findUserForSharing(): ?User
+    {
+        $this->validateOnly('sharingEmail');
+        return User::query()->where('email', $this->sharingEmail)->first();
+    }
+
 
     public function getActualTasksProperty(): Collection
     {
