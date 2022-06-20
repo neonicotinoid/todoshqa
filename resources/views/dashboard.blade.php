@@ -9,7 +9,7 @@
 
             <div class="grid grid-cols-3 gap-6 px-2 md:px-0">
                 @foreach($projects as $project)
-                    <a href="{{route('project.tasks', ['project' => $project->id])}}" class="flex items-start  p-4 bg-white rounded-lg shadow">
+                    <a href="{{route('project.show', ['project' => $project->id])}}" class="flex items-start  p-4 bg-white rounded-lg shadow">
                         <x-heroicon-s-cube class="flex-shrink-0 relative top-0.5 w-6 h-6 mr-3 text-gray-300"/>
                         <div class="text-gray-700">
                             <div class="text-lg font-medium">

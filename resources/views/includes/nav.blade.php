@@ -7,10 +7,8 @@
                 </div>
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-4">
-                        <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
                         <x-nav-link :is-active="request()->routeIs('dashboard')" href="{{route('dashboard')}}">Dashboard</x-nav-link>
-                        <x-nav-link :is-active="request()->routeIs('projects')" href="{{route('projects')}}">Projects</x-nav-link>
-{{--                        <x-nav-link :is-active="false" href="#">Settings</x-nav-link>--}}
+                        <x-nav-link :is-active="request()->routeIs('projects.index')" href="{{route('project.index')}}">Projects</x-nav-link>
                     </div>
                 </div>
             </div>

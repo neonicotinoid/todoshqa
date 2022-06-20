@@ -17,13 +17,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::get('/dashboard', \App\Http\Controllers\DashboardController::class)->middleware(['auth'])->name('dashboard');
 
-
-Route::get('/{project}/tasks', [\App\Http\Controllers\TaskController::class, 'index'])->name('project.tasks')->middleware(['auth']);
-Route::get('/projects', [\App\Http\Controllers\ProjectController::class, 'index'])->name('projects')->middleware(['auth']);
+Route::resource('project', \App\Http\Controllers\ProjectController::class)
+    ->middleware(['auth'])
+    ->only(['index', 'show']);
 
 Route::view('/ui-library', 'library')->middleware(['prod']);
 
