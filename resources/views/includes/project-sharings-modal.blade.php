@@ -24,50 +24,92 @@
                             Настройки доступа
                         </h3>
 
+                        @if($project->user->id !== auth()->user()->id)
+                            <div class="my-4 p-2 bg-yellow-100 text-yellow-600 rounded text-sm">
+                                Вы не владелец проекта и не можете управлять настройками доступа.
+                            </div>
+                        @endif
+
                         <div>
-                            <div class="text-sm">Владелец проекта:</div>
+                            <div class="text-sm text-gray-700">Владелец проекта:</div>
                             <div class="mt-1 flex items-center p-2 border border-gray-200 bg-gray-50 rounded-lg">
                                 <img class="w-8 h-8 rounded-full" src="https://ui-avatars.com/api/?background=0D8ABC&color=fff">
                                 <div class="ml-3 text-sm text-gray-600">
-                                    <p>Tom Cook</p>
-                                    <p class="text-gray-300 text-xs font-normal">It's you</p>
+                                    <p>{{ $project->user->name }}</p>
+                                    @if($project->user->id === auth()->user()->id)
+                                    <p class="text-gray-300 text-xs font-normal">
+                                        Это вы
+                                    </p>
+                                    @endif
                                 </div>
                             </div>
 
                             <div class="mt-4">
-                                <button
-                                    class="inline-block text-purple-500 text-sm border-b border-dashed border-purple-500">
-                                    Поделиться доступом к проекту
-                                </button>
+                                @if($project->users->isEmpty())
+                                    <div class="text-gray-700 text-sm">Сейчас этот проект не доступен другим пользователям</div>
+                                @else
+                                <div class="text-sm">Пользователи, имеющие доступ: ({{ $project->users->count() }})</div>
+                                <div class="mt-2 space-y-2">
+                                    @foreach($project->users as $user)
+                                        <div class="flex items-center p-2 border border-gray-200 bg-gray-50 rounded-lg">
+                                            <img class="w-8 h-8 rounded-full"
+                                                 src="https://ui-avatars.com/api/?background=0D8ABC&color=fff">
+                                            <div class="ml-3 text-sm text-gray-600">
+                                                <p>{{ $user->name }}
+                                                @if($user->id === auth()->user()->id) (это вы) @endif
+                                                </p>
+                                                <p class="text-gray-300 text-xs font-normal">{{ $user->email }}</p>
+                                            </div>
+                                            @if($project->user->id === auth()->user()->id)
+                                            <button
+                                                wire:click="removeAccessFromUser({{ $user->id }})"
+                                                class="text-red-600 w-5 h-5 ml-auto"
+                                                title="Удалить доступ у пользователя">
+                                                <x-heroicon-o-user-remove/>
+                                            </button>
+                                            @endif
+                                        </div>
+                                    @endforeach
+                                </div>
+                                @endif
                             </div>
 
-                            <div class="mt-2">
-                                <x-form.group class="relative" label="Введите email пользователя:" wire:ignore>
-                                    <x-form.text wire:model.defer="sharingEmail"
-                                                 placeholder="user@mail.com"/>
-                                    <svg wire:loading class="absolute right-4 bottom-2.5 animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                    </svg>
-                                </x-form.group>
-                                <div class="mt-2 flex">
-                                    <div class="text-left mr-4 leading-tight">
-                                        @error('sharingEmail')
-                                        <div class="text-red-600 text-xs">
-                                            {{ $message }}
-                                        </div>
-                                        @enderror
-                                    </div>
-                                    <x-button wire:click="findUserForSharing" class="ml-auto" color="secondary" size="sm">Поделиться проектом</x-button>
+                            @if($project->user->id === auth()->user()->id)
+                            <div class="mt-6 pt-3 border-t border-gray-100">
+                                <div class="text-gray-500 text-base">
+                                    Поделиться доступом к проекту
                                 </div>
 
+                                <form wire:submit.prevent="giveAccessToUser" class="mt-2">
+                                    <x-form.group class="relative" label="Введите email пользователя:" wire:ignore>
+                                        <x-form.text wire:model.defer="sharingEmail"
+                                                     placeholder="user@mail.com"/>
+                                        <svg wire:loading class="absolute right-4 bottom-2.5 animate-spin h-5 w-5"
+                                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                                    stroke-width="4"></circle>
+                                            <path class="opacity-75" fill="currentColor"
+                                                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                    </x-form.group>
+                                    <div class="mt-2 flex">
+                                        <div class="text-left mr-4 leading-tight">
+                                            @error('sharingEmail')
+                                            <div class="text-red-600 text-xs">
+                                                {{ $message }}
+                                            </div>
+                                            @enderror
+                                        </div>
+                                        <x-button class="ml-auto" color="secondary" size="sm">Поделиться проектом
+                                        </x-button>
+                                    </div>
+
+                                </form>
                             </div>
+                            @endif
                         </div>
 
                     </div>
-                </div>
-                <div class="mt-5 sm:mt-6">
-                    <x-button class="w-full">Сохранить изменения</x-button>
                 </div>
             </div>
         </div>
