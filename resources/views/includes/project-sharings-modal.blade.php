@@ -24,6 +24,12 @@
                             Настройки доступа
                         </h3>
 
+                        @if($project->user->id !== auth()->user()->id)
+                            <div class="my-4 p-2 bg-yellow-100 text-yellow-600 rounded text-sm">
+                                Вы не владелец проекта и не можете управлять настройками доступа.
+                            </div>
+                        @endif
+
                         <div>
                             <div class="text-sm text-gray-700">Владелец проекта:</div>
                             <div class="mt-1 flex items-center p-2 border border-gray-200 bg-gray-50 rounded-lg">
@@ -49,27 +55,32 @@
                                             <img class="w-8 h-8 rounded-full"
                                                  src="https://ui-avatars.com/api/?background=0D8ABC&color=fff">
                                             <div class="ml-3 text-sm text-gray-600">
-                                                <p>{{ $user->name }}</p>
+                                                <p>{{ $user->name }}
+                                                @if($user->id === auth()->user()->id) (это вы) @endif
+                                                </p>
                                                 <p class="text-gray-300 text-xs font-normal">{{ $user->email }}</p>
                                             </div>
+                                            @if($project->user->id === auth()->user()->id)
                                             <button
                                                 wire:click="removeAccessFromUser({{ $user->id }})"
                                                 class="text-red-600 w-5 h-5 ml-auto"
                                                 title="Удалить доступ у пользователя">
                                                 <x-heroicon-o-user-remove/>
                                             </button>
+                                            @endif
                                         </div>
                                     @endforeach
                                 </div>
                                 @endif
                             </div>
 
+                            @if($project->user->id === auth()->user()->id)
                             <div class="mt-6 pt-3 border-t border-gray-100">
                                 <div class="text-gray-500 text-base">
                                     Поделиться доступом к проекту
                                 </div>
 
-                                <form wire:submit.prevent="findUserForSharing" class="mt-2">
+                                <form wire:submit.prevent="giveAccessToUser" class="mt-2">
                                     <x-form.group class="relative" label="Введите email пользователя:" wire:ignore>
                                         <x-form.text wire:model.defer="sharingEmail"
                                                      placeholder="user@mail.com"/>
@@ -95,6 +106,7 @@
 
                                 </form>
                             </div>
+                            @endif
                         </div>
 
                     </div>

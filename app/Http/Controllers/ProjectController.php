@@ -17,6 +17,7 @@ class ProjectController extends Controller
 
     public function show(Request $request, Project $project)
     {
+        $this->authorize('view', $project);
         return view('tasks')->with([
             'project' => $project,
         ]);

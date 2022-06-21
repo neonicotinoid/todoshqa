@@ -8,12 +8,16 @@ use App\Models\Project;
 use App\Models\Task;
 use App\Models\User;
 use DebugBar\DebugBar;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 
 class TasksListPage extends Component
 {
+
+    use AuthorizesRequests;
+
     public Project $project;
     public Collection $actualTasks;
     public Collection $completedTasks;
@@ -112,8 +116,9 @@ class TasksListPage extends Component
         $this->openedTask->deadline_date = null;
     }
 
-    public function findUserForSharing(ShareProjectToUserAction $action)
+    public function giveAccessToUser(ShareProjectToUserAction $action)
     {
+        $this->authorize('share', $this->project);
         $this->validateOnly('sharingEmail');
         $action($this->project, User::query()->where('email', $this->sharingEmail)->first());
         $this->project->load('users');
@@ -121,10 +126,10 @@ class TasksListPage extends Component
 
     public function removeAccessFromUser(UnshareProjectToUserAction $action, User $user)
     {
+        $this->authorize('share', $this->project);
         $action($this->project, $user);
         $this->project->load('users');
     }
-
 
     public function getActualTasksProperty(): Collection
     {
