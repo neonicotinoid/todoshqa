@@ -25,7 +25,7 @@ class TasksListPageTest extends TestCase
                 'projects')
             ->create());
 
-        $this->get(route('project.tasks', ['project' => 1]))
+        $this->get(route('project.show', ['project' => 1]))
             ->assertSeeLivewire(TasksListPage::class);
     }
 

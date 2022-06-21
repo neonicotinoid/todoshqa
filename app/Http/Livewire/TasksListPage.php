@@ -24,14 +24,9 @@ class TasksListPage extends Component
     public bool $isTaskModalOpen;
     public ?string $taskDeadline;
 
-    public bool $isProjectModalOpen = false;
-    public bool $isProjectAccessModalOpen = false;
-
     public ?Task $openedTask = null;
 
     public string $newTaskTitle = '';
-
-    public string $sharingEmail = '';
 
     public function mount(Project $project)
     {
@@ -47,31 +42,17 @@ class TasksListPage extends Component
             'openedTask.description' => ['string', 'nullable'],
             'openedTask.deadline_date' => ['date', 'nullable'],
             'newTaskTitle' => ['string', 'required', 'min:3'],
-
-            'project.title' => ['string'],
-            'project.description' => ['string', 'nullable'],
-
-            'sharingEmail' => ['required', 'email',
-                Rule::exists('users', 'email')
-                ->where(function ($query) {return $query->where('id', '!=', $this->project->user->id);}
-                )],
         ];
     }
 
-    protected array $messages = [
-        'sharingEmail.required' => 'Введите email пользователя',
-        'sharingEmail.email' => 'Невалидный формат email-адреса',
-        'sharingEmail.exists' => 'Не найден пользователь с таким email'
-    ];
-
-    public function openProjectSettings()
+    public function getListeners()
     {
-        $this->isProjectModalOpen = true;
+        return ['project-updated' => 'updateProjectInfo'];
     }
 
-    public function openProjectAccessSettings()
+    public function updateProjectInfo(Project $project)
     {
-        $this->isProjectAccessModalOpen = true;
+        $this->project = $project;
     }
 
     public function openTask(int $id)
@@ -114,21 +95,6 @@ class TasksListPage extends Component
     public function resetDeadlineDateForOpenedTask()
     {
         $this->openedTask->deadline_date = null;
-    }
-
-    public function giveAccessToUser(ShareProjectToUserAction $action)
-    {
-        $this->authorize('share', $this->project);
-        $this->validateOnly('sharingEmail');
-        $action($this->project, User::query()->where('email', $this->sharingEmail)->first());
-        $this->project->load('users');
-    }
-
-    public function removeAccessFromUser(UnshareProjectToUserAction $action, User $user)
-    {
-        $this->authorize('share', $this->project);
-        $action($this->project, $user);
-        $this->project->load('users');
     }
 
     public function getActualTasksProperty(): Collection
