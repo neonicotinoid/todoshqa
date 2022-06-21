@@ -2,11 +2,14 @@
 
 namespace App\Http\Livewire;
 
+use App\Actions\ShareProjectToUserAction;
+use App\Actions\UnshareProjectToUserAction;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\User;
 use DebugBar\DebugBar;
 use Illuminate\Support\Collection;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 
 class TasksListPage extends Component
@@ -29,6 +32,7 @@ class TasksListPage extends Component
     public function mount(Project $project)
     {
         $this->project = $project;
+        $this->project->load('users');
         $this->isTaskModalOpen = false;
     }
 
@@ -43,13 +47,17 @@ class TasksListPage extends Component
             'project.title' => ['string'],
             'project.description' => ['string', 'nullable'],
 
-            'sharingEmail' => ['email', 'exists:users,email'],
+            'sharingEmail' => ['required', 'email',
+                Rule::exists('users', 'email')
+                ->where(function ($query) {return $query->where('id', '!=', $this->project->user->id);}
+                )],
         ];
     }
 
     protected array $messages = [
+        'sharingEmail.required' => 'Введите email пользователя',
         'sharingEmail.email' => 'Невалидный формат email-адреса',
-        'sharingEmail.exists' => 'Не найден пользователь с таким email!'
+        'sharingEmail.exists' => 'Не найден пользователь с таким email'
     ];
 
     public function openProjectSettings()
@@ -104,10 +112,17 @@ class TasksListPage extends Component
         $this->openedTask->deadline_date = null;
     }
 
-    public function findUserForSharing(): ?User
+    public function findUserForSharing(ShareProjectToUserAction $action)
     {
         $this->validateOnly('sharingEmail');
-        return User::query()->where('email', $this->sharingEmail)->first();
+        $action($this->project, User::query()->where('email', $this->sharingEmail)->first());
+        $this->project->load('users');
+    }
+
+    public function removeAccessFromUser(UnshareProjectToUserAction $action, User $user)
+    {
+        $action($this->project, $user);
+        $this->project->load('users');
     }
 
 
