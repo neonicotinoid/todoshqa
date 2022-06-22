@@ -2,33 +2,36 @@
 
 namespace App\Http\Livewire;
 
+use App\Actions\ShareProjectToUserAction;
+use App\Actions\UnshareProjectToUserAction;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\User;
 use DebugBar\DebugBar;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Collection;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 
 class TasksListPage extends Component
 {
+
+    use AuthorizesRequests;
+
     public Project $project;
     public Collection $actualTasks;
     public Collection $completedTasks;
     public bool $isTaskModalOpen;
     public ?string $taskDeadline;
 
-    public bool $isProjectModalOpen = false;
-    public bool $isProjectAccessModalOpen = false;
-
     public ?Task $openedTask = null;
 
     public string $newTaskTitle = '';
 
-    public string $sharingEmail = '';
-
     public function mount(Project $project)
     {
         $this->project = $project;
+        $this->project->load('users');
         $this->isTaskModalOpen = false;
     }
 
@@ -39,27 +42,17 @@ class TasksListPage extends Component
             'openedTask.description' => ['string', 'nullable'],
             'openedTask.deadline_date' => ['date', 'nullable'],
             'newTaskTitle' => ['string', 'required', 'min:3'],
-
-            'project.title' => ['string'],
-            'project.description' => ['string', 'nullable'],
-
-            'sharingEmail' => ['email', 'exists:users,email'],
         ];
     }
 
-    protected array $messages = [
-        'sharingEmail.email' => 'Невалидный формат email-адреса',
-        'sharingEmail.exists' => 'Не найден пользователь с таким email!'
-    ];
-
-    public function openProjectSettings()
+    public function getListeners()
     {
-        $this->isProjectModalOpen = true;
+        return ['project-updated' => 'updateProjectInfo'];
     }
 
-    public function openProjectAccessSettings()
+    public function updateProjectInfo(Project $project)
     {
-        $this->isProjectAccessModalOpen = true;
+        $this->project = $project;
     }
 
     public function openTask(int $id)
@@ -103,13 +96,6 @@ class TasksListPage extends Component
     {
         $this->openedTask->deadline_date = null;
     }
-
-    public function findUserForSharing(): ?User
-    {
-        $this->validateOnly('sharingEmail');
-        return User::query()->where('email', $this->sharingEmail)->first();
-    }
-
 
     public function getActualTasksProperty(): Collection
     {

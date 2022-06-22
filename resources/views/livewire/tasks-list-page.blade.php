@@ -12,12 +12,13 @@
                 @endif
             </div>
             <div>
-                <button class="w-6 h-6 inline-flex justify-center items-center shadow-sm bg-white border border-gray-200 rounded p-1"
-                        wire:click="openProjectSettings">
+                <button x-data class="w-6 h-6 inline-flex justify-center items-center shadow-sm bg-white border border-gray-200 rounded p-1"
+                        @click="Livewire.emit('openProjectEditWindow');">
                     <x-heroicon-s-cog class="text-gray-400"/>
                 </button>
-                <button class="w-6 h-6 inline-flex justify-center items-center shadow-sm bg-white border border-gray-200 rounded p-1"
-                        wire:click="openProjectAccessSettings">
+                <button x-data class="w-6 h-6 inline-flex justify-center items-center shadow-sm bg-white border border-gray-200 rounded p-1"
+                        @click="Livewire.emit('openProjectSharingWindow');"
+                >
                     <x-heroicon-s-share class="text-gray-400"/>
                 </button>
             </div>
@@ -77,8 +78,8 @@
             </form>
         </div>
 
-        @include('includes.project-settings-modal')
-        @include('includes.project-sharings-modal')
+        <livewire:project-edit-window :project="$project"/>
+        <livewire:project-sharing-window :project="$project"/>
         @include('includes.task-sidebar')
 
 

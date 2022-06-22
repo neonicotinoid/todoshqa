@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Actions\ShareProjectToUserAction;
 use App\Http\Livewire\TasksListPage;
 use App\Models\Project;
 use App\Models\Task;
@@ -15,17 +16,79 @@ class TasksListPageTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_it_accessible_for_owner()
+    {
+        $this->actingAs(User::factory()
+            ->has(
+                Project::factory(['id' => 1])
+                    ->has(Task::factory(3),
+                        'tasks'),
+                'projects')
+            ->create());
+
+        $this->get(route('project.show', ['project' => 1]))
+            ->assertStatus(200);
+    }
+
+    public function test_it_accessible_for_shared_user()
+    {
+        User::factory()
+            ->has(
+                Project::factory(['id' => 1])
+                    ->has(Task::factory(3),
+                        'tasks'),
+                'projects')
+            ->create();
+
+        $sharedUser = User::factory()->create();
+        (new ShareProjectToUserAction())(Project::find(1), $sharedUser);
+
+        $this->actingAs($sharedUser)
+            ->get(route('project.show', ['project' => 1]))
+            ->assertStatus(200);
+    }
+
+    public function test_its_forbidden_for_user_without_access()
+    {
+        User::factory()
+            ->has(
+                Project::factory(['id' => 1])
+                    ->has(Task::factory(3),
+                        'tasks'),
+                'projects')
+            ->create();
+
+        $this->actingAs(User::factory()->create())
+            ->get(route('project.show', ['project' => 1]))
+            ->assertForbidden();
+    }
+
+    public function test_its_forbidden_for_guest()
+    {
+        User::factory()
+            ->has(
+                Project::factory(['id' => 1])
+                    ->has(Task::factory(3),
+                        'tasks'),
+                'projects')
+            ->create();
+
+        $this->get(route('project.show', ['project' => 1]))
+            ->assertRedirect('login');
+
+    }
+
     public function test_it_renders_component()
     {
         $this->actingAs(User::factory()
             ->has(
-                Project::factory()
+                Project::factory(['id' => 1])
                     ->has(Task::factory(3),
                     'tasks'),
                 'projects')
             ->create());
 
-        $this->get(route('project.tasks', ['project' => 1]))
+        $this->get(route('project.show', ['project' => 1]))
             ->assertSeeLivewire(TasksListPage::class);
     }
 
