@@ -23,9 +23,11 @@
                 <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">
                     Данные и настройки проекта
                 </h3>
+{{--                TODO: Добавить оповещение, что редактировать проект может только владелец--}}
 
                 <form id="project" wire:submit.prevent="saveProject" class="space-y-4">
                     <x-form.group label="Название проекта" wire:ignore>
+{{--                        TODO: Добавить вывод ошибок валидации для title--}}
                         <x-form.text wire:model.defer="project.title"/>
                     </x-form.group>
 

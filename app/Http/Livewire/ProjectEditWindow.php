@@ -3,10 +3,13 @@
 namespace App\Http\Livewire;
 
 use App\Models\Project;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
 class ProjectEditWindow extends Component
 {
+    use AuthorizesRequests;
+
     public Project $project;
     public bool $isWindowOpen = false;
 
@@ -25,7 +28,7 @@ class ProjectEditWindow extends Component
     public function rules(): array
     {
         return [
-            'project.title' => ['string'],
+            'project.title' => ['string', 'required'],
             'project.description' => ['string', 'nullable'],
         ];
     }
@@ -43,6 +46,8 @@ class ProjectEditWindow extends Component
 
     public function saveProject()
     {
+        // TODO: Добавить авторизацию действия
+        $this->authorize('update', $this->project);
         $this->validate();
         $this->project->save();
         $this->emitTo(TasksListPage::class, 'project-updated', $this->project);

@@ -57,6 +57,11 @@ class ProjectSharingWindow extends Component
         $this->isWindowOpen = false;
     }
 
+    public function getUser()
+    {
+        return auth()->user();
+    }
+
     public function giveAccessToUser(ShareProjectToUserAction $action)
     {
         $this->authorize('share', $this->project);
