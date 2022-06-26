@@ -20,9 +20,13 @@
         class="relative bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg w-full sm:p-6">
         <div>
             <div class="">
-                <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">
-                    Данные и настройки проекта
-                </h3>
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900">
+                        Данные и настройки проекта
+                    </h3>
+                    <x-heroicons-loading wire:loading wire:target="saveProject" class="w-4 h-4 animate-spin"/>
+                </div>
+
 {{--                TODO: Добавить оповещение, что редактировать проект может только владелец--}}
 
                 <form id="project" wire:submit.prevent="saveProject" class="space-y-4">
@@ -30,7 +34,6 @@
 {{--                        TODO: Добавить вывод ошибок валидации для title--}}
                         <x-form.text wire:model.defer="project.title"/>
                     </x-form.group>
-
                     <x-form.group label="Описание проекта" wire:ignore>
                         <x-form.textarea wire:model.defer="project.description"/>
                     </x-form.group>
@@ -40,7 +43,37 @@
             </div>
         </div>
         <div class="mt-5 sm:mt-6">
-            <x-button wire:click="saveProject" form="project" icon="heroicon-o-save" icon-on="right" class="w-full">Сохранить изменения</x-button>
+
+            <div class="h-4 text-sm mb-2 text-center">
+                @error('project.title')
+                    <span class="text-red-600"> {{ $message }} </span>
+                @enderror
+
+                <div
+                    x-data="{open: false, openToast: function() {this.open = true;
+                        setTimeout(() => {
+                        this.open = false
+                        }, 1000)} }"
+                    x-show="open"
+                    x-on:project-updated.camel.window="openToast()"
+                    x-transition:enter="transition ease-out duration-500"
+                    x-transition:enter-start="opacity-0"
+                    x-transition:enter-end="opacity-100"
+                    x-transition:leave="transition ease-in duration-500"
+                    x-transition:leave-start="opacity-100"
+                    x-transition:leave-end="opacity-0"
+                    class="text-sm text-green-600">
+                    <span>Сохранено!</span>
+                </div>
+            </div>
+
+            <x-button wire:click="saveProject"
+                      form="project"
+                      icon="heroicon-o-save"
+                      icon-on="right"
+                      class="w-full">
+                Сохранить изменения
+            </x-button>
         </div>
     </div>
 </div>

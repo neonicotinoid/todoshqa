@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Project;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Validation\Validator;
 use Livewire\Component;
 
 class ProjectEditWindow extends Component
@@ -33,6 +34,13 @@ class ProjectEditWindow extends Component
         ];
     }
 
+    protected function getMessages()
+    {
+        return [
+            'project.title.required' => 'Заголовок для проекта обязателен'
+        ];
+    }
+
     public function openWindow()
     {
         $this->isWindowOpen = true;
@@ -43,14 +51,13 @@ class ProjectEditWindow extends Component
         $this->isWindowOpen = false;
     }
 
-
     public function saveProject()
     {
-        // TODO: Добавить авторизацию действия
         $this->authorize('update', $this->project);
         $this->validate();
         $this->project->save();
         $this->emitTo(TasksListPage::class, 'project-updated', $this->project);
+        $this->dispatchBrowserEvent('projectUpdated');
     }
 
     public function render()
