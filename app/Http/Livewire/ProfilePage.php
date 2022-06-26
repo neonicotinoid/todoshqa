@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Actions\AttachAvatarToUserAction;
 use App\Models\User;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\Password;
@@ -17,6 +18,7 @@ class ProfilePage extends Component
 {
 
     use WithFileUploads;
+    use AuthorizesRequests;
 
     public User $user;
     public ?Media $currentAvatar = null;
@@ -28,13 +30,6 @@ class ProfilePage extends Component
     {
         $this->user = $user->makeHidden('password');
         $this->currentAvatar = $this->user->getFirstMedia('avatar');
-    }
-
-    protected function getListeners()
-    {
-        return [
-//            'avatar-updated' => '$refresh',
-        ];
     }
 
     protected function getRules(): array
@@ -49,6 +44,7 @@ class ProfilePage extends Component
 
     public function saveUser()
     {
+        $this->authorize('update', [User::class, $this->user]);
         if ($this->newPassword === '') {
             // Check without password
             $this->validate([
@@ -64,6 +60,7 @@ class ProfilePage extends Component
 
     public function removeAvatar()
     {
+        $this->authorize('update', [User::class, $this->user]);
         $this->currentAvatar->delete();
         $this->currentAvatar = null;
         $this->preloadedAvatar = null;
@@ -71,6 +68,7 @@ class ProfilePage extends Component
 
     public function approvePreloadedAvatar(AttachAvatarToUserAction $action)
     {
+        $this->authorize('update', [User::class, $this->user]);
         $this->currentAvatar = $action($this->user, $this->preloadedAvatar);
         $this->preloadedAvatar = null;
     }
