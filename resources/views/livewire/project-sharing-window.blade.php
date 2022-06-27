@@ -34,7 +34,7 @@
                 <div>
                     <div class="text-sm text-gray-700">Владелец проекта:</div>
                     <div class="mt-1 flex items-center p-2 border border-gray-200 bg-gray-50 rounded-lg">
-                        <img class="w-8 h-8 rounded-full" src="https://ui-avatars.com/api/?background=0D8ABC&color=fff">
+                        <x-initial-circle class="w-8 h-8 rounded-full" :user-id="auth()->user()->id" :text="auth()->user()->name"/>
                         <div class="ml-3 text-sm text-gray-600">
                             <p>{{ $project->user->name }}</p>
                             @if($project->user->id === auth()->user()->id)
@@ -53,8 +53,7 @@
                             <div class="mt-2 space-y-2">
                                 @foreach($project->users as $user)
                                     <div class="flex items-center p-2 border border-gray-200 bg-gray-50 rounded-lg">
-                                        <img class="w-8 h-8 rounded-full"
-                                             src="https://ui-avatars.com/api/?background=0D8ABC&color=fff">
+                                        <x-initial-circle class="w-8 h-8 rounded-full" :user-id="$user->id" :text="$user->name"/>
                                         <div class="ml-3 text-sm text-gray-600">
                                             <p>{{ $user->name }}
                                                 @if($user->id === auth()->user()->id) (это вы) @endif
