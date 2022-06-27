@@ -87,13 +87,9 @@
 
                         <div class="py-2">
                             <div class="flex justify-center text-gray-500 items-center">
-                                <div class="inline-block px-1 py-0.5 text-xs rounded-md shadow-sm border border-gray-300 text-gray-500">
-                                    CMD
-                                </div>
+                                <x-key>CMD</x-key>
                                 +
-                                <div class="inline-block px-1 py-0.5 text-xs rounded-md shadow-sm border border-gray-300 text-gray-500">
-                                    Enter
-                                </div>
+                                <x-key>Enter</x-key>
                                 <div class="text-xs text-gray-500 ml-2">
                                     to save and close
                                 </div>
@@ -102,9 +98,7 @@
 
                         <div class="py-2">
                             <div class="flex justify-center text-gray-500 items-center">
-                                <div class="inline-block px-1 py-0.5 text-xs rounded-md shadow-sm border border-gray-300 text-gray-500">
-                                    Esc
-                                </div>
+                                <x-key>Esc</x-key>
                                 <div class="text-xs text-gray-500 ml-2">
                                     to close
                                 </div>

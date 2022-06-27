@@ -31,82 +31,38 @@
                     <div class="space-y-4">
                         <div>
                             Используйте
-                            <div
-                                class="inline-block px-1 py-0.5 text-xs rounded-md shadow-sm border border-gray-300 text-gray-500">
-                                Tab
-                            </div>
+                            <x-key>Tab</x-key>
                             для того, чтобы переключать фокус по разным элементам приложения. Выбранный элемент подсвечивается синей рамкой.
                         </div>
 
                         <div>
                             Для того, чтобы перелистывать выбранные задачи, вы можете использовать стрелочки
-                              <div
-                                class="inline-block px-1 py-0.5 text-xs rounded-md shadow-sm border border-gray-300 text-gray-500">
-                                ↑
-                            </div>
-                            <div
-                                class="inline-block px-1 py-0.5 text-xs rounded-md shadow-sm border border-gray-300 text-gray-500">
-                                ↓
-                            </div> на клавиатуре.
+                            <x-key>↑</x-key> <x-key>↓</x-key> на клавиатуре.
                         </div>
 
                         <div>
-                            <div
-                                class="inline-block px-2 py-0.5 text-xs rounded-md shadow-sm border border-gray-300 text-gray-500">
-                                Пробел
-                            </div> откроет подробное всплывающее окно с информацией о задаче.
-                            <div
-                                class="inline-block px-2 py-0.5 text-xs rounded-md shadow-sm border border-gray-300 text-gray-500">
-                                Enter
-                            </div> переключит статус задачи в "Выполнено".
+                            <x-key>Пробел</x-key> откроет подробное всплывающее окно с информацией о задаче.
+                            <x-key>Enter</x-key> переключит статус задачи в "Выполнено".
                         </div>
 
 
                         <div>
                             Сокращение
-                            <div
-                                class="inline-block px-2 py-0.5 text-xs rounded-md shadow-sm border border-gray-300 text-gray-500">
-                                Ctrl
-                            </div>
+                            <x-key>Ctrl</x-key>
                             +
-                            <div
-                                class="inline-block px-2 py-0.5 text-xs rounded-md shadow-sm border border-gray-300 text-gray-500">
-                                Shift
-                            </div>
+                            <x-key>Shift</x-key>
                             +
-                            <div
-                                class="inline-block px-2 py-0.5 text-xs rounded-md shadow-sm border border-gray-300 text-gray-500">
-                                N
-                            </div>
-                            перекинет фокус на добавление новой задачи. После того, как введёте название задачи, нажмите <div
-                                class="inline-block px-2 py-0.5 text-xs rounded-md shadow-sm border border-gray-300 text-gray-500">
-                                Enter
-                            </div> – это добавит новую задачу в список.
+                            <x-key>N</x-key>
+                            перекинет фокус на добавление новой задачи.
+                            После того, как введёте название задачи, нажмите <x-key>Enter</x-key> – это добавит новую задачу в список.
                         </div>
 
                         <div>
-                            <div
-                                class="inline-block px-2 py-0.5 text-xs rounded-md shadow-sm border border-gray-300 text-gray-500">
-                                Esc
-                            </div> закроет любое всплыващее окно.
+                            <x-key>Esc</x-key> закроет любое всплыващее окно.
                         </div>
 
                         <div>
-                            <div
-                                class="inline-block px-2 py-0.5 text-xs rounded-md shadow-sm border border-gray-300 text-gray-500">
-                                Ctrl
-                            </div>
-                            +
-                            <div
-                                class="inline-block px-2 py-0.5 text-xs rounded-md shadow-sm border border-gray-300 text-gray-500">
-                                Shift
-                            </div>
-                            +
-                            <div
-                                class="inline-block px-2 py-0.5 text-xs rounded-md shadow-sm border border-gray-300 text-gray-500">
-                                D
-                            </div>
-                            скроет или покажет законченные задачи в текущем проекте.
+                            <x-key>Ctrl</x-key> + <x-key>Shift</x-key> + <x-key>D</x-key> скроет или покажет законченные задачи в текущем проекте.
                         </div>
 
                     </div>
