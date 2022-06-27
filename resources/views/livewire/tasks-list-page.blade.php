@@ -89,7 +89,9 @@
 
         <livewire:project-edit-window :project="$project"/>
         <livewire:project-sharing-window :project="$project"/>
-        @include('includes.task-sidebar')
+
+        <livewire:single-task-window />
+{{--        @include('includes.task-sidebar')--}}
         @include('includes.hotkey-help-window')
 
 

@@ -1,10 +1,8 @@
 import Alpine from 'alpinejs';
 import focus from '@alpinejs/focus'
 import Datepicker from 'vanillajs-datepicker/Datepicker';
-import datepickerDeadline from "./components/datepicker-deadline";
 import TaskCard from './components/task';
 
-Alpine.data('datepickerDeadline', datepickerDeadline);
 Alpine.data('TaskCard', TaskCard);
 
 window.formatDate = function (inputDate) {

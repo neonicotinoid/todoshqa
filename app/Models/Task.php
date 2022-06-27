@@ -27,7 +27,7 @@ class Task extends Model
     protected $fillable = ['title', 'description'];
 
     protected $casts = [
-        'deadline_date' => 'date'
+        'deadline_date' => 'date:Y-m-d'
     ];
 
 

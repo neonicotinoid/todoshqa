@@ -43,7 +43,10 @@
     </div>
 
     <div class="relative ml-auto">
-        <button wire:click="openTask({{$task->id}})" tabindex="-1">
+        <button
+            wire:click="$emit('openTask', {{$task->id}})"
+{{--            wire:click="openTask({{$task->id}})" --}}
+                tabindex="-1">
             <x-heroicon-o-dots-vertical class="w-6 h-6 text-gray-300"/>
         </button>
     </div>

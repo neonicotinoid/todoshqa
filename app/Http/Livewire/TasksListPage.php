@@ -43,7 +43,10 @@ class TasksListPage extends Component
 
     public function getListeners()
     {
-        return ['project-updated' => 'updateProjectInfo'];
+        return [
+            'project-updated' => 'updateProjectInfo',
+            'task-updated' => '$refresh'
+        ];
     }
 
     public function updateProjectInfo(Project $project)
@@ -51,11 +54,13 @@ class TasksListPage extends Component
         $this->project = $project;
     }
 
+    public function updateTask()
+    {
+    }
+
     public function openTask(int $id)
     {
-        $this->openedTask = Task::find($id);
-        $this->isTaskModalOpen = true;
-        $this->dispatchBrowserEvent('task-sidebar-open', $this->openedTask);
+        $this->emitTo(SingleTaskWindow::class, 'openTask', $id);
     }
 
     public function closeTask()
@@ -87,11 +92,6 @@ class TasksListPage extends Component
         // DATA NOT VALIDATED RIGHT
         $this->validateOnly('openedTask.deadline_date');
         return $this->openedTask->save();
-    }
-
-    public function resetDeadlineDateForOpenedTask()
-    {
-        $this->openedTask->deadline_date = null;
     }
 
     public function getActualTasksProperty(): Collection
