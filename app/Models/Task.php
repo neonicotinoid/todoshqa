@@ -2,10 +2,23 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+/**
+ * @property int id;
+ * @property string title;
+ * @property string description;
+ * @property Carbon deadline_date;
+ * @property Carbon completed_at;
+ * @property Carbon created_at;
+ * @property Carbon updated_at;
+ *
+ * @property Project project;
+ */
 
 class Task extends Model
 {
