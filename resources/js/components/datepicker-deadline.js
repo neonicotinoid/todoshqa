@@ -11,6 +11,7 @@ export default (title = null) => ({
 
     wrapper: {
         ['@task-sidebar-open.window'](event) {
+            console.log(document.activeElement);
             if (this.$event.detail.deadline_date !== null) {
                 this.datepicker.setDate(new Date(event.detail.deadline_date));
             } else {
@@ -22,7 +23,6 @@ export default (title = null) => ({
     datepickerElem: {
       ['@change-date.camel'](event) {
           this.$dispatch('input', event.detail.date);
-          console.log(event.detail.date);
           if (event.detail.date) {
               this.$refs.wireable.value = formatDate(event.detail.date);
               this.$refs.wireable.dispatchEvent(new Event('input'));

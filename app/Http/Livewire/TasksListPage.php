@@ -2,15 +2,11 @@
 
 namespace App\Http\Livewire;
 
-use App\Actions\ShareProjectToUserAction;
-use App\Actions\UnshareProjectToUserAction;
+
 use App\Models\Project;
 use App\Models\Task;
-use App\Models\User;
-use DebugBar\DebugBar;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Collection;
-use Illuminate\Validation\Rule;
 use Livewire\Component;
 
 class TasksListPage extends Component
@@ -88,6 +84,7 @@ class TasksListPage extends Component
 
     public function saveOpenedTask(): bool
     {
+        // DATA NOT VALIDATED RIGHT
         $this->validateOnly('openedTask.deadline_date');
         return $this->openedTask->save();
     }

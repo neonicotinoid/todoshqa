@@ -21,6 +21,11 @@
                 >
                     <x-heroicon-s-share class="text-gray-400"/>
                 </button>
+                <button x-data class="w-6 h-6 inline-flex justify-center items-center shadow-sm bg-white border border-gray-200 rounded p-1"
+                        @click="$dispatch('open-keyboard-help')"
+                >
+                    <x-heroicon-s-question-mark-circle class="text-gray-400"/>
+                </button>
             </div>
         </div>
     </header>
@@ -50,7 +55,7 @@
                     <x-button size="xs" color="white" class="ml-2" @click="isOpen = !isOpen" x-text="isOpen ? 'Скрыть' : 'Показать'">Скрыть</x-button>
                 </div>
 
-                <div class="mt-4 space-y-4" x-show="isOpen">
+                <div class="mt-4 space-y-4" x-show="isOpen" @keydown.ctrl.shift.d.window="isOpen = !isOpen">
                     @forelse($this->getCompletedTasksProperty() as $task)
                         <x-task-card :task="$task" wire:key="{{$task->id}}" />
                     @empty
@@ -63,11 +68,15 @@
 
         </div>
 
-        <div class="fixed left-0 right-0 bottom-0 p-2 max-w-7xl sm:left-8 sm:right-8 lg:left-12 lg:right-12 mx-auto md:bottom-2 md:rounded-xl md:p-3 md:border md:border-purple-200 md:shadow-xl bg-white border-t border-gray-200">
+        <div x-data class="fixed left-0 right-0 bottom-0 p-2 max-w-7xl sm:left-8 sm:right-8 lg:left-12 lg:right-12 mx-auto md:bottom-2 md:rounded-xl md:p-3 md:border md:border-purple-200 md:shadow-xl bg-white border-t border-gray-200">
             <form class="flex flex-nowrap space-x-4" wire:submit.prevent="addNewTask">
-                <input type="text" placeholder="Введите новую задачу..."
+                <input type="text"
+                       @keydown.ctrl.shift.n.window="$el.focus();"
+                       placeholder="Введите новую задачу..."
                        wire:model.defer="newTaskTitle"
                        class="w-full p-1.5 placeholder:text-gray-300 md:text-base md:p-2 rounded-lg border-gray-200 text-sm">
+
+
                 <x-button size="sm" class="ml-auto" color="secondary">
                     <svg wire:loading class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -81,6 +90,7 @@
         <livewire:project-edit-window :project="$project"/>
         <livewire:project-sharing-window :project="$project"/>
         @include('includes.task-sidebar')
+        @include('includes.hotkey-help-window')
 
 
     </main>
