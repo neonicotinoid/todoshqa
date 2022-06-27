@@ -3,7 +3,7 @@
      x-cloak
      @keydown.cmd.enter="$wire.saveTask().then(() => {isOpen = false;})"
      @keydown.esc="isOpen = false;"
-     x-trap.inert="isOpen"
+     x-trap.inert.noscroll="isOpen"
      class="relative z-10"
      aria-labelledby="modal-title"
      role="dialog"
