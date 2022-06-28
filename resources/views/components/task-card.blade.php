@@ -30,10 +30,10 @@
             {{$task->title}}
         </div>
 
-        <div class="flex mt-1">
+        <div class="flex space-x-1.5 mt-1">
             @if($task->deadline_date)
                     <div @class([
-                         'inline-flex items-center justify-center  text-xs md:text-sm text-gray-400 px-2 py-0.5 rounded-lg',
+                         'inline-flex items-center justify-center text-xs md:text-sm text-gray-400 px-2 py-0.5 rounded-lg',
                          '!bg-gray-100 !text-gray-400' => $task->completed_at,
                          'bg-red-100 text-red-600' => $task->deadline_date?->isPast() && !$task->deadline_date?->isToday(),
                          'bg-yellow-100 text-yellow-600' => $task->deadline_date?->isFuture() || $task->deadline_date?->isToday()
@@ -46,7 +46,7 @@
             @endif
 
                 @if($task->description)
-                    <div class="inline-flex items-center justify-center bg-gray-100 text-xs md:text-sm text-gray-400 px-2 py-0.5 rounded-lg ml-1.5" title="This task contain additional description">
+                    <div class="inline-flex items-center justify-center bg-gray-100 text-xs md:text-sm text-gray-400 px-2 py-0.5 rounded-lg" title="This task contain additional description">
                         <x-heroicon-s-pencil-alt class="w-3.5 h-3.5"/>
                     </div>
                 @endif
@@ -63,10 +63,16 @@
     </div>
 
     <div class="relative ml-auto">
-        <button
-            wire:click="$emit('openTask', {{$task->id}})"
-            tabindex="-1">
-            <x-heroicon-o-dots-vertical class="w-6 h-6 text-gray-300"/>
-        </button>
+        <div class="flex items-center">
+            <button
+                wire:click="$emit('openTask', {{$task->id}})"
+                tabindex="-1">
+                <x-heroicon-o-dots-vertical class="w-6 h-6 text-gray-300"/>
+            </button>
+            <a href="{{route('task.show', ['task' => $task->id])}}"
+               target="_blank"
+            >
+                <x-heroicon-s-link class="w-4 h-4 text-gray-300"/>
+            </a></div>
     </div>
 </div>
