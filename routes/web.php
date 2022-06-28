@@ -24,6 +24,10 @@ Route::resource('project', \App\Http\Controllers\ProjectController::class)
     ->middleware(['auth'])
     ->only(['index', 'show']);
 
+Route::resource('task', \App\Http\Controllers\TaskController::class)
+    ->middleware(['auth'])
+    ->only(['show']);
+
 Route::view('/ui-library', 'library')->middleware(['prod']);
 
 require __DIR__.'/auth.php';

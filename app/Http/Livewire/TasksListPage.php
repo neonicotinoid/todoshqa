@@ -21,16 +21,14 @@ class TasksListPage extends Component
     use AuthorizesRequests;
 
     public Project $project;
-
-    public string $sortBy = 'created_desc';
-
+    public string $sortBy;
     public string $newTaskTitle = '';
 
     public function mount(Project $project)
     {
         $this->project = $project;
         $this->project->load('users');
-        $this->isTaskModalOpen = false;
+        $this->sortBy = 'created_desc';
     }
 
     public function rules()
