@@ -33,7 +33,7 @@
         @if($task->deadline_date)
                 <div @class([
                      'mt-1 inline-flex items-center justify-center  text-xs md:text-sm text-gray-400 px-2 py-0.5 rounded-lg',
-                     'bg-gray-100 !text-gray-400' => $task->completed_at,
+                     '!bg-gray-100 !text-gray-400' => $task->completed_at,
                      'bg-red-100 text-red-600' => $task->deadline_date?->isPast() && !$task->deadline_date?->isToday(),
                      'bg-yellow-100 text-yellow-600' => $task->deadline_date?->isFuture() || $task->deadline_date?->isToday()
                      ])

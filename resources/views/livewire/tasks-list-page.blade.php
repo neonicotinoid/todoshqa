@@ -32,11 +32,21 @@
     <main>
         <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
             <div class="space-y-4 px-2 md:px-0">
-                <h2 class="text-xl font-semibold text-gray-500">
-                    Задачи
-                </h2>
+                <div class="flex justify-between">
+                    <h2 class="text-xl font-semibold text-gray-500">
+                        Задачи
+                    </h2>
+                    <div>
+                        <select
+                            wire:model="sortBy"
+                            class="text-sm px-2 py-1 pr-8 rounded-lg border border-gray-300 shadow-sm">
+                            <option value="created">по дате создания</option>
+                            <option value="deadline">по дэдлайну</option>
+                        </select>
+                    </div>
+                </div>
 
-                @forelse($this->getActualTasksProperty() as $task)
+                @forelse($this->actualTasks as $task)
                     <x-task-card :task="$task" wire:key="{{$task->id}}"/>
                 @empty
                     <div class="text-gray-500 font-medium p-4 text-center border rounded-lg">
@@ -56,7 +66,7 @@
                 </div>
 
                 <div class="mt-4 space-y-4" x-show="isOpen" @keydown.ctrl.shift.d.window="isOpen = !isOpen">
-                    @forelse($this->getCompletedTasksProperty() as $task)
+                    @forelse($this->completedTasks as $task)
                         <x-task-card :task="$task" wire:key="{{$task->id}}" />
                     @empty
                         <div class="font-medium text-gray-400 text-sm">

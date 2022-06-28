@@ -5,9 +5,15 @@ namespace App\Http\Livewire;
 
 use App\Models\Project;
 use App\Models\Task;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Collection;
 use Livewire\Component;
+
+/**
+ * @property Collection actualTasks;
+ * @property Collection completedTasks;
+ */
 
 class TasksListPage extends Component
 {
@@ -15,8 +21,8 @@ class TasksListPage extends Component
     use AuthorizesRequests;
 
     public Project $project;
-    public Collection $actualTasks;
-    public Collection $completedTasks;
+
+    public string $sortBy = 'created';
 
     public string $newTaskTitle = '';
 
@@ -72,12 +78,25 @@ class TasksListPage extends Component
 
     public function getActualTasksProperty(): Collection
     {
-        return $this->project->tasks()->actual()->get();
+        return $this->project
+            ->tasks()
+            ->actual()
+            ->when($this->sortBy === 'created', function (Builder $query) {
+                return $query->orderBy('created_at');
+            })
+            ->when($this->sortBy === 'deadline', function (Builder $query) {
+                return $query->orderByRaw("ifnull(deadline_date, '9999-12-31') ASC");
+            })
+            ->get();
     }
 
     public function getCompletedTasksProperty(): Collection
     {
-        return $this->project->tasks()->completed()->get();
+        return $this->project
+            ->tasks()
+            ->completed()
+            ->orderBy('completed_at', 'DESC')
+            ->get();
     }
 
     public function render()
