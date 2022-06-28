@@ -40,7 +40,8 @@
                         <select
                             wire:model="sortBy"
                             class="text-sm px-2 py-1 pr-8 rounded-lg border border-gray-300 shadow-sm">
-                            <option value="created">по дате создания</option>
+                            <option value="created_desc">новые сверху</option>
+                            <option value="deadline_asc">новые снизу</option>
                             <option value="deadline">по дэдлайну</option>
                         </select>
                     </div>

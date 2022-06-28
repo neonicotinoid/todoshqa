@@ -22,7 +22,7 @@ class TasksListPage extends Component
 
     public Project $project;
 
-    public string $sortBy = 'created';
+    public string $sortBy = 'created_desc';
 
     public string $newTaskTitle = '';
 
@@ -81,8 +81,11 @@ class TasksListPage extends Component
         return $this->project
             ->tasks()
             ->actual()
-            ->when($this->sortBy === 'created', function (Builder $query) {
-                return $query->orderBy('created_at');
+            ->when($this->sortBy === 'created_desc', function (Builder $query) {
+                return $query->orderBy('created_at', 'DESC');
+            })
+            ->when($this->sortBy === 'created_asc', function (Builder $query) {
+                return $query->orderBy('created_at', 'ASC');
             })
             ->when($this->sortBy === 'deadline', function (Builder $query) {
                 return $query->orderByRaw("ifnull(deadline_date, '9999-12-31') ASC");

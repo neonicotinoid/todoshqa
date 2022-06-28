@@ -42,6 +42,7 @@ class SingleTaskWindow extends Component
 
     public function saveTask()
     {
+//      TODO: Auth
         $this->validate();
         $this->task->save();
         $this->emit('task-updated');

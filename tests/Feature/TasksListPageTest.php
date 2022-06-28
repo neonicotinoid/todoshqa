@@ -143,45 +143,31 @@ class TasksListPageTest extends TestCase
         $this->assertNotNull(Task::find(1)->completed_at);
     }
 
-    /**
-     * @dataProvider sortedTaskDataProvider
-     */
-    public function test_it_sort_tasks_by_created_at(string $sorting_type, array $attributes)
+
+    public function test_it_sort_tasks()
     {
         $user = User::factory()
             ->has(
                 Project::factory(['id' => 1])
                     ->has(Task::factory(4)->sequence(
-                        fn($sequence) => $attributes[$sequence->index] ),
+                        ['title' => 'Task #1', 'created_at' => now()->subDays(10), 'deadline_date' => now()->subDays(10)],
+                        ['title' => 'Task #2', 'created_at' => now()->subDays(5), 'deadline_date' => null],
+                        ['title' => 'Task #3', 'created_at' => now()->subDays(2), 'deadline_date' => now()->subDays(2)],
+                        ['title' => 'Task #4', 'created_at' => now(), 'deadline_date' => now()->subDays(5)]
+                    ),
                         'tasks'),
                 'projects')
             ->create();
 
         Livewire::actingAs($user)
             ->test(TasksListPage::class, ['project' => Project::find(1)])
-            ->set('sortBy', $sorting_type)
-            ->assertSeeInOrder(['Task #1', 'Task #2', 'Task #3', 'Task #4']);
+            ->set('sortBy', 'created_asc')
+            ->assertSeeInOrder(['Task #1', 'Task #2', 'Task #3', 'Task #4'])
+            ->set('sortBy', 'created_desc')
+            ->assertSeeInOrder(['Task #4', 'Task #3', 'Task #2', 'Task #1'])
+            ->set('sortBy', 'deadline')
+            ->assertSeeInOrder(['Task #1', 'Task #4', 'Task #3', 'Task #2']);
     }
 
-    public function sortedTaskDataProvider(): array
-    {
-        return [
-            'Sort by created_at' => ['created',
-           [
-                ['title' => 'Task #1', 'created_at' => now()->subDays(10)],
-                ['title' => 'Task #2', 'created_at' => now()->subDays(5)],
-                ['title' => 'Task #3', 'created_at' => now()->subDays(2)],
-                ['title' => 'Task #4', 'created_at' => now()]]
-            ],
-            'Sort by deadline' => ['deadline',
-                [
-                    ['title' => 'Task #1', 'deadline_date' => now()->subDays(10)],
-                    ['title' => 'Task #2', 'deadline_date' => now()->subDays(5)],
-                    ['title' => 'Task #3', 'deadline_date' => now()->subDays(2)],
-                    ['title' => 'Task #4', 'deadline_date' => null],
-                ],
-                ]
-        ];
-    }
 
 }
