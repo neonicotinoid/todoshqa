@@ -1,5 +1,7 @@
 <div x-data="{isOpen: @entangle('isWindowOpen').defer}"
      x-show="isOpen"
+     @keydown.meta.enter="$wire.call('saveProject'); isOpen = false;"
+     @keydown.esc="isOpen = false"
      x-cloak
      x-trap="isOpen"
      class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
@@ -74,6 +76,12 @@
                       class="w-full">
                 Сохранить изменения
             </x-button>
+            <div class="flex justify-center mt-2 text-gray-500 items-center">
+                <x-key>CMD</x-key> + <x-key>Enter</x-key>
+                <div class="text-xs text-gray-500 ml-2">
+                    to save and close
+                </div>
+            </div>
         </div>
     </div>
 </div>

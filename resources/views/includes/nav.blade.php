@@ -23,7 +23,7 @@
                                 <span class="sr-only">Open user menu</span>
 
                                 <div class="w-8 h-8 rounded-full">
-                                    <x-initial-circle class="w-8 h-8" :text="auth()->user()->name"/>
+                                    <x-initial-circle class="w-8 h-8" :user-id="auth()->user()->id" :text="auth()->user()->name"/>
                                 </div>
                             </button>
                         </div>

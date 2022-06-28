@@ -2,16 +2,18 @@
 
 namespace App\Http\Livewire;
 
-use App\Actions\ShareProjectToUserAction;
-use App\Actions\UnshareProjectToUserAction;
+
 use App\Models\Project;
 use App\Models\Task;
-use App\Models\User;
-use DebugBar\DebugBar;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Collection;
-use Illuminate\Validation\Rule;
 use Livewire\Component;
+
+/**
+ * @property Collection actualTasks;
+ * @property Collection completedTasks;
+ */
 
 class TasksListPage extends Component
 {
@@ -19,12 +21,8 @@ class TasksListPage extends Component
     use AuthorizesRequests;
 
     public Project $project;
-    public Collection $actualTasks;
-    public Collection $completedTasks;
-    public bool $isTaskModalOpen;
-    public ?string $taskDeadline;
 
-    public ?Task $openedTask = null;
+    public string $sortBy = 'created_desc';
 
     public string $newTaskTitle = '';
 
@@ -38,16 +36,16 @@ class TasksListPage extends Component
     public function rules()
     {
         return [
-            'openedTask.title' => ['string', 'required'],
-            'openedTask.description' => ['string', 'nullable'],
-            'openedTask.deadline_date' => ['date', 'nullable'],
             'newTaskTitle' => ['string', 'required', 'min:3'],
         ];
     }
 
     public function getListeners()
     {
-        return ['project-updated' => 'updateProjectInfo'];
+        return [
+            'project-updated' => 'updateProjectInfo',
+            'task-updated' => '$refresh'
+        ];
     }
 
     public function updateProjectInfo(Project $project)
@@ -57,15 +55,7 @@ class TasksListPage extends Component
 
     public function openTask(int $id)
     {
-        $this->openedTask = Task::find($id);
-        $this->isTaskModalOpen = true;
-        $this->dispatchBrowserEvent('task-sidebar-open', $this->openedTask);
-    }
-
-    public function closeTask()
-    {
-        $this->openedTask = null;
-        $this->isTaskModalOpen = false;
+        $this->emitTo(SingleTaskWindow::class, 'openTask', $id);
     }
 
     public function toggleTaskState(Task $task)
@@ -86,25 +76,30 @@ class TasksListPage extends Component
         return $task;
     }
 
-    public function saveOpenedTask(): bool
-    {
-        $this->validateOnly('openedTask.deadline_date');
-        return $this->openedTask->save();
-    }
-
-    public function resetDeadlineDateForOpenedTask()
-    {
-        $this->openedTask->deadline_date = null;
-    }
-
     public function getActualTasksProperty(): Collection
     {
-        return $this->project->tasks()->actual()->get();
+        return $this->project
+            ->tasks()
+            ->actual()
+            ->when($this->sortBy === 'created_desc', function (Builder $query) {
+                return $query->orderBy('created_at', 'DESC');
+            })
+            ->when($this->sortBy === 'created_asc', function (Builder $query) {
+                return $query->orderBy('created_at', 'ASC');
+            })
+            ->when($this->sortBy === 'deadline', function (Builder $query) {
+                return $query->orderByRaw("ifnull(deadline_date, '9999-12-31') ASC");
+            })
+            ->get();
     }
 
     public function getCompletedTasksProperty(): Collection
     {
-        return $this->project->tasks()->completed()->get();
+        return $this->project
+            ->tasks()
+            ->completed()
+            ->orderBy('completed_at', 'DESC')
+            ->get();
     }
 
     public function render()

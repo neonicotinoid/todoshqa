@@ -7,6 +7,7 @@ use App\Http\Livewire\TasksListPage;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Livewire\Livewire;
@@ -141,5 +142,32 @@ class TasksListPageTest extends TestCase
 
         $this->assertNotNull(Task::find(1)->completed_at);
     }
+
+
+    public function test_it_sort_tasks()
+    {
+        $user = User::factory()
+            ->has(
+                Project::factory(['id' => 1])
+                    ->has(Task::factory(4)->sequence(
+                        ['title' => 'Task #1', 'created_at' => now()->subDays(10), 'deadline_date' => now()->subDays(10)],
+                        ['title' => 'Task #2', 'created_at' => now()->subDays(5), 'deadline_date' => null],
+                        ['title' => 'Task #3', 'created_at' => now()->subDays(2), 'deadline_date' => now()->subDays(2)],
+                        ['title' => 'Task #4', 'created_at' => now(), 'deadline_date' => now()->subDays(5)]
+                    ),
+                        'tasks'),
+                'projects')
+            ->create();
+
+        Livewire::actingAs($user)
+            ->test(TasksListPage::class, ['project' => Project::find(1)])
+            ->set('sortBy', 'created_asc')
+            ->assertSeeInOrder(['Task #1', 'Task #2', 'Task #3', 'Task #4'])
+            ->set('sortBy', 'created_desc')
+            ->assertSeeInOrder(['Task #4', 'Task #3', 'Task #2', 'Task #1'])
+            ->set('sortBy', 'deadline')
+            ->assertSeeInOrder(['Task #1', 'Task #4', 'Task #3', 'Task #2']);
+    }
+
 
 }

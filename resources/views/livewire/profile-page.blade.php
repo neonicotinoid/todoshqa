@@ -73,7 +73,7 @@
                             </button>
                         </div>
                     @else
-                        <x-initial-circle class="w-24 h-24 inline-block mx-auto mb-4 rounded-full" :text="$user->name"/>
+                        <x-initial-circle class="w-24 h-24 inline-block mx-auto mb-4 rounded-full" :user-id="$user->id" :text="$user->name"/>
                     @endif
                     @endif
                     <div class="ml-2 text-sm flex flex-col space-y-2">

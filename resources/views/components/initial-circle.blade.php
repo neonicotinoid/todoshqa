@@ -1,4 +1,4 @@
-@props(['text', 'backgrounds' => [
+@props(['text', 'userId', 'backgrounds' => [
                 '#78716C',
                 '#DC2626',
                 '#EA580C',
@@ -21,7 +21,7 @@
 
 @php
     $initials = (new \App\Services\Initials())->generate($text);
-    $bg = (new \App\Actions\GetNCacheInitialBackgroundColorAction())(auth()->user(), Arr::random($backgrounds));
+    $bg = (new \App\Actions\GetNCacheInitialBackgroundColorAction())($userId, Arr::random($backgrounds));
 @endphp
 
 <svg {{ $attributes }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="49.5" fill="{{ $bg  }}" />
