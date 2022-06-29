@@ -12,6 +12,14 @@ module.exports = {
             fontFamily: {
                 sans: ['Inter', ...defaultTheme.fontFamily.sans],
             },
+            keyframes: {
+                soar: {
+                    '50%': {transform: 'translateY(0.5rem)'}
+                },
+            },
+            animation: {
+                'soar': 'soar 8s ease-in-out infinite'
+            },
         },
     },
 
