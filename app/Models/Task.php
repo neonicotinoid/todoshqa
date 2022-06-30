@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @property int id;
@@ -31,6 +32,7 @@ class Task extends Model
     ];
 
 
+
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class, 'project_id', 'id');
@@ -44,5 +46,10 @@ class Task extends Model
     public function scopeCompleted(Builder $query): Builder
     {
         return $query->where('completed_at', '!=', null);
+    }
+
+    public function isInMyDay(User $user): bool
+    {
+        return $user->myDayTasks->contains($this);
     }
 }

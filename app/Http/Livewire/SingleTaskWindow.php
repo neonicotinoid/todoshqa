@@ -45,7 +45,7 @@ class SingleTaskWindow extends Component
 //      TODO: Auth
         $this->validate();
         $this->task->save();
-        $this->emit('task-updated');
+        $this->emit('task-updated-' . $this->task->id, $this->task->id);
     }
 
     public function resetDeadline()

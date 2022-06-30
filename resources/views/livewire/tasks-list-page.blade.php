@@ -48,7 +48,7 @@
                 </div>
 
                 @forelse($this->actualTasks as $task)
-                    <x-task-card :task="$task" wire:key="{{$task->id}}"/>
+                    <livewire:task-card :task="$task" :wire:key="$task->id"/>
                 @empty
                     <div class="text-gray-500 font-medium p-4 text-center border rounded-lg">
                         У вас нет актуальных задач в этом проекте
@@ -68,7 +68,7 @@
 
                 <div class="mt-4 space-y-4" x-show="isOpen" @keydown.ctrl.shift.d.window="isOpen = !isOpen">
                     @forelse($this->completedTasks as $task)
-                        <x-task-card :task="$task" wire:key="{{$task->id}}" />
+                        <livewire:task-card :task="$task" :wire:key="$task->id" />
                     @empty
                         <div class="font-medium text-gray-400 text-sm">
                             Пока в проекте нет выполненных задач
@@ -105,6 +105,10 @@
 {{--        @include('includes.task-sidebar')--}}
         @include('includes.hotkey-help-window')
 
-
+{{--        <script>--}}
+{{--            Livewire.on('task-updated', function(...params) {--}}
+{{--                console.log(params);--}}
+{{--            });--}}
+{{--        </script>--}}
     </main>
 </div>

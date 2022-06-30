@@ -1,4 +1,15 @@
+import th from "vanillajs-datepicker/locales/th";
+
 export default () => ({
+    wireId: null,
+    init() {
+        this.wireId = this.$root.getAttribute('wire:id');
+        Livewire.on('task-updated-' + this.$wire.get('taskId'), (task) => {
+            if(this.$wire.get('taskId') === task) {
+                this.$wire.refreshTask();
+            }
+        });
+    },
     openTask: function (id) {
         this.$wire.openTask(id)
             .then(() => {

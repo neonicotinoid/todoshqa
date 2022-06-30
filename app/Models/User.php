@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -58,4 +59,14 @@ class User extends Authenticatable implements HasMedia
         return $this->belongsToMany(Project::class, 'sharings', 'user_id', 'project_id')
             ->withTimestamps();
     }
+
+    public function myDayTasks(): BelongsToMany
+    {
+        return $this->belongsToMany(Task::class, 'my_day_tasks', 'user_id', 'task_id')
+            ->withTimestamps()
+            ->as(MyDayTask::class)
+            ->whereDate('day', Carbon::today());
+    }
+
+
 }

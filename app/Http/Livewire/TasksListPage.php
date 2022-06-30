@@ -3,6 +3,8 @@
 namespace App\Http\Livewire;
 
 
+use App\Actions\AddTaskToMyDayAction;
+use App\Actions\RemoveTaskFromMyDayAction;
 use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Database\Eloquent\Builder;
@@ -42,27 +44,12 @@ class TasksListPage extends Component
     {
         return [
             'project-updated' => 'updateProjectInfo',
-            'task-updated' => '$refresh'
         ];
     }
 
     public function updateProjectInfo(Project $project)
     {
         $this->project = $project;
-    }
-
-    public function openTask(int $id)
-    {
-        $this->emitTo(SingleTaskWindow::class, 'openTask', $id);
-    }
-
-    public function toggleTaskState(Task $task)
-    {
-        $task->completed_at
-            ? $task->completed_at = null
-            : $task->completed_at = now();
-
-        $task->save();
     }
 
     public function addNewTask(): Task

@@ -3,11 +3,12 @@
         <div class="flex items-center justify-between h-16">
             <div class="flex items-center">
                 <div class="flex-shrink-0">
-                    <x-heroicon-o-collection class="w-8 h-8 text-fuchsia-800"/>
+                    <img src="{{asset('css/icon.png')}}" class="w-8 h-8">
                 </div>
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-4">
                         <x-nav-link :is-active="request()->routeIs('dashboard')" href="{{route('dashboard')}}">Дашборд</x-nav-link>
+{{--                        <x-nav-link>Мой день</x-nav-link>--}}
                         <x-nav-link :is-active="request()->routeIs('projects.index')" href="{{route('project.index')}}">Проекты</x-nav-link>
                     </div>
                 </div>
