@@ -2,8 +2,7 @@
 
 namespace App\Actions;
 
-use App\Models\User;
-use Cache;
+use Illuminate\Support\Facades\Cache;
 
 class GetNCacheInitialBackgroundColorAction
 {
