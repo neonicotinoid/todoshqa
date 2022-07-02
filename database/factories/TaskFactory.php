@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Actions\AddTaskToMyDayAction;
+use App\Models\Task;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -39,6 +42,13 @@ class TaskFactory extends Factory
                 'completed_at' => null,
                 'deadline_date' => now()->subDays(20)
             ];
+        });
+    }
+
+    public function myDay(User $user)
+    {
+        return $this->afterCreating(function(Task $task) use(&$user) {
+            return (new AddTaskToMyDayAction())($task, $user, now());
         });
     }
 }
