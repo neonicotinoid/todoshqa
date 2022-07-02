@@ -102,13 +102,8 @@
         <livewire:project-sharing-window :project="$project"/>
 
         <livewire:single-task-window />
-{{--        @include('includes.task-sidebar')--}}
-        @include('includes.hotkey-help-window')
 
-{{--        <script>--}}
-{{--            Livewire.on('task-updated', function(...params) {--}}
-{{--                console.log(params);--}}
-{{--            });--}}
-{{--        </script>--}}
+        @include('includes.hotkey-help-window')
+        
     </main>
 </div>

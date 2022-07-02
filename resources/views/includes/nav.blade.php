@@ -8,7 +8,7 @@
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-4">
                         <x-nav-link :is-active="request()->routeIs('dashboard')" href="{{route('dashboard')}}">Дашборд</x-nav-link>
-{{--                        <x-nav-link>Мой день</x-nav-link>--}}
+                        <x-nav-link :is-active="request()->routeIs('myDay')" :href="route('myDay')">Мой день</x-nav-link>
                         <x-nav-link :is-active="request()->routeIs('projects.index')" href="{{route('project.index')}}">Проекты</x-nav-link>
                     </div>
                 </div>

@@ -2,9 +2,6 @@
 
 namespace App\Http\Livewire;
 
-
-use App\Actions\AddTaskToMyDayAction;
-use App\Actions\RemoveTaskFromMyDayAction;
 use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Database\Eloquent\Builder;
@@ -44,6 +41,7 @@ class TasksListPage extends Component
     {
         return [
             'project-updated' => 'updateProjectInfo',
+            'task-status-updated' => '$refresh',
         ];
     }
 

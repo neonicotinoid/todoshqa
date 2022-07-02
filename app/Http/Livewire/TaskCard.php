@@ -23,7 +23,6 @@ class TaskCard extends Component
     protected function getListeners()
     {
         return [
-//            'task-updated' => 'updateTaskView'
         ];
     }
 
@@ -37,13 +36,13 @@ class TaskCard extends Component
         $this->emitTo(SingleTaskWindow::class, 'openTask', $id);
     }
 
-    public function toggleTaskState(Task $task)
+    public function toggleTaskState()
     {
-        $task->completed_at
-            ? $task->completed_at = null
-            : $task->completed_at = now();
-
-        $task->save();
+        $this->task->completed_at
+            ? $this->task->completed_at = null
+            : $this->task->completed_at = now();
+        $this->task->save();
+        $this->emitUp('task-status-updated');
     }
 
     public function updatedInMyDay(bool $value)

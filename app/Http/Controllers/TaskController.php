@@ -13,4 +13,9 @@ class TaskController extends Controller
             'task' => $task
         ]);
     }
+
+    public function myDay(Request $request)
+    {
+        return view('myday');
+    }
 }

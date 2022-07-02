@@ -28,6 +28,10 @@ Route::resource('task', \App\Http\Controllers\TaskController::class)
     ->middleware(['auth'])
     ->only(['show']);
 
+Route::get('myday', [\App\Http\Controllers\TaskController::class, 'myDay'])
+    ->middleware(['auth'])
+    ->name('myDay');
+
 Route::view('/ui-library', 'library')->middleware(['prod']);
 
 require __DIR__.'/auth.php';
