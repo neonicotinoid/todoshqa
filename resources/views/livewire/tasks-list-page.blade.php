@@ -104,6 +104,6 @@
         <livewire:single-task-window />
 
         @include('includes.hotkey-help-window')
-        
+
     </main>
 </div>

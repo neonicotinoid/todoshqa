@@ -9,7 +9,7 @@ use Livewire\Component;
 class MyDayTasksPage extends Component
 {
     public User $user;
-    public bool $isCompletedTasksOpen;
+    public bool $isCompletedTasksOpen = false;
 
     public function mount(User $user)
     {
@@ -19,24 +19,22 @@ class MyDayTasksPage extends Component
     public function getListeners(): array
     {
         return [
-            'task-status-updated' => '$refresh',
+            'task-status-updated' => 'render',
         ];
     }
 
     public function getDayTasksProperty(): Collection
     {
-        return auth()->user()
-            ->myDayTasks()
+        return $this->user->myDayTasks()
             ->actual()
             ->get();
     }
 
     public function getDayCompletedTasksProperty(): Collection
     {
-        return $this->user
-            ->myDayTasks()
+        return $this->user->myDayTasks()
             ->completed()
-            ->orderBy('completed_at', 'DESC')
+            ->orderBy('completed_at', 'ASC')
             ->get();
     }
 
