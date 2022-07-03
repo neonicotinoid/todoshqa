@@ -1,4 +1,4 @@
-@props(['label', 'fieldset' => false, 'tip' => null])
+@props(['label', 'fieldset' => false, 'tip' => null, 'error' => null])
 
 @if($fieldset)
     <fieldset {{$attributes}}>
@@ -11,6 +11,12 @@
             </div>
         @endif
             {{ $slot }}
+
+        @if($error)
+            <div class="text-sm text-red-500 mt-1">
+                {{ $error }}
+            </div>
+        @endif
     </fieldset>
 @else
     <div x-data x-id="['input']" {{$attributes}}>
@@ -22,6 +28,16 @@
                 {{ $tip }}
             </div>
         @endif
+
         {{ $slot }}
+
+        <div class="h-4">
+            @if($error)
+                <div class="text-sm leading-5 text-red-500">
+                    {{ $error }}
+                </div>
+            @endif
+        </div>
+
     </div>
 @endif

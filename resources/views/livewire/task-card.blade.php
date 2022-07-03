@@ -47,15 +47,6 @@
                 </div>
             @endif
         </div>
-
-
-
-
-
-
-
-
-
     </div>
 
     <div class="relative ml-auto">

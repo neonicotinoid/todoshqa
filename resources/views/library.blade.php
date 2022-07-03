@@ -1,6 +1,38 @@
 <x-layout>
     <div class="max-w-7xl space-y-8 mx-auto py-6 sm:px-6 lg:px-8">
 
+
+
+        <div class="bg-white shadow rounded-lg p-4">
+            <h2 class="text-3xl font-bold mb-4">Text input</h2>
+
+            <div class="grid grid-cols-2 gap-x-6 mb-6">
+                <div>
+                    <x-form.group label="Text input label" error="this is error">
+                        <x-form.text/>
+                    </x-form.group>
+                </div>
+
+                <div>
+                    <x-form.group label="Text input label">
+                        <x-form.text/>
+                    </x-form.group>
+                </div>
+
+            </div>
+
+            <div class="space-y-2">
+                <x-form.group label="Text input label" tip="This is tip">
+                    <x-form.text />
+                </x-form.group>
+
+                <x-form.group label="Disabled text input">
+                    <x-form.text disabled/>
+                </x-form.group>
+            </div>
+        </div>
+
+
         <div>
             <h2 class="text-3xl font-bold mb-4">Buttons</h2>
             <div class="space-y-2">
@@ -57,27 +89,11 @@
             <h2 class="text-3xl font-bold mb-4">Datepicker</h2>
 
             <div class="space-y-2">
-                <x-form.datepicker/>
-                <x-form.group label="Пример поля для выбора даты">
-                    <x-form.datepicker/>
-                </x-form.group>
             </div>
         </div>
 
 
-        <div>
-            <h2 class="text-3xl font-bold mb-4">Text input</h2>
 
-            <div class="space-y-2">
-                <x-form.group label="Text input label">
-                    <x-form.text />
-                </x-form.group>
-
-                <x-form.group label="Disabled text input">
-                    <x-form.text disabled/>
-                </x-form.group>
-            </div>
-        </div>
 
         <div>
             <h2 class="text-3xl font-bold mb-4">Textarea</h2>
