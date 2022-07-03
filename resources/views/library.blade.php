@@ -33,6 +33,25 @@
         </div>
 
 
+        <div class="bg-white shadow rounded-lg p-4">
+            <h2 class="text-3xl font-bold mb-4">Textarea</h2>
+
+            <div class="space-y-4">
+                <x-form.group label="Textarea label">
+                    <x-form.textarea></x-form.textarea>
+                </x-form.group>
+
+                <x-form.group label="Textarea label" error="This textarea with error">
+                    <x-form.textarea></x-form.textarea>
+                </x-form.group>
+
+                <x-form.group label="Textarea disabled">
+                    <x-form.textarea disabled></x-form.textarea>
+                </x-form.group>
+            </div>
+        </div>
+
+
         <div>
             <h2 class="text-3xl font-bold mb-4">Buttons</h2>
             <div class="space-y-2">
@@ -85,29 +104,10 @@
         </div>
 
 
-        <div>
-            <h2 class="text-3xl font-bold mb-4">Datepicker</h2>
-
-            <div class="space-y-2">
-            </div>
-        </div>
 
 
 
 
-        <div>
-            <h2 class="text-3xl font-bold mb-4">Textarea</h2>
-
-            <div class="space-y-2">
-                <x-form.group label="Textarea label">
-                    <x-form.textarea></x-form.textarea>
-                </x-form.group>
-
-                <x-form.group label="Textarea disabled">
-                    <x-form.textarea disabled></x-form.textarea>
-                </x-form.group>
-            </div>
-        </div>
 
         <div>
             <h2 class="text-3xl font-bold mb-4">Checkbox</h2>
