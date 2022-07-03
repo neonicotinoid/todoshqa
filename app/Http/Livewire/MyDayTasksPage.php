@@ -20,8 +20,11 @@ class MyDayTasksPage extends Component
     {
         return [
             'task-status-updated' => 'render',
+            'task-added-to-my-day' => 'render'
         ];
     }
+
+
 
     public function getDayTasksProperty(): Collection
     {

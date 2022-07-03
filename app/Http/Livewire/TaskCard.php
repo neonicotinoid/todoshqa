@@ -20,12 +20,6 @@ class TaskCard extends Component
         $this->inMyDay = $this->task->isInMyDay(auth()->user());
     }
 
-    protected function getListeners()
-    {
-        return [
-        ];
-    }
-
     public function refreshTask()
     {
         $this->task->refresh();
@@ -51,21 +45,8 @@ class TaskCard extends Component
             (new AddTaskToMyDayAction())($this->task, auth()->user(), now());
             return;
         }
-
         (new RemoveTaskFromMyDayAction())($this->task, auth()->user());
-    }
-
-    public function toggleTaskToMyDay(AddTaskToMyDayAction $add, RemoveTaskFromMyDayAction $remove, Task $task)
-    {
-        if ($task->isInMyDay(auth()->user())) {
-            $remove($task, auth()->user());
-        }
-
-        $add(
-            task: $task,
-            user: auth()->user(),
-            datetime: now()
-        );
+        $this->emitUp('task-added-to-my-day', $this->task->id);
     }
 
     public function getInMyDayProperty(): bool

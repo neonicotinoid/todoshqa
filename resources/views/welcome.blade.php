@@ -170,15 +170,15 @@
             <div class="mt-32 grid grid-cols-1 sm:grid-cols-2 gap-12">
 
                 <div class="relative overflow-hidden bg-gradient-to-r from-slate-100 to-stone-100 shadow-sm py-12 px-8 rounded-xl before:block before:absolute before:w-36 before:h-10 before:bg-blue-400 before:right-4 before:blur-3xl">
-                    <div class="text-2xl font-medium opacity-40">
+                    <div class="text-2xl font-medium">
                         Формируйте список дел на день
                     </div>
-                    <div class="text-gray-700 mt-4 opacity-40">
+                    <div class="text-gray-700 mt-4">
                         Отбирайте задачи на сегодняшний день, выбирая задачи из разных проектов.
                     </div>
-                    <div class="absolute right-4 top-4 px-2 py-0.5 rounded-lg bg-purple-500 text-white opacity-100">
-                        В разработке
-                    </div>
+{{--                    <div class="absolute right-4 top-4 px-2 py-0.5 rounded-lg bg-purple-500 text-white opacity-100">--}}
+{{--                        В разработке--}}
+{{--                    </div>--}}
                 </div>
 
 
