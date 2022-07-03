@@ -126,24 +126,6 @@ class TasksListPageTest extends TestCase
             ->assertSet('newTaskTitle', '');
     }
 
-    public function test_it_can_toggle_task()
-    {
-        $user = User::factory()
-            ->has(
-                Project::factory(['id' => 1])
-                    ->has(Task::factory(['id' => 1]),
-                        'tasks'),
-                'projects')
-            ->create();
-
-        Livewire::actingAs($user)
-            ->test(TasksListPage::class, ['project' => Project::find(1)])
-            ->call('toggleTaskState', Task::find(1));
-
-        $this->assertNotNull(Task::find(1)->completed_at);
-    }
-
-
     public function test_it_sort_tasks()
     {
         $user = User::factory()
@@ -159,14 +141,21 @@ class TasksListPageTest extends TestCase
                 'projects')
             ->create();
 
+        // Livewire не умеет видеть дочерние компоненты в динамике,
+        // поэтому проект инициализируется 3 раза на каждый вид сортировки
+
         Livewire::actingAs($user)
             ->test(TasksListPage::class, ['project' => Project::find(1)])
-            ->set('sortBy', 'created_asc')
-            ->assertSeeInOrder(['Task #1', 'Task #2', 'Task #3', 'Task #4'])
-            ->set('sortBy', 'created_desc')
-            ->assertSeeInOrder(['Task #4', 'Task #3', 'Task #2', 'Task #1'])
-            ->set('sortBy', 'deadline')
+            ->assertSeeInOrder(['Task #4', 'Task #3', 'Task #2', 'Task #1']);
+
+        Livewire::actingAs($user)
+            ->test(TasksListPage::class, ['project' => Project::find(1), 'sortBy' => 'created_asc'])
+            ->assertSeeInOrder(['Task #1', 'Task #2', 'Task #3', 'Task #4']);
+
+        Livewire::actingAs($user)
+            ->test(TasksListPage::class, ['project' => Project::find(1), 'sortBy' => 'deadline'])
             ->assertSeeInOrder(['Task #1', 'Task #4', 'Task #3', 'Task #2']);
+
     }
 
 

@@ -23,11 +23,12 @@ class TasksListPage extends Component
     public string $sortBy;
     public string $newTaskTitle = '';
 
-    public function mount(Project $project)
+    public function mount(Project $project, string $sortBy = 'created_desc')
     {
+//      TODO: Сортировку можно представить в виде Enum
         $this->project = $project;
         $this->project->load('users');
-        $this->sortBy = 'created_desc';
+        $this->sortBy = $sortBy;
     }
 
     public function rules()

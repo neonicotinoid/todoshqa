@@ -2,7 +2,7 @@ import th from "vanillajs-datepicker/locales/th";
 
 export default () => ({
     init() {
-        Livewire.on('task-updated-' + this.$wire.get('taskId'), (task) => {
+        Livewire.on('task-updated', (task) => {
             if(this.$wire.get('taskId') === task) {
                 this.$wire.refreshTask();
             }

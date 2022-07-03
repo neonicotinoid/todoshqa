@@ -74,7 +74,7 @@
             <label x-data="{isChecked: @entangle('inMyDay')}">
                 <x-heroicon-s-light-bulb
                     x-bind:class="{'text-yellow-500': isChecked, 'text-gray-300': ! isChecked}"
-                    class="w-5 h-5 cursor-pointer"/>
+                    class="w-5 h-5 text-gray-300 cursor-pointer"/>
                 <input
                     class="hidden"
                     type="checkbox"
