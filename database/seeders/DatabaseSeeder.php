@@ -24,6 +24,10 @@ class DatabaseSeeder extends Seeder
         User::factory(10)
             ->has(Project::factory(3)->afterCreating(function (Project $project, User $user) {
                 Task::factory(5)
+                    ->state( new Sequence(
+                        ['completed_at' => now()->subDays(2)],
+                        ['deadline_date' => now()->addDays(2)]
+                    ))
                     ->for($user, 'author')
                     ->for($project, 'project')
                     ->create();
