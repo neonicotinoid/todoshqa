@@ -18,11 +18,13 @@ class SingleTaskWindowTest extends TestCase
     public function test_it_renders()
     {
         $this->actingAs(User::factory()
-            ->has(
-                Project::factory(['id' => 1])
-                    ->has(Task::factory(3),
-                        'tasks'),
-                'projects')
+            ->has(Project::factory(['id' => 1])->afterCreating(function (Project $project, User $user) {
+                Task::factory(3)
+                    ->for($user, 'author')
+                    ->for($project, 'project')
+                    ->create();
+            })
+                , 'projects')
             ->create());
 
         $this->get(route('project.show', ['project' => 1]))
@@ -32,11 +34,13 @@ class SingleTaskWindowTest extends TestCase
     public function test_it_can_edit_task()
     {
         $user = User::factory()
-            ->has(
-                Project::factory(['id' => 1])
-                    ->has(Task::factory(3),
-                        'tasks'),
-                'projects')
+            ->has(Project::factory(['id' => 1])->afterCreating(function (Project $project, User $user) {
+                Task::factory(3)
+                    ->for($user, 'author')
+                    ->for($project, 'project')
+                    ->create();
+            })
+                , 'projects')
             ->create();
 
         $this->actingAs($user);

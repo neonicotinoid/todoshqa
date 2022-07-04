@@ -20,11 +20,13 @@ class TaskCardTest extends TestCase
     public function test_it_can_toggle_task()
     {
         $user = User::factory()
-            ->has(
-                Project::factory(['id' => 1])
-                    ->has(Task::factory(['id' => 1]),
-                        'tasks'),
-                'projects')
+            ->has(Project::factory(['id' => 1])->afterCreating(function (Project $project, User $user) {
+                Task::factory(['id' => 1])
+                    ->for($user, 'author')
+                    ->for($project, 'project')
+                    ->create();
+            })
+                , 'projects')
             ->create();
 
         Livewire::actingAs($user)

@@ -38,6 +38,11 @@ class Task extends Model
         return $this->belongsTo(Project::class, 'project_id', 'id');
     }
 
+    public function author(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
     public function scopeActual(Builder $query): Builder
     {
         return $query->where('completed_at', '=',null);
@@ -52,4 +57,5 @@ class Task extends Model
     {
         return $user->myDayTasks->contains($this);
     }
+
 }

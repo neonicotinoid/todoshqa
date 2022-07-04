@@ -18,11 +18,13 @@ class ProjectEditWindowTest extends TestCase
     public function test_it_renders_component()
     {
         $this->actingAs(User::factory()
-            ->has(
-                Project::factory(['id' => 1])
-                    ->has(Task::factory(3),
-                        'tasks'),
-                'projects')
+            ->has(Project::factory(['id' => 1])->afterCreating(function (Project $project, User $user) {
+                Task::factory(3)
+                    ->for($user, 'author')
+                    ->for($project, 'project')
+                    ->create();
+            })
+                , 'projects')
             ->create());
 
         $this->get(route('project.show', ['project' => 1]))
@@ -32,11 +34,13 @@ class ProjectEditWindowTest extends TestCase
     public function test_it_can_change_project_info()
     {
         $user = User::factory()
-            ->has(
-                Project::factory(['id' => 1])
-                    ->has(Task::factory(3),
-                        'tasks'),
-                'projects')
+            ->has(Project::factory(['id' => 1])->afterCreating(function (Project $project, User $user) {
+                Task::factory(3)
+                    ->for($user, 'author')
+                    ->for($project, 'project')
+                    ->create();
+            })
+                , 'projects')
             ->create();
 
         Livewire::actingAs($user)
@@ -54,11 +58,13 @@ class ProjectEditWindowTest extends TestCase
     public function test_project_title_is_required()
     {
         $user = User::factory()
-            ->has(
-                Project::factory(['id' => 1])
-                    ->has(Task::factory(3),
-                        'tasks'),
-                'projects')
+            ->has(Project::factory(['id' => 1])->afterCreating(function (Project $project, User $user) {
+                Task::factory(3)
+                    ->for($user, 'author')
+                    ->for($project, 'project')
+                    ->create();
+            })
+                , 'projects')
             ->create();
 
         Livewire::actingAs($user)
@@ -72,11 +78,13 @@ class ProjectEditWindowTest extends TestCase
     public function test_project_cannot_be_changed_by_non_owner()
     {
         User::factory()
-            ->has(
-                Project::factory(['id' => 1])
-                    ->has(Task::factory(3),
-                        'tasks'),
-                'projects')
+            ->has(Project::factory(['id' => 1])->afterCreating(function (Project $project, User $user) {
+                Task::factory(3)
+                    ->for($user, 'author')
+                    ->for($project, 'project')
+                    ->create();
+            })
+                , 'projects')
             ->create();
 
         $user = User::factory()->create();

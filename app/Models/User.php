@@ -60,6 +60,11 @@ class User extends Authenticatable implements HasMedia
             ->withTimestamps();
     }
 
+    public function createdTasks(): HasMany
+    {
+        return $this->hasMany(Task::class, 'user_id', 'id');
+    }
+
     public function myDayTasks(): BelongsToMany
     {
         return $this->belongsToMany(Task::class, 'my_day_tasks', 'user_id', 'task_id')

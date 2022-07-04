@@ -19,11 +19,13 @@ class ProjectSharingWindowTest extends TestCase
     public function test_it_renders_component()
     {
         $owner = User::factory()
-            ->has(
-                Project::factory(['id' => 1])
-                    ->has(Task::factory(3),
-                        'tasks'),
-                'projects')
+            ->has(Project::factory(['id' => 1])->afterCreating(function (Project $project, User $user) {
+                Task::factory(3)
+                    ->for($user, 'author')
+                    ->for($project, 'project')
+                    ->create();
+            })
+                , 'projects')
             ->create();
 
         $this->actingAs($owner)
@@ -34,11 +36,13 @@ class ProjectSharingWindowTest extends TestCase
     public function test_owner_can_share_project_to_user()
     {
         $owner = User::factory()
-            ->has(
-                Project::factory(['id' => 1])
-                    ->has(Task::factory(3),
-                        'tasks'),
-                'projects')
+            ->has(Project::factory(['id' => 1])->afterCreating(function (Project $project, User $user) {
+                Task::factory(3)
+                    ->for($user, 'author')
+                    ->for($project, 'project')
+                    ->create();
+            })
+                , 'projects')
             ->create();
         $userForSharing = User::factory(['name' => 'Username', 'email' => 'testable@mail.com'])->create();
 
@@ -54,11 +58,13 @@ class ProjectSharingWindowTest extends TestCase
     public function test_owner_can_unshare_project_from_user()
     {
         $owner = User::factory()
-            ->has(
-                Project::factory(['id' => 1])
-                    ->has(Task::factory(3),
-                        'tasks'),
-                'projects')
+            ->has(Project::factory(['id' => 1])->afterCreating(function (Project $project, User $user) {
+                Task::factory(3)
+                    ->for($user, 'author')
+                    ->for($project, 'project')
+                    ->create();
+            })
+                , 'projects')
             ->create();
         $userWithSharedAccess = User::factory(['name' => 'Username', 'email' => 'testable@mail.com'])->create();
         (new ShareProjectToUserAction())(Project::find(1), $userWithSharedAccess);
@@ -75,11 +81,13 @@ class ProjectSharingWindowTest extends TestCase
     public function test_user_with_access_cannot_change_settings()
     {
         User::factory()
-            ->has(
-                Project::factory(['id' => 1])
-                    ->has(Task::factory(3),
-                        'tasks'),
-                'projects')
+            ->has(Project::factory(['id' => 1])->afterCreating(function (Project $project, User $user) {
+                Task::factory(3)
+                    ->for($user, 'author')
+                    ->for($project, 'project')
+                    ->create();
+            })
+                , 'projects')
             ->create();
 
         $userWithSharedAccess =

@@ -16,12 +16,15 @@ class MyDayTasksTest extends TestCase
 
     public function test_it_renders_component()
     {
+
         $this->actingAs(User::factory()
-            ->has(
-                Project::factory(['id' => 1])
-                    ->has(Task::factory(3),
-                        'tasks'),
-                'projects')
+            ->has(Project::factory()->afterCreating(function (Project $project, User $user) {
+                Task::factory(3)
+                    ->for($user, 'author')
+                    ->for($project, 'project')
+                    ->create();
+            })
+                , 'projects')
             ->create());
 
         $this->get(route('myDay'))
@@ -41,6 +44,7 @@ class MyDayTasksTest extends TestCase
         $user = User::factory()->create();
         Task::factory(3)
             ->for(Project::factory()->for($user)->create(), 'project')
+            ->for($user, 'author')
             ->myDay($user)
             ->sequence(
                 ['title' => 'My Day Task #1'],
@@ -58,7 +62,9 @@ class MyDayTasksTest extends TestCase
     {
         $user = User::factory()->create();
         Project::factory(2)
-            ->has(Task::factory(3)->myDay($user)->sequence(
+            ->has(Task::factory(3)->myDay($user)
+                ->for($user, 'author')
+                ->sequence(
                 ['title' => 'My Day Task #1'],
                 ['title' => 'My Day Task #2'],
                 ['title' => 'My Day Task #3'],
