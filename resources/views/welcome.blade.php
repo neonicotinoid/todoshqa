@@ -59,19 +59,22 @@
                         построенное на
                         TALL стэке
                     </div>
-                    <div class="mt-8 flex space-x-4 items-center">
-                        <a href="{{route('login')}}" class="px-6 py-2.5 font-medium text-lg text-blue-50 bg-blue-500 rounded-xl shadow-md transform
-                                active:ring-2 active:ring-offset-1 ring-blue-500 active:scale-[0.98]
-                                duration-75
-                                ">
-                            Залогиниться
-                        </a>
-                        <button class="px-6 py-2.5 text-lg font-medium text-gray-800 border border-gray-100 bg-white-100 rounded-xl shadow-md
-                                active:ring-2 active:ring-offset-1 ring-blue-600 active:scale-[0.98]
-                                duration-75
-                                ">
-                            Документация
-                        </button>
+                    <div class="mt-8 flex space-x-4 items-start">
+                        @auth
+                            <div>
+                                <x-button href="{{route('dashboard')}}" color="blue" size="lg">К приложению</x-button>
+                                <div class="text-center text-xs mt-1 text-gray-500">
+                                    <p>Вы вошли как:</p>
+                                    <p class="font-semibold">{{ auth()->user()->name }}</p>
+                                </div>
+                            </div>
+                        @endauth
+
+                        @guest
+                        <x-button href="{{route('login')}}" color="blue" size="lg">Залогиниться</x-button>
+                        @endguest
+
+                        <x-button icon="heroicon-s-document-text" icon-on="right" size="lg" color="white">Документация</x-button>
                     </div>
                 </div>
                 <div class="relative flex justify-center items-center">

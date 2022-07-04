@@ -60,36 +60,56 @@
                     <x-button size="xs" color="primary" icon="heroicon-s-cube">Button</x-button>
                     <x-button size="xs" color="secondary" icon="heroicon-s-cube">Button</x-button>
                     <x-button size="xs" color="white" icon="heroicon-s-cube">Button</x-button>
+                    <x-button size="xs" color="blue" icon="heroicon-s-cube">Button</x-button>
+                    <x-button size="xs" color="red" icon="heroicon-s-cube">Button</x-button>
                 </div>
 
                 <div class="flex space-x-4">
                     <x-button size="sm" color="primary" icon="heroicon-s-cube">Button</x-button>
                     <x-button size="sm" color="secondary" icon="heroicon-s-cube">Button</x-button>
                     <x-button size="sm" color="white" icon="heroicon-s-cube">Button</x-button>
+                    <x-button size="xs" color="blue" icon="heroicon-s-cube">Button</x-button>
+                    <x-button size="xs" color="red" icon="heroicon-s-cube">Button</x-button>
                 </div>
 
                 <div class="flex space-x-4">
                     <x-button color="primary" icon="heroicon-s-cube">Button</x-button>
                     <x-button color="secondary" icon="heroicon-s-cube">Button</x-button>
                     <x-button color="white" icon="heroicon-s-cube">Button</x-button>
+                    <x-button color="blue" icon="heroicon-s-cube">Button</x-button>
+                    <x-button color="red" icon="heroicon-s-cube">Button</x-button>
                 </div>
 
                 <div class="flex space-x-4">
                     <x-button size="lg" color="primary" icon="heroicon-s-cube">Button</x-button>
                     <x-button size="lg" color="secondary" icon="heroicon-s-cube">Button</x-button>
                     <x-button size="lg" color="white" icon="heroicon-s-cube">Button</x-button>
+                    <x-button size="lg" color="blue" icon="heroicon-s-cube">Button</x-button>
+                    <x-button size="lg" color="red" icon="heroicon-s-cube">Button</x-button>
+                </div>
+
+                <div class="flex space-x-4">
+                    <x-button size="lg" color="primary" icon="heroicon-s-cube">Button</x-button>
+                    <x-button size="lg" color="secondary" icon="heroicon-s-cube">Button</x-button>
+                    <x-button size="lg" color="white" icon="heroicon-s-cube">Button</x-button>
+                    <x-button size="lg" color="blue" icon="heroicon-s-cube">Button</x-button>
+                    <x-button size="lg" color="red" icon="heroicon-s-cube">Button</x-button>
                 </div>
 
                 <div class="flex space-x-4">
                     <x-button size="xl" color="primary" icon="heroicon-s-cube">Button</x-button>
                     <x-button size="xl" color="secondary" icon="heroicon-s-cube">Button</x-button>
                     <x-button size="xl" color="white" icon="heroicon-s-cube">Button</x-button>
+                    <x-button size="xl" color="blue" icon="heroicon-s-cube">Button</x-button>
+                    <x-button size="xl" color="red" icon="heroicon-s-cube">Button</x-button>
                 </div>
 
                 <div class="flex space-x-4">
                     <x-button size="xl" color="primary" icon="heroicon-s-cube" icon-on="right">Button</x-button>
                     <x-button size="xl" color="secondary" icon="heroicon-s-cube" icon-on="right">Button</x-button>
                     <x-button size="xl" color="white" icon="heroicon-s-cube">Button</x-button>
+                    <x-button size="xl" color="blue" icon="heroicon-s-cube">Button</x-button>
+                    <x-button size="xl" color="red" icon="heroicon-s-cube">Button</x-button>
                 </div>
 
                 <div class="flex space-x-4">
@@ -97,6 +117,8 @@
                     <x-button color="secondary" icon="heroicon-s-cube" icon-on="right" disabled>Button</x-button>
                     <x-button color="white" icon="heroicon-s-cube" disabled>Button</x-button>
                 </div>
+
+
 
 
 
