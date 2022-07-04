@@ -141,6 +141,11 @@ class TasksListPageTest extends TestCase
             ->call('addNewTask')
             ->assertSee('This is new task title')
             ->assertSet('newTaskTitle', '');
+
+        $this->assertDatabaseHas('tasks', [
+            'title' => 'This is new task title',
+            'user_id' => $user->id
+        ]);
     }
 
     public function test_it_sort_tasks()
