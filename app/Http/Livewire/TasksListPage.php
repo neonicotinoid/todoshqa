@@ -55,6 +55,7 @@ class TasksListPage extends Component
     {
         $this->authorize( 'create', [Task::class, $this->project]);
         $this->validateOnly('newTaskTitle');
+
         $task = new Task(['title' => $this->newTaskTitle]);
         $task->author()->associate(auth()->user());
         $task->project()->associate($this->project)->save();

@@ -11,6 +11,9 @@ use Ramsey\Collection\Collection;
 
 
 /**
+ * @property int id;
+ * @property string title;
+ * @property string|null description;
  * @property User user;
  * @property Collection<Task> tasks;
  * @property Collection<User> users;
@@ -19,6 +22,8 @@ use Ramsey\Collection\Collection;
 class Project extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['title', 'description'];
 
     public function user(): BelongsTo
     {
