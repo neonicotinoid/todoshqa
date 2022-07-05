@@ -3,19 +3,16 @@
 namespace App\Http\Livewire;
 
 use App\Models\Task;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
 class SingleTaskWindow extends Component
 {
 
+    use AuthorizesRequests;
+
     public bool $isOpen = false;
-
     public ?Task $task = null;
-
-    public function mount()
-    {
-
-    }
 
     protected function getRules()
     {
@@ -42,7 +39,7 @@ class SingleTaskWindow extends Component
 
     public function saveTask()
     {
-//      TODO: Auth
+        $this->authorize('update', $this->task);
         $this->validate();
         $this->task->save();
         $this->emit('task-updated', $this->task->id);

@@ -65,7 +65,7 @@ class ProjectSharingWindow extends Component
     public function giveAccessToUser(ShareProjectToUserAction $action)
     {
         $this->authorize('share', $this->project);
-        $this->validateOnly('sharingEmail');
+        $this->validate();
         $action($this->project, User::query()->where('email', $this->sharingEmail)->first());
         $this->project->load('users');
     }

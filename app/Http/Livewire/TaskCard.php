@@ -5,10 +5,13 @@ namespace App\Http\Livewire;
 use App\Actions\AddTaskToMyDayAction;
 use App\Actions\RemoveTaskFromMyDayAction;
 use App\Models\Task;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
 class TaskCard extends Component
 {
+    use AuthorizesRequests;
+
     public int $taskId;
     public Task $task;
     public bool $inMyDay;
@@ -32,6 +35,7 @@ class TaskCard extends Component
 
     public function toggleTaskState()
     {
+        $this->authorize('update', $this->task);
         $this->task->completed_at
             ? $this->task->completed_at = null
             : $this->task->completed_at = now();
