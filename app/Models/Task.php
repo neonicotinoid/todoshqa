@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property Carbon updated_at;
  *
  * @property Project project;
+ * @property User author;
  */
 
 class Task extends Model
@@ -30,8 +31,6 @@ class Task extends Model
     protected $casts = [
         'deadline_date' => 'date:Y-m-d'
     ];
-
-
 
     public function project(): BelongsTo
     {

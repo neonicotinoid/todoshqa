@@ -10,8 +10,20 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Ramsey\Collection\Collection;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+
+
+/**
+ * @property int id;
+ * @property string email;
+ * @property string name;
+ *
+ * @property Collection<Project> projects;
+ * @property Collection<Project> shared_projects;
+ * @property Collection<Task> createdTasks;
+ */
 
 class User extends Authenticatable implements HasMedia
 {

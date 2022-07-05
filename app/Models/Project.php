@@ -7,6 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Ramsey\Collection\Collection;
+
+
+/**
+ * @property User user;
+ * @property Collection<Task> tasks;
+ * @property Collection<User> users;
+ */
 
 class Project extends Model
 {
