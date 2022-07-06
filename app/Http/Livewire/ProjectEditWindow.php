@@ -11,13 +11,8 @@ class ProjectEditWindow extends Component
 {
     use AuthorizesRequests;
 
-    public Project $project;
+    public ?Project $project;
     public bool $isWindowOpen = false;
-
-    public function mount(Project $project)
-    {
-        $this->project = $project;
-    }
 
     protected function getListeners()
     {
@@ -41,8 +36,9 @@ class ProjectEditWindow extends Component
         ];
     }
 
-    public function openWindow()
+    public function openWindow(Project $project)
     {
+        $this->project = $project;
         $this->isWindowOpen = true;
     }
 
@@ -56,7 +52,7 @@ class ProjectEditWindow extends Component
         $this->authorize('update', $this->project);
         $this->validate();
         $this->project->save();
-        $this->emitTo(TasksListPage::class, 'project-updated', $this->project);
+        $this->emitUp('project-updated', $this->project);
         $this->dispatchBrowserEvent('projectUpdated');
     }
 

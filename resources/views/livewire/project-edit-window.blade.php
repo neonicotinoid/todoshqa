@@ -73,13 +73,14 @@
                       form="project"
                       icon="heroicon-o-save"
                       icon-on="right"
+                      color="blue"
                       class="w-full">
                 Сохранить изменения
             </x-button>
             <div class="flex justify-center mt-2 text-gray-500 items-center">
                 <x-key>CMD</x-key> + <x-key>Enter</x-key>
                 <div class="text-xs text-gray-500 ml-2">
-                    to save and close
+                    сохранить и закрыть
                 </div>
             </div>
         </div>

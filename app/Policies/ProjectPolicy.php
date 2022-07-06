@@ -66,7 +66,8 @@ class ProjectPolicy
      */
     public function delete(User $user, Project $project)
     {
-        return $project->user->id === $user->id;
+
+        return $user->id === $project->user->id;
     }
 
     /**

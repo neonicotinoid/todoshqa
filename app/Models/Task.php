@@ -54,6 +54,11 @@ class Task extends Model
         return $query->where('completed_at', '!=', null);
     }
 
+    public function scopeOverdued(Builder $query): Builder
+    {
+        return $query->whereDate('deadline_date', '<', now());
+    }
+
     public function isInMyDay(User $user): bool
     {
         return $user->myDayTasks->contains($this);

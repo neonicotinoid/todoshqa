@@ -45,11 +45,17 @@ class CreateProjectWindow extends Component
         auth()->user()->projects()->save($project);
         $this->resetForm();
         $this->emitUp('project-created', $project->id);
+        $this->closeCreateProjectWindow();
     }
 
     public function openCreateProjectWindow()
-    {
+    {;
         $this->isWindowOpen = true;
+    }
+
+    public function closeCreateProjectWindow()
+    {
+        $this->isWindowOpen = false;
     }
 
     public function resetForm()

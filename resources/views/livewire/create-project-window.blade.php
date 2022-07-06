@@ -51,6 +51,7 @@
                               form="project"
                               icon="heroicon-o-save"
                               icon-on="right"
+                              color="blue"
                               class="w-full">
                         Сохранить изменения
                     </x-button>

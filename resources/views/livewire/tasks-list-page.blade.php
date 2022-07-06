@@ -13,7 +13,7 @@
             </div>
             <div>
                 <button x-data class="w-6 h-6 inline-flex justify-center items-center shadow-sm bg-white border border-gray-200 rounded p-1"
-                        @click="Livewire.emit('openProjectEditWindow');">
+                        @click="Livewire.emit('openProjectEditWindow', {{$project->id}});">
                     <x-heroicon-s-cog class="text-gray-400"/>
                 </button>
                 <button x-data class="w-6 h-6 inline-flex justify-center items-center shadow-sm bg-white border border-gray-200 rounded p-1"
@@ -98,7 +98,7 @@
             </form>
         </div>
 
-        <livewire:project-edit-window :project="$project"/>
+        <livewire:project-edit-window/>
         <livewire:project-sharing-window :project="$project"/>
 
         <livewire:single-task-window />
