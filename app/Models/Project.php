@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Ramsey\Collection\Collection;
 
 
@@ -22,8 +23,17 @@ use Ramsey\Collection\Collection;
 class Project extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = ['title', 'description'];
+
+    protected static function boot() {
+        parent::boot();
+
+        static::deleted(function (Project $project) {
+            $project->tasks()->delete();
+        });
+    }
 
     public function user(): BelongsTo
     {

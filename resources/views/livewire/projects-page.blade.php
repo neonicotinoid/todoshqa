@@ -35,6 +35,21 @@
                     @endforelse
                 </div>
             </div>
+
+            <div class="mt-12">
+                <div class="text-3xl font-semibold mb-2">
+                    Проекты в корзине
+                </div>
+                <div class="grid grid-cols-3 gap-6 px-2 md:px-0">
+                    @forelse($this->trashedProjects as $project)
+                        <x-project-card :project="$project"/>
+                    @empty
+                        <div class="text-gray-500 font-medium">
+                            У вас нет таких проектов
+                        </div>
+                    @endforelse
+                </div>
+            </div>
         </div>
     </main>
     <livewire:create-project-window/>

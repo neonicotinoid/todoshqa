@@ -9,8 +9,10 @@ use Illuminate\Support\Collection;
 /**
  * @property Collection projects;
  * @property Collection sharedProjects;
+ * @property Collection trashedProjects;
  */
 
+// TODO: Добавить интерфейс и логику delete, forceDelete и restore
 class ProjectsPage extends Component
 {
     public User $user;
@@ -27,14 +29,19 @@ class ProjectsPage extends Component
         ];
     }
 
-    public function getProjectsProperty()
+    public function getProjectsProperty(): Collection
     {
         return $this->user->projects;
     }
 
-    public function getSharedProjectsProperty()
+    public function getSharedProjectsProperty(): Collection
     {
         return $this->user->shared_projects;
+    }
+
+    public function getTrashedProjectsProperty(): Collection
+    {
+        return $this->user->projects()->onlyTrashed()->get();
     }
 
     public function render()
