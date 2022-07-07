@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Actions\CreateTaskFromArrayAction;
 use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Database\Eloquent\Builder;
@@ -21,7 +22,7 @@ class TasksListPage extends Component
 
     public Project $project;
     public string $sortBy;
-    public string $newTaskTitle = '';
+    public array $task = ['title' => ''];
 
     public function mount(Project $project, string $sortBy = 'created_desc')
     {
@@ -34,7 +35,7 @@ class TasksListPage extends Component
     public function rules()
     {
         return [
-            'newTaskTitle' => ['string', 'required', 'min:3'],
+            'task.title' => ['string', 'required', 'min:3'],
         ];
     }
 
@@ -51,16 +52,17 @@ class TasksListPage extends Component
         $this->project = $project;
     }
 
-    public function addNewTask(): Task
+    public function addNewTask()
     {
         $this->authorize( 'create', [Task::class, $this->project]);
-        $this->validateOnly('newTaskTitle');
+        $this->validate();
+        app(CreateTaskFromArrayAction::class)($this->task, $this->project, auth()->user());
+        $this->resetForm();
+    }
 
-        $task = new Task(['title' => $this->newTaskTitle]);
-        $task->author()->associate(auth()->user());
-        $task->project()->associate($this->project)->save();
-        $this->newTaskTitle = '';
-        return $task;
+    public function resetForm()
+    {
+        $this->task = ['title' => ''];
     }
 
     public function getActualTasksProperty(): Collection

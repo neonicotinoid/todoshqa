@@ -35,15 +35,15 @@
                         <h3 class="text-lg leading-6 font-medium text-gray-900">
                             Данные и настройки проекта
                         </h3>
-                        <x-heroicons-loading wire:loading wire:target="saveProject" class="w-4 h-4 animate-spin"/>
+                        <x-heroicons-loading wire:loading class="w-4 h-4 animate-spin"/>
                     </div>
 
 
                     <form class="space-y-4" wire:submit.prevent="saveTask">
-                        <x-form.group label="Название задачи">
+                        <x-form.group label="Название задачи" :error="$errors->first('task.title')">
                             <x-form.textarea rows="2" class="text-sm" wire:model.debounce.defer="task.title"/>
                         </x-form.group>
-                        <x-form.group label="Описание задачи">
+                        <x-form.group label="Описание задачи" :error="$errors->first('task.description')">
                             <x-form.textarea placeholder="Введите описание задачи..." class="text-sm" rows="4"
                                              wire:model.defer="task.description"/>
                         </x-form.group>
@@ -51,20 +51,36 @@
                         <div class="bg-gray-50 p-2 flex items-center rounded-lg justify-between">
                             <input class="text-sm border border-gray-200 rounded-lg px-2 py-1.5" type="date" wire:model="task.deadline_date"
                             >
-                            <button @click="$wire.call('resetDeadline')" class="inline-flex items-center bg-red-50 text-red-600 border border-red-300 rounded-lg py-1 px-2 text-xs" title="Сбросить дэдлайн">
-                                <x-heroicon-s-x class="w-3 h-3 mr-1.5"/>
-                                <span>Сбросить</span>
-                            </button>
+                            <x-button @click="$wire.call('resetDeadline')" icon="heroicon-s-x" icon-on="right" size="xs" color="red" title="Сбросить дэдлайн">Сбросить</x-button>
                         </div>
                     </form>
 
+                    @if($task)
                     <div class="mt-6">
-                        <x-button class="w-full" wire:click.prevent="saveTask" icon="heroicon-s-save">Сохранить изменения</x-button>
+                        <a class="inline-flex items-center text-sm text-blue-500 hover:text-blue-600 border-b border-blue-300 hover:border-blue-600 duration-150" href="{{route('task.show', ['task' => $task->id])}}">
+                            <x-heroicon-s-link class="w-4 h-4 mr-1.5"/>
+                            <span>Ссылка на задачу</span>
+                        </a>
+                    </div>
+                    @endif
+
+                    @if($task)
+                        <div class="mt-6">
+                            @if($task->isInMyDay(auth()->user()))
+                                <x-button wire:click="toggleInMyDay" color="blue">Убрать из Моего дня</x-button>
+                            @else
+                                <x-button wire:click="toggleInMyDay" color="blue">Добавить в "Мой день"</x-button>
+                            @endif
+                        </div>
+                    @endif
+
+                    <div class="mt-6">
+                        <x-button class="w-full" color="blue" wire:click.prevent="saveTask" icon="heroicon-s-save" icon-on="right">Сохранить изменения</x-button>
                     </div>
 
                     <div class="hidden md:block mt-6 text-sm text-gray-500 text-center">
                         <x-key>CMD</x-key> + <x-key>Enter</x-key>
-                        <span class="ml-2">to save and close</span>
+                        <span class="ml-2">сохранить и закрыть</span>
                     </div>
 
                 </div>

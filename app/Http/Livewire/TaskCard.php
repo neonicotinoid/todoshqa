@@ -26,6 +26,7 @@ class TaskCard extends Component
     public function refreshTask()
     {
         $this->task->refresh();
+        $this->inMyDay = $this->task->isInMyDay(auth()->user());
     }
 
     public function openTask(int $id)

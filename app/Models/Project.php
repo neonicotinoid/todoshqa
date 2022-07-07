@@ -45,6 +45,11 @@ class Project extends Model
         return $this->hasMany(Task::class, 'project_id', 'id');
     }
 
+    public function tasksWithTrashed(): HasMany
+    {
+        return $this->hasMany(Task::class, 'project_id', 'id')->withTrashed();
+    }
+
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'sharings', 'project_id', 'user_id')

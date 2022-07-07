@@ -23,6 +23,7 @@ class ProjectsPage extends Component
     public User $user;
     public ?Project $interactionProject;
     public bool $isTrashConfirmationOpen = false;
+    public bool $isForceDeleteConfirmationOpen = false;
 
     public function mount()
     {
@@ -49,6 +50,34 @@ class ProjectsPage extends Component
         $project->delete();
         $this->isTrashConfirmationOpen = false;
         $this->interactionProject = null;
+        $this->user->refresh();
+    }
+
+    public function askToForceDeleteProject(int $projectId)
+    {
+        $project = Project::withTrashed()->find($projectId);
+        $this->interactionProject = $project;
+        $this->isForceDeleteConfirmationOpen = true;
+    }
+
+    public function forceDeleteProject(int $projectId)
+    {
+        $project = Project::withTrashed()->find($projectId);
+        $this->authorize('forceDelete', $project);
+
+        $project->tasks()->forceDelete();
+        $project->forceDelete();
+
+        $this->isForceDeleteConfirmationOpen = false;
+        $this->interactionProject = null;
+        $this->user->refresh();
+    }
+
+    public function restoreProject(int $projectId)
+    {
+        $project = Project::onlyTrashed()->findOrFail($projectId);
+        $this->authorize('restore', $project);
+        $project->restore();
         $this->user->refresh();
     }
 

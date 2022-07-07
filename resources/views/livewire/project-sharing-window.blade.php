@@ -112,7 +112,7 @@
                 <div class="flex justify-center mt-2 text-gray-500 items-center">
                     <x-key>Esc</x-key>
                     <div class="text-xs text-gray-500 ml-2">
-                        to close
+                        чтобы закрыть
                     </div>
                 </div>
 

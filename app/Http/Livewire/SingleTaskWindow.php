@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire;
 
+use App\Actions\AddTaskToMyDayAction;
+use App\Actions\RemoveTaskFromMyDayAction;
 use App\Models\Task;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
@@ -13,6 +15,7 @@ class SingleTaskWindow extends Component
 
     public bool $isOpen = false;
     public ?Task $task = null;
+    public ?bool $inMyDay = null;
 
     protected function getRules()
     {
@@ -34,6 +37,7 @@ class SingleTaskWindow extends Component
     {
         $this->isOpen = true;
         $this->task = $task;
+        $this->inMyDay = $this->task->isInMyDay(auth()->user());
         $this->dispatchBrowserEvent('task-sidebar-open', $this->task);
     }
 
@@ -48,6 +52,24 @@ class SingleTaskWindow extends Component
     public function resetDeadline()
     {
         $this->task->deadline_date = null;
+    }
+
+    public function toggleInMyDay(AddTaskToMyDayAction $add, RemoveTaskFromMyDayAction $remove)
+    {
+        $this->authorize('update', $this->task);
+
+        $this->inMyDay
+            ? $remove($this->task, auth()->user())
+            : $add($this->task, auth()->user(), now());
+
+        $this->refreshTask();
+        $this->emit('task-updated', $this->task->id);
+    }
+
+    public function refreshTask()
+    {
+        $this->task->refresh();
+        $this->inMyDay = $this->task->isInMyDay(auth()->user());
     }
 
     public function render()

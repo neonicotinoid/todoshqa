@@ -77,7 +77,7 @@
                       class="w-full">
                 Сохранить изменения
             </x-button>
-            <div class="flex justify-center mt-2 text-gray-500 items-center">
+            <div class="hidden md:flex justify-center mt-2 text-gray-500 items-center text-center">
                 <x-key>CMD</x-key> + <x-key>Enter</x-key>
                 <div class="text-xs text-gray-500 ml-2">
                     сохранить и закрыть

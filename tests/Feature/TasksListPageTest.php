@@ -137,14 +137,15 @@ class TasksListPageTest extends TestCase
 
         Livewire::actingAs($user)
             ->test(TasksListPage::class, ['project' => Project::find(1)])
-            ->set('newTaskTitle', 'This is new task title')
+            ->set('task.title', 'This is new task title')
             ->call('addNewTask')
             ->assertSee('This is new task title')
-            ->assertSet('newTaskTitle', '');
+            ->assertSet('task.title', '');
 
         $this->assertDatabaseHas('tasks', [
             'title' => 'This is new task title',
-            'user_id' => $user->id
+            'user_id' => $user->id,
+            'project_id' => 1,
         ]);
     }
 
