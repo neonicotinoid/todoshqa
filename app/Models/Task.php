@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -34,31 +33,52 @@ class Task extends Model
         'deadline_date' => 'date:Y-m-d'
     ];
 
+
+    /**
+     *  Проект, к которому принадлежит Задача
+     */
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class, 'project_id', 'id');
     }
 
+    /**
+     * Создатель, автор задачи
+     */
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
+    /**
+     * Актуальные невыполненные задачи
+     */
     public function scopeActual(Builder $query): Builder
     {
         return $query->where('completed_at', '=',null);
     }
 
+    /**
+     * Завершенные задачи
+     */
     public function scopeCompleted(Builder $query): Builder
     {
         return $query->where('completed_at', '!=', null);
     }
 
+
+    /**
+     * Просроченные задачи
+     */
     public function scopeOverdued(Builder $query): Builder
     {
         return $query->whereDate('deadline_date', '<', now());
     }
 
+
+    /**
+     * Находится ли Задача в разделе "Мой день" для указанного пользователя
+     */
     public function isInMyDay(User $user): bool
     {
         return $user->myDayTasks->contains($this);

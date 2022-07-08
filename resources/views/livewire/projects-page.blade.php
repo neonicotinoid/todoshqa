@@ -5,7 +5,7 @@
             <div class="mt-6">
                 <div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
                     <div class="text-xl md:text-3xl font-semibold mb-2 md:mb-0">
-                        Ваши проекты
+                        Your projects
                     </div>
                     <x-button x-data="" icon="heroicon-s-plus" icon-on="right" size="sm" color="blue" @click="Livewire.emit('openCreateProjectWindow')">Создать проект</x-button>
                 </div>
@@ -21,7 +21,7 @@
             <div class="mt-6">
                 <div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
                     <div class="text-xl md:text-3xl font-semibold mb-2 md:mb-0">
-                        Проекты в корзине
+                        Trashed projects
                     </div>
                 </div>
 

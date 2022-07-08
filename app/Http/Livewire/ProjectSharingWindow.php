@@ -27,10 +27,13 @@ class ProjectSharingWindow extends Component
     public function rules(): array
     {
         return [
-            'sharingEmail' => ['required', 'email',
+            'sharingEmail' => [
+                'required',
+                'email',
                 Rule::exists('users', 'email')
                     ->where(function ($query) {return $query->where('id', '!=', $this->project->user->id);}
-                    )],
+                    )
+            ],
         ];
     }
 
@@ -55,11 +58,6 @@ class ProjectSharingWindow extends Component
     public function closeWindow()
     {
         $this->isWindowOpen = false;
-    }
-
-    public function getUser()
-    {
-        return auth()->user();
     }
 
     public function giveAccessToUser(ShareProjectToUserAction $action)

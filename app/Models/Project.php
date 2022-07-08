@@ -27,6 +27,7 @@ class Project extends Model
 
     protected $fillable = ['title', 'description'];
 
+    // В случае мягкого удаления проекта, удаляются и все вложенные в него задачи
     protected static function boot() {
         parent::boot();
 
@@ -35,21 +36,34 @@ class Project extends Model
         });
     }
 
+    /**
+     * Автор, владелец проекта
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
+    /**
+     * Все задачи, находящиеся в проекте
+     */
     public function tasks(): HasMany
     {
         return $this->hasMany(Task::class, 'project_id', 'id');
     }
 
+    /**
+     * Все задачи в проекте, включая удаленные через Soft Delete
+     */
     public function tasksWithTrashed(): HasMany
     {
         return $this->hasMany(Task::class, 'project_id', 'id')->withTrashed();
     }
 
+
+    /**
+     * Все пользователя, которым расшарен доступ к проекту (исключая владельца)
+     */
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'sharings', 'project_id', 'user_id')

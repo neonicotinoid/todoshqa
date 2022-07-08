@@ -78,6 +78,7 @@
                     <x-button color="white" icon="heroicon-s-cube">Button</x-button>
                     <x-button color="blue" icon="heroicon-s-cube">Button</x-button>
                     <x-button color="red" icon="heroicon-s-cube">Button</x-button>
+                    <x-button color="yellow" icon="heroicon-s-cube">Button</x-button>
                 </div>
 
                 <div class="flex space-x-4">

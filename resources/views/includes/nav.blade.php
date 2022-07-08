@@ -7,9 +7,9 @@
                 </div>
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-4">
-                        <x-nav-link :is-active="request()->routeIs('dashboard')" href="{{route('dashboard')}}">Дашборд</x-nav-link>
-                        <x-nav-link :is-active="request()->routeIs('myDay')" :href="route('myDay')">Мой день</x-nav-link>
-                        <x-nav-link :is-active="request()->routeIs('projects.index')" href="{{route('project.index')}}">Проекты</x-nav-link>
+                        <x-nav-link :is-active="request()->routeIs('dashboard')" href="{{route('dashboard')}}">Dashboard</x-nav-link>
+                        <x-nav-link :is-active="request()->routeIs('myDay')" :href="route('myDay')">My day</x-nav-link>
+                        <x-nav-link :is-active="request()->routeIs('projects.index')" href="{{route('project.index')}}">Projects</x-nav-link>
                     </div>
                 </div>
             </div>
@@ -40,11 +40,11 @@
                              role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
                             <!-- Active: "bg-gray-100", Not Active: "" -->
                             <a href="{{route('profile')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1">
-                                Ваш профиль
+                                Your profile
                             </a>
 
                             <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1">
-                                Настройки
+                                Settings
                             </a>
 
                             <form id="logout" method="POST" action="{{route('logout')}}" class="hidden">
@@ -53,7 +53,7 @@
                             <button
                                 form="logout"
                                     class="block text-left w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1">
-                                Выйти
+                                Sign out
                             </button>
                         </div>
                     </div>
@@ -63,19 +63,11 @@
                 <!-- Mobile menu button -->
                 <button type="button" class="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
                     <span class="sr-only">Open main menu</span>
-                    <!--
-                      Heroicon name: outline/menu
 
-                      Menu open: "hidden", Menu closed: "block"
-                    -->
                     <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
-                    <!--
-                      Heroicon name: outline/x
 
-                      Menu open: "block", Menu closed: "hidden"
-                    -->
                     <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>

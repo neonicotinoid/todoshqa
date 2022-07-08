@@ -72,6 +72,15 @@ class SingleTaskWindow extends Component
         $this->inMyDay = $this->task->isInMyDay(auth()->user());
     }
 
+    public function deleteTask()
+    {
+        $this->authorize('forceDelete', $this->task);
+        $this->task->forceDelete();
+        $this->isOpen = false;
+        $this->task = null;
+        $this->emitUp('task-deleted');
+    }
+
     public function render()
     {
         return view('livewire.single-task-window');

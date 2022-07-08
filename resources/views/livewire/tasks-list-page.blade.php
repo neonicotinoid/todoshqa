@@ -6,7 +6,7 @@
 
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
             <div>
-                <h1 class="text-xl md:text-3xl font-bold text-gray-900">
+                <h1 class="text-xl md:text-3xl font-semibold md:font-bold text-gray-900">
                     {{$project->title}}
                 </h1>
                 @if($project->description)
@@ -42,35 +42,40 @@
             <div class="space-y-4 px-2 md:px-0">
                 <div class="flex justify-between">
                     <div>
+                        <x-heroicons-loading wire:loading class="w-5 h-5 text-blue-500 animate-spin"/>
+                    </div>
+
+                    <div>
                         <select
                             wire:model="sortBy"
                             class="text-sm px-2 py-1 pr-8 rounded-md border-gray-200 bg-gray-50 text-gray-700">
-                            <option value="created_desc">новые сверху</option>
-                            <option value="deadline_asc">новые снизу</option>
-                            <option value="deadline">по дэдлайну</option>
+                            <option value="created_desc">newest first</option>
+                            <option value="deadline_asc">newest last</option>
+                            <option value="deadline">by deadline</option>
                         </select>
-                    </div>
-                    <div>
-                        <x-heroicons-loading wire:loading class="w-5 h-5 text-blue-500 animate-spin"/>
                     </div>
                 </div>
 
                 <form class="relative" wire:submit.prevent="addNewTask">
-                    <input wire:model.defer="task.title" placeholder="Добавить задачу..." class="w-full px-4 py-2 bg-gray-200 placeholder:text-gray-300 rounded-xl border-2 border-transparent focus:border-blue-200 focus:bg-white duration-300 ease-in-out" type="text">
-                    <div class="absolute right-2 top-2">
-                        <button class="flex items-center px-2 py-1 bg-slate-100 rounded-lg text-slate-500">
-                            <x-heroicon-s-plus-sm class="w-5 h-5 mr-0.5"/>
-                            <span class="text-xs">
-                                Добавить
+                    <div class="flex items-center pb-2 border-b border-gray-200">
+                        <x-form.text wire:model.defer="task.title" placeholder="add new task..."/>
+                    </div>
+                    <div class="absolute right-2 top-3">
+                        <button class="bg-white rounded-lg shadow-sm border border-slate-200 text-xs text-slate-500 px-2.5 py-1.5 flex items-center">
+                            <x-heroicon-s-plus class="w-3.5 h-3.5 mr-1.5"/>
+                            <span>
+                                Add
                             </span>
                         </button>
+{{--                        <x-button icon="heroicon-s-plus-sm" icon-on="right" color="white" size="xs">Добавить</x-button>--}}
                     </div>
                 </form>
+
                 @forelse($this->actualTasks as $task)
                     <livewire:task-card :task="$task" :wire:key="$task->id"/>
                 @empty
                     <div class="text-gray-500 font-medium p-4 text-center border rounded-lg">
-                        У вас нет актуальных задач в этом проекте
+                        you don't have any actual tasks in this project
                     </div>
                 @endforelse
             </div>
@@ -78,11 +83,11 @@
 
             <div class="mt-10 px-2 md:px-0" x-data="{isOpen: true}">
                 <div class="flex items-center">
-                    <h2 class="text-xl font-semibold text-gray-500">
-                        Завершенные задачи
+                    <h2 class="text-lg font-medium text-gray-800">
+                        Completed tasks
                     </h2>
 
-                    <x-button size="xs" color="white" class="ml-2" @click="isOpen = !isOpen" x-text="isOpen ? 'Скрыть' : 'Показать'">Скрыть</x-button>
+                    <x-button size="xs" color="white" class="ml-2" @click="isOpen = !isOpen" x-text="isOpen ? 'Hide' : 'Show'">Hide</x-button>
                 </div>
 
                 <div class="mt-4 space-y-4" x-show="isOpen" @keydown.ctrl.shift.d.window="isOpen = !isOpen">
@@ -90,7 +95,7 @@
                         <livewire:task-card :task="$task" :wire:key="$task->id" />
                     @empty
                         <div class="font-medium text-gray-400 text-sm">
-                            Пока в проекте нет выполненных задач
+                            You don't have completed tasks in this project
                         </div>
                     @endforelse
                 </div>
@@ -135,8 +140,8 @@
                             </div>
 
                             <div class="flex flex-col space-y-4">
-                                <x-button x-data color="white" icon="heroicon-s-cog" icon-on="right" @click="isOpen = false; Livewire.emit('openProjectEditWindow', {{$project->id}});">Редактировать</x-button>
-                                <x-button x-data color="white" icon="heroicon-s-share" icon-on="right" @click="isOpen = false; Livewire.emit('openProjectSharingWindow');">Настройки доступа</x-button>
+                                <x-button x-data="" color="white" icon="heroicon-s-cog" icon-on="right" @click="isOpen = false; Livewire.emit('openProjectEditWindow', {{$project->id}});">Редактировать</x-button>
+                                <x-button x-data="" color="white" icon="heroicon-s-share" icon-on="right" @click="isOpen = false; Livewire.emit('openProjectSharingWindow');">Настройки доступа</x-button>
                             </div>
 
                             <div class="mt-6">

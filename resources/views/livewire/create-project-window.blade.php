@@ -24,20 +24,18 @@
                     <div class="">
                         <div class="flex justify-between items-center mb-4">
                             <h3 class="text-lg leading-6 font-medium text-gray-900">
-                                Добавить новый проект
+                                Create project
                             </h3>
                             <x-heroicons-loading wire:loading class="w-4 h-4 animate-spin"/>
                         </div>
 
-                        {{--                TODO: Добавить оповещение, что редактировать проект может только владелец--}}
-
                         <form id="project" wire:submit.prevent="createProject" class="space-y-4">
 
-                            <x-form.group label="Названия проекта" :error="$errors->first('projectTitle')" wire:ignore>
+                            <x-form.group label="Project name" :error="$errors->first('projectTitle')" wire:ignore>
                                 <x-form.text name="project_name" wire:model="projectTitle"/>
                             </x-form.group>
 
-                            <x-form.group label="Описание проекта" :error="$errors->first('projectDescription')" wire:ignore>
+                            <x-form.group label="Project description" :error="$errors->first('projectDescription')" wire:ignore>
                                 <x-form.textarea name="project_description" wire:model="projectDescription"/>
                             </x-form.group>
 

@@ -24,7 +24,7 @@
             <div class="">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-lg leading-6 font-medium text-gray-900">
-                        Данные и настройки проекта
+                        Edit project
                     </h3>
                     <x-heroicons-loading wire:loading wire:target="saveProject" class="w-4 h-4 animate-spin"/>
                 </div>
@@ -65,7 +65,7 @@
                     x-transition:leave-start="opacity-100"
                     x-transition:leave-end="opacity-0"
                     class="text-sm text-green-600">
-                    <span>Сохранено!</span>
+                    <span>Saved!</span>
                 </div>
             </div>
 
@@ -75,12 +75,12 @@
                       icon-on="right"
                       color="blue"
                       class="w-full">
-                Сохранить изменения
+                Save changes
             </x-button>
             <div class="hidden md:flex justify-center mt-2 text-gray-500 items-center text-center">
                 <x-key>CMD</x-key> + <x-key>Enter</x-key>
                 <div class="text-xs text-gray-500 ml-2">
-                    сохранить и закрыть
+                    save and close
                 </div>
             </div>
         </div>

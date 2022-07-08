@@ -41,16 +41,18 @@ class TaskCard extends Component
             ? $this->task->completed_at = null
             : $this->task->completed_at = now();
         $this->task->save();
+
         $this->emitUp('task-status-updated');
     }
 
     public function updatedInMyDay(bool $value)
     {
         if ($value) {
-            (new AddTaskToMyDayAction())($this->task, auth()->user(), now());
+            app(AddTaskToMyDayAction::class)($this->task, auth()->user(), now());
             return;
         }
-        (new RemoveTaskFromMyDayAction())($this->task, auth()->user());
+        app(RemoveTaskFromMyDayAction::class)($this->task, auth()->user());
+
         $this->emitUp('task-added-to-my-day', $this->task->id);
     }
 

@@ -23,6 +23,7 @@
                    'bg-white text-gray-800 border border-gray-200 shadow-sm hover:bg-gray-50 active:ring-blue-600' => $color === 'white',
                    'bg-blue-500 hover:bg-blue-600 text-blue-50 shadow-sm active:ring-blue-600' => $color === 'blue',
                    'bg-red-50 text-red-600 border border-red-300 focus:ring-red-200 active:ring-red-600' => $color === 'red',
+                   'bg-yellow-300 text-yellow-900 hover:bg-yellow-300 focus:ring-yellow-300 active:ring-yellow-400' => $color === 'yellow',
 
 
                    'py-1.5 px-2 text-xs rounded-lg' => $size === 'xs',

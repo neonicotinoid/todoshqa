@@ -44,6 +44,7 @@ class TasksListPage extends Component
         return [
             'project-updated' => 'updateProjectInfo',
             'task-status-updated' => 'render',
+            'task-deleted' => 'render',
         ];
     }
 

@@ -42,8 +42,11 @@
             @endif
 
             @if($task->description)
-                <div class="inline-flex items-center justify-center bg-gray-100 text-xs md:text-sm text-gray-400 px-2 py-0.5 rounded-lg" title="This task contain additional description">
-                    <x-heroicon-s-pencil-alt class="w-3.5 h-3.5"/>
+                <div class="inline-flex items-center justify-center bg-gray-50 text-xs md:text-sm text-gray-400 px-2 py-0.5 rounded-lg" title="This task contain additional description">
+                    <x-heroicon-o-menu-alt-2 class="w-3.5 h-3.5 mr-1"/>
+                    <span>
+                        note
+                    </span>
                 </div>
             @endif
         </div>
@@ -58,15 +61,17 @@
             </button>
             <a href="{{route('task.show', ['task' => $task->id])}}"
                target="_blank"
+               class="hidden md:block"
             >
                 <x-heroicon-s-link class="w-4 h-4 text-gray-300"/>
             </a>
 
             <label x-data="{isChecked: @entangle('inMyDay')}">
                 <x-heroicon-s-light-bulb
-                    x-bind:class="{'text-yellow-500': isChecked, 'text-gray-300': ! isChecked}"
-                    class="w-5 h-5 text-gray-300 cursor-pointer"/>
+                    x-bind:class="{'text-yellow-500 bg-yellow-100': isChecked, 'text-gray-300': ! isChecked}"
+                    class="w-6 h-6 p-0.5 text-gray-300 rounded-full cursor-pointer"/>
                 <input
+                    title="Добавить в мой день"
                     class="hidden"
                     type="checkbox"
                     wire:model="inMyDay"
