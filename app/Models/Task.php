@@ -30,6 +30,8 @@ class Task extends Model
 
     protected $fillable = ['title', 'description'];
 
+    protected $appends = ['is_completed'];
+
     protected $casts = [
         'deadline_date' => 'date:Y-m-d'
     ];
@@ -57,6 +59,11 @@ class Task extends Model
     public function isInMyDay(User $user): bool
     {
         return $user->myDayTasks->contains($this);
+    }
+
+    public function getIsCompletedAttribute(): bool
+    {
+        return (bool) $this->completed_at;
     }
 
 }

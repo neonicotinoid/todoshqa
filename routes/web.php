@@ -1,6 +1,8 @@
 <?php
 
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,8 +16,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return Inertia::render('Welcome', [
+        'tasks' => \App\Models\Task::query()->get()->append('is_completed'),
+    ]);
 });
+
+Route::get('/dashboard', function () {
+    return Inertia::render('Dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
 
 Route::get('/dashboard', \App\Http\Controllers\DashboardController::class)->middleware(['auth'])->name('dashboard');
 Route::get('/profile', [\App\Http\Controllers\UserController::class, 'show'])->middleware(['auth'])->name('profile');
@@ -26,7 +35,9 @@ Route::resource('project', \App\Http\Controllers\ProjectController::class)
 
 Route::resource('task', \App\Http\Controllers\TaskController::class)
     ->middleware(['auth'])
-    ->only(['show']);
+    ->only(['show', 'update']);
+
+Route::post('task/{task}/toggle', [\App\Http\Controllers\TaskController::class, 'completeTask'])->name('task.complete');
 
 Route::get('myday', [\App\Http\Controllers\TaskController::class, 'myDay'])
     ->middleware(['auth'])
