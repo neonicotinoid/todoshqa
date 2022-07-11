@@ -35,9 +35,10 @@ Route::resource('project', \App\Http\Controllers\ProjectController::class)
 
 Route::resource('task', \App\Http\Controllers\TaskController::class)
     ->middleware(['auth'])
-    ->only(['show', 'update']);
+    ->only(['show', 'update', 'store', 'destroy']);
 
-Route::post('task/{task}/toggle', [\App\Http\Controllers\TaskController::class, 'completeTask'])->name('task.complete');
+Route::post('task/{task}/toggle', [\App\Http\Controllers\TaskController::class, 'completeTask'])->name('task.complete')->middleware(['auth']);
+Route::post('task/{task}/myday', [\App\Http\Controllers\TaskController::class, 'toggleToMyDay'])->name('task.myday')->middleware(['auth']);
 
 Route::get('myday', [\App\Http\Controllers\TaskController::class, 'myDay'])
     ->middleware(['auth'])

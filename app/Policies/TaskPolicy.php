@@ -32,7 +32,7 @@ class TaskPolicy
 
     public function forceDelete(User $user, Task $task)
     {
-        return $task->project->user->id === $user->id;
+        return $task->project->user->id === $user->id || $task->author->id === $user->id;
     }
 
 }

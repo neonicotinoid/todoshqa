@@ -27,7 +27,7 @@
         </div>
     </header>
 
-    <main>
+    <main class="bg-gray-100 min-h-screen">
         <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
             <div class="space-y-4 px-2 md:px-0">
                 <div class="flex justify-between">
@@ -45,6 +45,10 @@
                     </div>
                 </div>
 
+                <div>
+                    <NewTaskForm :project="this.project" />
+                </div>
+
                 <TransitionGroup
                     enter-active-class="transition ease-out duration-300"
                     enter-from-class="opacity-0 translate-y-95"
@@ -53,8 +57,30 @@
                     leave-from-class="opacity-100 translate-y-100"
                     leave-to-class="opacity-0 translate-y-95"
                 appear>
-                    <TTask v-for="task in tasks" :task="task" :key="task.id" @openTaskEdit="openTaskEdit"/>
+                    <TTask v-for="task in actualTasks" :task="task" :key="task.id" @openTaskEdit="openTaskEdit"/>
                 </TransitionGroup>
+
+                <div>
+                    <div class="flex justify-between">
+                        <h2 class="text-xl font-semibold text-gray-500">
+                            Законченные задачи
+                        </h2>
+                    </div>
+                    <div class="space-y-4">
+                        <TransitionGroup
+                            enter-active-class="transition ease-out duration-300"
+                            enter-from-class="opacity-0 translate-y-95"
+                            enter-to-class="opacity-100 translate-y-100"
+                            leave-active-class="transition ease-in duration-300"
+                            leave-from-class="opacity-100 translate-y-100"
+                            leave-to-class="opacity-0 translate-y-95"
+                            appear>
+                            <TTask v-for="task in completedTasks" :task="task" :key="task.id"
+                                   @openTaskEdit="openTaskEdit"/>
+                        </TransitionGroup>
+                    </div>
+                </div>
+
             </div>
         </div>
         <ModalTaskEdit
@@ -71,10 +97,11 @@ import {Inertia} from "@inertiajs/inertia";
 import TModal from "@/components/TModal";
 import TButton from "@/components/TButton";
 import ModalTaskEdit from "@/components/ModalTaskEdit";
+import NewTaskForm from "@/components/NewTaskForm";
 
 export default {
     name: "Project",
-    components: {ModalTaskEdit, TButton, TModal, TTask},
+    components: {NewTaskForm, ModalTaskEdit, TButton, TModal, TTask},
     props: {
         errors: {
             type: Object,
@@ -82,7 +109,10 @@ export default {
         project: {
             type: Object,
         },
-        tasks: {
+        actualTasks: {
+            type: Array,
+        },
+        completedTasks: {
             type: Array,
         },
     },
@@ -103,7 +133,7 @@ export default {
         sorting: {
             handler: function () {
                 Inertia.visit(route('project.show', this.project.id), {
-                    only: ['tasks'],
+                    only: ['actualTasks'],
                     data: {sorting: this.sorting},
                     preserveState: true,
                 });

@@ -9,7 +9,14 @@
                 <TextInput v-model="taskForm.description" name="description"/>
             </div>
             <div class="mt-6">
+                <div class="bg-gray-50 p-2 flex items-center rounded-lg justify-between">
+                    <input v-model="taskForm.deadline_date" class="text-sm border border-gray-200 rounded-lg px-2 py-1.5" type="date"
+                    >
+                </div>
+            </div>
+            <div class="mt-6 flex justify-between">
                 <TButton>Save changes</TButton>
+                <TButton color="red" size="xs" @click.prevent="remove">Удалить задачу</TButton>
             </div>
         </form>
     </TModal>
@@ -31,34 +38,28 @@ export default {
             default: false,
         }
     },
-    mounted() {
-        console.log('mounted');
-    },
     methods: {
         saveTask() {
             this.taskForm.patch(route('task.update', this.taskInitial.id), {errorBag: 'task'});
-        }
+        },
+        remove() {
+            this.$inertia.form({}).delete(route('task.destroy', this.taskInitial.id), {
+                onSuccess: () => this.$emit('close'),
+                preserveScroll: true,
+            });
+        },
     },
     data() {
         return {
             taskForm: this.$inertia.form({
                 id: this.taskInitial.id,
+                deadline_date: this.taskInitial.deadline_date,
                 title: this.taskInitial.title,
                 description: this.taskInitial.description,
             }),
         }
     },
-    watch: {
-        open: {
-            handler(newValue) {
-                if(!newValue) {
-                    this.taskForm.clearErrors();
-                }
-            }
-        }
-    },
     beforeUnmount() {
-        console.log('beforeUnmount');
         this.taskForm.clearErrors();
     }
 }

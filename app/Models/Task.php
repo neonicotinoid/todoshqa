@@ -28,9 +28,9 @@ class Task extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = ['title', 'description'];
+    protected $fillable = ['title', 'description', 'deadline_date'];
 
-    protected $appends = ['is_completed'];
+    protected $appends = ['is_completed', 'isInMyDay', 'deadline_status'];
 
     protected $casts = [
         'deadline_date' => 'date:Y-m-d'
@@ -59,6 +59,26 @@ class Task extends Model
     public function isInMyDay(User $user): bool
     {
         return $user->myDayTasks->contains($this);
+    }
+
+    public function getIsInMyDayAttribute()
+    {
+        return auth()->user()->myDayTasks->contains($this);
+    }
+
+    public function getDeadlineStatusAttribute()
+    {
+        if ($this->completed_at) {
+            return 'completed';
+        }
+
+        if ($this->deadline_date?->isPast() && !$this->deadline_date?->isToday()) {
+            return 'overdued';
+        }
+
+        if ($this->deadline_date?->isFuture() || $this->deadline_date?->isToday()) {
+            return 'inWork';
+        }
     }
 
     public function getIsCompletedAttribute(): bool

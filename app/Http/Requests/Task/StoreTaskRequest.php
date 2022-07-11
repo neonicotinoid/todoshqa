@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests\Task;
 
+use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class UpdateTaskRequest extends FormRequest
+class StoreTaskRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,7 +15,7 @@ class UpdateTaskRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->can('update', Task::find($this->get('id')));
+        return auth()->user()->can('create', [Task::class, Project::find($this->project_id)]);
     }
 
     /**
@@ -26,10 +26,8 @@ class UpdateTaskRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => ['integer', 'exists:tasks,id'],
-            'title' => ['required', 'string', 'min:3'],
-            'description' => ['string', 'nullable'],
-            'deadline_date' => ['date', 'nullable'],
+            'title' => ['string', 'required', 'min:3'],
+            'project_id' => ['integer', 'exists:projects,id'],
         ];
     }
 }

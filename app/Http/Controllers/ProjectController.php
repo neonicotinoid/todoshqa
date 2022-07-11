@@ -20,8 +20,9 @@ class ProjectController extends Controller
     public function show(Request $request, Project $project)
     {
         $this->authorize('view', $project);
-        $tasks = $project->tasks()
-            ->when(!$request->sorting && $request->sorting === 'created_desc', function (Builder $query) {
+        $actualTasks = $project->tasks()
+            ->actual()
+            ->when(!$request->sorting || $request->sorting === 'created_desc', function (Builder $query) {
                 return $query->orderBy('created_at', 'DESC');
             })
             ->when($request->sorting === 'created_asc', function (Builder $query) {
@@ -31,9 +32,13 @@ class ProjectController extends Controller
                 return $query->orderByRaw("ifnull(deadline_date, '9999-12-31') ASC");
             })
             ->get();
+
+        $completedTasks = $project->tasks()->completed()->get();
+
         return Inertia::render('Project', [
             'project' => $project,
-            'tasks' => $tasks,
+            'actualTasks' => $actualTasks,
+            'completedTasks' => $completedTasks
         ]);
     }
 }
