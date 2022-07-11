@@ -1,54 +1,51 @@
 <template>
     <TModal :showing="open">
-        <form @submit.prevent="saveProject">
+        <form @submit.prevent="createProject">
             <div>
                 <TextInput v-model="projectForm.title" />
             </div>
             <div>
                 <TextInput v-model="projectForm.description"/>
             </div>
-
             <div class="mt-6">
-                <TButton>Сохранить</TButton>
+                <TButton>Создать проект</TButton>
             </div>
         </form>
-
     </TModal>
 </template>
 
 <script>
-import TModal from "@/components/TModal";
 import TextInput from "@/components/Form/TextInput";
+import TModal from "@/components/TModal";
 import TButton from "@/components/TButton";
+
 export default {
-    name: "ModalProjectEdit",
+    name: "ModalProjectCreate",
     components: {TButton, TextInput, TModal},
     props: {
         open: {
             type: Boolean,
             default: false,
         },
-        project: {
-            type: Object,
-            required: true,
-        },
     },
     data() {
         return {
             projectForm: this.$inertia.form({
-                id: this.project.id,
-                title: this.project.title,
-                description: this.project.description,
+                title: '',
+                description: '',
             })
         }
     },
     methods: {
-        saveProject() {
-            this.projectForm.put(route('project.update', this.project.id), {
-                onSuccess: () => {this.$emit('close')},
-            });
-        },
+        createProject() {
+            this.projectForm.post(route('project.store'), {
+                onSuccess: () => {this.$emit('close');}
+            })
+        }
     }
 }
 </script>
 
+<style scoped>
+
+</style>

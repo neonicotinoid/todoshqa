@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProjectStoreRequest;
+use App\Http\Requests\ProjectUpdateRequest;
 use App\Models\Project;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -17,10 +19,20 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(ProjectStoreRequest $request)
     {
-        $this->authorize('create', Project::class);
-        
+        $project = new Project($request->validated());
+        auth()->user()->projects()->save($project);
+
+        return back()->with('success', 'Project created');
+    }
+
+    public function update(ProjectUpdateRequest $request, Project $project)
+    {
+        $project->fill($request->only('title', 'description'));
+        $project->save();
+
+        return back()->with('success', 'Project updated');
 
     }
 

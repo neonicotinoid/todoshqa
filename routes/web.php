@@ -29,7 +29,7 @@ Route::get('/profile', [\App\Http\Controllers\UserController::class, 'show'])->m
 
 Route::resource('project', \App\Http\Controllers\ProjectController::class)
     ->middleware(['auth'])
-    ->only(['index', 'show']);
+    ->only(['index', 'show', 'store', 'update']);
 
 Route::resource('task', \App\Http\Controllers\TaskController::class)
     ->middleware(['auth'])
