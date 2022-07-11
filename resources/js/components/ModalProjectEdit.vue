@@ -2,12 +2,12 @@
     <TModal :showing="open">
         <form @submit.prevent="saveProject">
             <div class="space-y-4">
-                <FormGroup label="Название проекта" for="title">
-                    <TextInput v-model="projectForm.title" id="title" />
+                <FormGroup label="Название проекта" for="title" :error="this.projectForm.errors.title">
+                    <TextInput v-model="projectForm.title" id="title" :is-error="Boolean(this.projectForm.errors.title)"/>
                 </FormGroup>
 
-                <FormGroup label="Описание" for="description">
-                    <TextareaInput v-model="projectForm.description" id="description"/>
+                <FormGroup label="Описание" for="description" :error="this.projectForm.errors.description">
+                    <TextareaInput v-model="projectForm.description" id="description" :is-error="Boolean(this.projectForm.errors.description)"/>
                 </FormGroup>
             </div>
 

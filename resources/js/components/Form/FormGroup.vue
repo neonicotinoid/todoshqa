@@ -4,6 +4,11 @@
             {{ label }}
         </label>
         <slot/>
+        <div class="h-4">
+            <span class="text-red-500 text-sm" v-if="error">
+                {{ error }}
+            </span>
+        </div>
     </div>
 </template>
 
@@ -11,6 +16,9 @@
 export default {
     name: "FormGroup",
     props: {
+        error: {
+
+        },
         label: {
             type: String,
         },
