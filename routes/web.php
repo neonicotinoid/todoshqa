@@ -16,9 +16,7 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'tasks' => \App\Models\Task::query()->get()->append('is_completed'),
-    ]);
+    return view('welcome');
 });
 
 Route::get('/dashboard', function () {

@@ -1,15 +1,26 @@
 <template>
-    <div class="relative flex items-top justify-center min-h-screen bg-gray-100 sm:items-center sm:pt-0">
-        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
+    <div>
+        <NavHeader/>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-            <div class="space-y-4">
-                <ProjectCard v-for="project in ownProjects" :project="project"/>
+            <div class="mt-6">
+                <div class="flex items-center justify-between">
+                    <div class="text-3xl font-semibold mb-6">
+                        Ваши проекты
+                    </div>
+                    <TButton>Создать проект</TButton>
+                </div>
+                <div class="space-y-4">
+                    <ProjectCard v-for="project in ownProjects" :project="project"/>
+                </div>
             </div>
 
-            <div>
-                <h3>
-                    Расшаренные компоненты
-                </h3>
+            <div class="mt-6">
+                <div class="flex items-center justify-between">
+                    <div class="text-3xl font-semibold mb-6">
+                        Проекты, к которым вам дали доступ
+                    </div>
+                </div>
                 <div class="space-y-4">
                     <ProjectCard v-for="project in sharedProjects" :project="project"/>
                 </div>
@@ -22,9 +33,11 @@
 <script>
 
 import ProjectCard from "@/components/ProjectCard";
+import NavHeader from "@/components/NavHeader";
+import TButton from "@/components/TButton";
 export default {
     name: "Projects",
-    components: {ProjectCard},
+    components: {TButton, NavHeader, ProjectCard},
     props: {
         ownProjects: {
             type: Array,

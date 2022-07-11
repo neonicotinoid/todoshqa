@@ -17,6 +17,13 @@ class ProjectController extends Controller
         ]);
     }
 
+    public function store(Request $request)
+    {
+        $this->authorize('create', Project::class);
+        
+
+    }
+
     public function show(Request $request, Project $project)
     {
         $this->authorize('view', $project);

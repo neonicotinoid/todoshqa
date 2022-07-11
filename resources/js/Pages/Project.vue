@@ -1,33 +1,8 @@
 <template>
-    <header class="bg-white shadow">
-        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-            <div>
-                <h1 class="text-xl md:text-3xl font-bold text-gray-900">
-                    {{ project.title }}
-                </h1>
-                <div v-if="project.description" class="text-xs md:text-sm text-gray-400 mt-2">
-                    {{ project.description }}
-                </div>
-            </div>
-            <div>
-                <button  class="w-6 h-6 inline-flex justify-center items-center shadow-sm bg-white border border-gray-200 rounded p-1"
-                        >
-                </button>
-                <button class="w-6 h-6 inline-flex justify-center items-center shadow-sm bg-white border border-gray-200 rounded p-1"
+    <NavHeader/>
+    <ProjectHeader :project="this.project"/>
 
-                >
-
-                </button>
-                <button class="w-6 h-6 inline-flex justify-center items-center shadow-sm bg-white border border-gray-200 rounded p-1"
-
-                >
-
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <main class="bg-gray-100 min-h-screen">
+    <main>
         <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
             <div class="space-y-4 px-2 md:px-0">
                 <div class="flex justify-between">
@@ -98,10 +73,12 @@ import TModal from "@/components/TModal";
 import TButton from "@/components/TButton";
 import ModalTaskEdit from "@/components/ModalTaskEdit";
 import NewTaskForm from "@/components/NewTaskForm";
+import NavHeader from "@/components/NavHeader";
+import ProjectHeader from "@/components/ProjectHeader";
 
 export default {
     name: "Project",
-    components: {NewTaskForm, ModalTaskEdit, TButton, TModal, TTask},
+    components: {ProjectHeader, NavHeader, NewTaskForm, ModalTaskEdit, TButton, TModal, TTask},
     props: {
         errors: {
             type: Object,
