@@ -7,7 +7,7 @@
             </div>
             <div class="flex justify-between mt-6">
                 <TButton color="red" @click="$emit('confirmProjectRemoval')">Понял, удалить проект</TButton>
-                <TButton class="ml-auto">Отмена</TButton>
+                <TButton @click.prevent="$emit('close')" class="ml-auto">Отмена</TButton>
             </div>
         </div>
     </TModal>

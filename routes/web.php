@@ -31,6 +31,7 @@ Route::resource('project', \App\Http\Controllers\ProjectController::class)
     ->middleware(['auth'])
     ->only(['index', 'show', 'store', 'update', 'destroy']);
 Route::delete('project/{project}/force-delete', [\App\Http\Controllers\ProjectController::class, 'forceDelete'])->middleware(['auth'])->name('project.force-delete');
+Route::post('project/{project}/restore', [\App\Http\Controllers\ProjectController::class, 'restore'])->middleware(['auth'])->name('project.restore');
 
 Route::resource('task', \App\Http\Controllers\TaskController::class)
     ->middleware(['auth'])

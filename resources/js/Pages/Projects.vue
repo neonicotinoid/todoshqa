@@ -42,7 +42,6 @@
                         <TrashIcon class="w-8 h-8 text-gray-300 mr-2"/>
                         <span>Корзина</span>
                     </div>
-                    <TButton color="red" @click.prevent="deleteTrashedProjects">Очистить корзину</TButton>
                 </div>
                 <div class="space-y-4">
                     <TransitionGroup

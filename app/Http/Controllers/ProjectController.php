@@ -54,6 +54,19 @@ class ProjectController extends Controller
     }
 
 
+    public function restore(Request $request, int $project)
+    {
+        $project = Project::withTrashed()->findOrFail($project);
+        $this->authorize('restore', $project);
+
+        $project->tasks()->restore();
+        $project->restore();
+
+        return back()->with('success', 'Project restored');
+
+    }
+
+
     public function show(Request $request, Project $project)
     {
         $this->authorize('view', $project);

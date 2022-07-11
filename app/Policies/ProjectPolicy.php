@@ -86,7 +86,7 @@ class ProjectPolicy
      */
     public function restore(User $user, Project $project)
     {
-        //
+        return $project->user->id === $user->id;
     }
 
     /**

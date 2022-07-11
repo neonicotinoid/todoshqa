@@ -10,9 +10,15 @@
                 </div>
             </div>
 
-            <div class="ml-auto">
+            <div class="ml-auto flex space-x-4">
+                <button @click.prevent="restoreProject" class="flex items-center hover:text-green-600 px-2 py-0.5 border border-green-200 rounded-xl" title="Восстановить проект">
+                    <span class="text-sm text-green-500">
+                        Восстановить
+                    </span>
+                    <ViewGridAddIcon class="ml-2 w-5 h-5 text-green-500 duration-150"/>
+                </button>
                 <button @click="confirmRemoveProject">
-                    <TrashIcon class="w-5 h-5 text-gray-300"/>
+                    <TrashIcon class="w-5 h-5 text-red-300 hover:text-red-500 duration-150"/>
                 </button>
             </div>
 
@@ -22,6 +28,7 @@
             :open="removalConfirmation"
             :project="project"
             @confirmProjectRemoval="removeProject"
+            @close="removalConfirmation = false;"
         />
 
 
@@ -29,11 +36,11 @@
 </template>
 
 <script>
-import {TrashIcon} from "@heroicons/vue/solid";
+import {TrashIcon, ViewGridAddIcon} from "@heroicons/vue/solid";
 import ModalProjectRemoveConfirm from "@/components/ModalProjectRemoveConfirm";
 export default {
     name: "TrashedProjectCard",
-    components: {ModalProjectRemoveConfirm, TrashIcon},
+    components: {ModalProjectRemoveConfirm, TrashIcon, ViewGridAddIcon},
     props: {
         project: {
             type: Object,
@@ -46,6 +53,9 @@ export default {
         }
     },
     methods: {
+        restoreProject() {
+            this.$inertia.post(route('project.restore', this.project.id));
+        },
         confirmRemoveProject() {
             this.removalConfirmation = true;
         },
