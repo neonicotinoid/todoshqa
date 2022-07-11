@@ -29,7 +29,8 @@ Route::get('/profile', [\App\Http\Controllers\UserController::class, 'show'])->m
 
 Route::resource('project', \App\Http\Controllers\ProjectController::class)
     ->middleware(['auth'])
-    ->only(['index', 'show', 'store', 'update']);
+    ->only(['index', 'show', 'store', 'update', 'destroy']);
+Route::delete('project/{project}/force-delete', [\App\Http\Controllers\ProjectController::class, 'forceDelete'])->middleware(['auth'])->name('project.force-delete');
 
 Route::resource('task', \App\Http\Controllers\TaskController::class)
     ->middleware(['auth'])

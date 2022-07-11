@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProjectDeleteRequest;
 use App\Http\Requests\ProjectStoreRequest;
 use App\Http\Requests\ProjectUpdateRequest;
 use App\Models\Project;
@@ -15,6 +16,7 @@ class ProjectController extends Controller
     {
         return Inertia::render('Projects', [
             'ownProjects' => auth()->user()->projects,
+            'trashedProjects' => auth()->user()->projects()->onlyTrashed()->get(),
             'sharedProjects' => auth()->user()->shared_projects
         ]);
     }
@@ -33,8 +35,24 @@ class ProjectController extends Controller
         $project->save();
 
         return back()->with('success', 'Project updated');
-
     }
+
+    public function destroy(ProjectDeleteRequest $request, Project $project)
+    {
+        $project->delete();
+        return back()->with('success', 'Project deleted');
+    }
+
+    public function forceDelete(Request $request, int $project)
+    {
+        $project = Project::withTrashed()->findOrFail($project);
+        $this->authorize('forceDelete', $project);
+        $project->tasks()->forceDelete();
+        $project->forceDelete();
+
+        return back()->with('success', 'Project deleted');
+    }
+
 
     public function show(Request $request, Project $project)
     {

@@ -11,8 +11,9 @@
                 </FormGroup>
             </div>
 
-            <div class="mt-6">
+            <div class="flex mt-6">
                 <TButton>Сохранить</TButton>
+                <TButton @click.prevent="deleteProject" color="red" class="ml-auto">В корзину</TButton>
             </div>
         </form>
 
@@ -53,6 +54,13 @@ export default {
                 onSuccess: () => {this.$emit('close')},
             });
         },
+        deleteProject() {
+            this.$inertia.form({
+                id: this.project.id
+            }).delete(route('project.destroy', this.project.id), {
+                onSuccess: () => {this.$emit('close')}
+            });
+        }
     }
 }
 </script>
