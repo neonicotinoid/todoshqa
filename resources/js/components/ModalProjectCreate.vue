@@ -1,11 +1,14 @@
 <template>
     <TModal :showing="open">
         <form @submit.prevent="createProject">
-            <div>
-                <TextInput v-model="projectForm.title" />
-            </div>
-            <div>
-                <TextInput v-model="projectForm.description"/>
+            <div class="space-y-4">
+                <FormGroup label="Название проекта" for="id-1">
+                    <TextInput v-model="projectForm.title" id="id-1"/>
+                </FormGroup>
+
+                <FormGroup label="Описание" for="id-2">
+                    <TextareaInput v-model="projectForm.description" id="id-2"/>
+                </FormGroup>
             </div>
             <div class="mt-6">
                 <TButton>Создать проект</TButton>
@@ -18,10 +21,12 @@
 import TextInput from "@/components/Form/TextInput";
 import TModal from "@/components/TModal";
 import TButton from "@/components/TButton";
+import TextareaInput from "@/components/Form/TextareaInput";
+import FormGroup from "@/components/Form/FormGroup";
 
 export default {
     name: "ModalProjectCreate",
-    components: {TButton, TextInput, TModal},
+    components: {FormGroup, TextareaInput, TButton, TextInput, TModal},
     props: {
         open: {
             type: Boolean,

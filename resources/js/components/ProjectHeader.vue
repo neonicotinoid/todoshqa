@@ -13,24 +13,36 @@
                 <button  class="w-6 h-6 inline-flex justify-center items-center shadow-sm bg-white border border-gray-200 rounded p-1">
                     <ShareIcon class="w-5 h-5 text-gray-300"/>
                 </button>
-                <button class="w-6 h-6 inline-flex justify-center items-center shadow-sm bg-white border border-gray-200 rounded p-1">
+                <button @click="this.projectEdit = true" class="w-6 h-6 inline-flex justify-center items-center shadow-sm bg-white border border-gray-200 rounded p-1">
                     <CogIcon class="w-5 h-5 text-gray-300"/>
                 </button>
             </div>
         </div>
+        <ModalProjectEdit
+            v-if="projectEdit"
+            :open="projectEdit"
+            :project="this.project"
+            @close="this.projectEdit = false"
+        />
     </header>
 </template>
 
 <script>
 import {ShareIcon, CogIcon} from "@heroicons/vue/solid";
+import ModalProjectEdit from "@/components/ModalProjectEdit";
 
 export default {
     name: "ProjectHeader",
-    components: {ShareIcon, CogIcon},
+    components: {ModalProjectEdit, ShareIcon, CogIcon},
     props: {
         project: {
             type: Object,
             required: true,
+        }
+    },
+    data() {
+        return {
+            projectEdit: false,
         }
     }
 }

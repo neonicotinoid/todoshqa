@@ -1,12 +1,15 @@
 <template>
     <TModal :showing="open">
         <form @submit.prevent="saveTask">
-            <div>
-                <TextInput v-model="taskForm.title" name="title" :is-error="Boolean(this.taskForm.errors.title)"/>
-                <div v-if="this.taskForm.errors.title" class="text-sm text-red-500"> {{ this.taskForm.errors.title }}</div>
-            </div>
-            <div>
-                <TextInput v-model="taskForm.description" name="description"/>
+            <div class="space-y-4">
+                <FormGroup label="Задача" for="title">
+                    <TextInput v-model="taskForm.title" name="title" id="title" :is-error="Boolean(this.taskForm.errors.title)"/>
+                    <div v-if="this.taskForm.errors.title" class="text-sm text-red-500"> {{ this.taskForm.errors.title }}</div>
+                </FormGroup>
+
+                <FormGroup label="Заметка" for="note">
+                    <NoteTextareaInput id="note" v-model="taskForm.description"/>
+                </FormGroup>
             </div>
             <div class="mt-6">
                 <div class="bg-gray-50 p-2 flex items-center rounded-lg justify-between">
@@ -15,7 +18,7 @@
                 </div>
             </div>
             <div class="mt-6 flex justify-between">
-                <TButton>Save changes</TButton>
+                <TButton>Сохранить</TButton>
                 <TButton color="red" size="xs" @click.prevent="remove">Удалить задачу</TButton>
             </div>
         </form>
@@ -26,9 +29,11 @@
 import TModal from "@/components/TModal";
 import TButton from "@/components/TButton";
 import TextInput from "@/components/Form/TextInput";
+import FormGroup from "@/components/Form/FormGroup";
+import NoteTextareaInput from "@/components/Form/NoteTextareaInput";
 export default {
     name: "ModalTaskEdit",
-    components: {TextInput, TButton, TModal},
+    components: {NoteTextareaInput, FormGroup, TextInput, TButton, TModal},
     props: {
         taskInitial: {
             type: Object,
