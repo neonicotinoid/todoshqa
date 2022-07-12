@@ -15,7 +15,7 @@ class TaskPolicy
     public function create(User $user, Project $project): bool|Response
     {
         return $project->user->id === $user->id ||
-            $user->shared_projects->contains($user->id);
+            $user->shared_projects->contains($project->id);
     }
 
     public function delete(User $user, Task $task)
