@@ -32,6 +32,9 @@ Route::resource('project', \App\Http\Controllers\ProjectController::class)
     ->only(['index', 'show', 'store', 'update', 'destroy']);
 Route::delete('project/{project}/force-delete', [\App\Http\Controllers\ProjectController::class, 'forceDelete'])->middleware(['auth'])->name('project.force-delete');
 Route::post('project/{project}/restore', [\App\Http\Controllers\ProjectController::class, 'restore'])->middleware(['auth'])->name('project.restore');
+Route::post('project/{project}/share', [\App\Http\Controllers\ProjectController::class, 'share'])->middleware(['auth'])->name('project.share');
+Route::post('project/{project}/unshare', [\App\Http\Controllers\ProjectController::class, 'unshare'])->middleware(['auth'])->name('project.unshare');
+
 
 Route::resource('task', \App\Http\Controllers\TaskController::class)
     ->middleware(['auth'])

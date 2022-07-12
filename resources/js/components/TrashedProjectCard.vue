@@ -3,8 +3,8 @@
     >
         <div class="flex items-center">
             <div>
-                <a class="border-b border-blue-200 hover:border-blue-400"
-                   :href="route('project.show', project.id)">{{ project.title }}</a>
+                <span class="border-b border-blue-200 hover:border-blue-400"
+                   >{{ project.title }}</span>
                 <div class="text-sm text-gray-600" v-if="project.description">
                     {{ project.description }}
                 </div>

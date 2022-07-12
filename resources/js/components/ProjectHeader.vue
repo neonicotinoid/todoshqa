@@ -10,7 +10,7 @@
                 </div>
             </div>
             <div class="space-x-1">
-                <button  class="w-6 h-6 inline-flex justify-center items-center shadow-sm bg-white border border-gray-200 rounded p-1">
+                <button @click.prevent="this.projectSharing = true" class="w-6 h-6 inline-flex justify-center items-center shadow-sm bg-white border border-gray-200 rounded p-1">
                     <ShareIcon class="w-5 h-5 text-gray-300"/>
                 </button>
                 <button @click="this.projectEdit = true" class="w-6 h-6 inline-flex justify-center items-center shadow-sm bg-white border border-gray-200 rounded p-1">
@@ -24,16 +24,24 @@
             :project="this.project"
             @close="this.projectEdit = false"
         />
+
+        <ModalProjectSharing
+            v-if="projectSharing"
+            :open="projectSharing"
+            :project="this.project"
+            @close="this.projectSharing = false"
+        />
     </header>
 </template>
 
 <script>
 import {ShareIcon, CogIcon} from "@heroicons/vue/solid";
 import ModalProjectEdit from "@/components/ModalProjectEdit";
+import ModalProjectSharing from "@/components/ModalProjectSharing";
 
 export default {
     name: "ProjectHeader",
-    components: {ModalProjectEdit, ShareIcon, CogIcon},
+    components: {ModalProjectSharing, ModalProjectEdit, ShareIcon, CogIcon},
     props: {
         project: {
             type: Object,
@@ -43,6 +51,7 @@ export default {
     data() {
         return {
             projectEdit: false,
+            projectSharing: false,
         }
     }
 }

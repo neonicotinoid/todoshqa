@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\ShareProjectToUserAction;
+use App\Actions\UnshareProjectToUserAction;
 use App\Http\Requests\ProjectDeleteRequest;
+use App\Http\Requests\ProjectShareRequest;
 use App\Http\Requests\ProjectStoreRequest;
+use App\Http\Requests\ProjectUnshareRequest;
 use App\Http\Requests\ProjectUpdateRequest;
 use App\Models\Project;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -40,7 +45,7 @@ class ProjectController extends Controller
     public function destroy(ProjectDeleteRequest $request, Project $project)
     {
         $project->delete();
-        return back()->with('success', 'Project deleted');
+        return redirect()->to(route('project.index'))->with('success', 'Project deleted');
     }
 
     public function forceDelete(Request $request, int $project)
@@ -66,7 +71,6 @@ class ProjectController extends Controller
 
     }
 
-
     public function show(Request $request, Project $project)
     {
         $this->authorize('view', $project);
@@ -86,9 +90,28 @@ class ProjectController extends Controller
         $completedTasks = $project->tasks()->completed()->get();
 
         return Inertia::render('Project', [
-            'project' => $project,
+            'project' => $project->load('users'),
             'actualTasks' => $actualTasks,
             'completedTasks' => $completedTasks
         ]);
     }
+
+    public function share(ProjectShareRequest $request, Project $project, ShareProjectToUserAction $sharing)
+    {
+        $user = User::where('email', $request->email)->firstOrFail();
+        $sharing($project, $user);
+
+        return back()->with('success', 'Project shared');
+    }
+
+    public function unshare(ProjectUnshareRequest $request, Project $project, UnshareProjectToUserAction $unsharing)
+    {
+        $user = User::find($request->user_id);
+        $unsharing($project, $user);
+
+        return back()->with('success', 'Project unshared');
+
+    }
+
+
 }

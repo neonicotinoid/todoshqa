@@ -2,7 +2,7 @@
     <TModal :showing="open">
         <div>
             <div>
-                Проект {{project.title}} и все вложенные задачи будут полностью удалены.
+                Проект <span class="text-blue-600">{{project.title}}</span> и все вложенные задачи будут полностью удалены.
                 Восстановить их будет невозможно.
             </div>
             <div class="flex justify-between mt-6">
@@ -19,7 +19,7 @@ import TModal from "@/components/TModal";
 export default {
     name: "ModalProjectRemoveConfirm",
     components: {TButton, TModal},
-    emits: ['confirmProjectRemoval'],
+    emits: ['confirmProjectRemoval', 'close'],
     props: {
         project: {
             type: Object,

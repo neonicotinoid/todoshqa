@@ -76,8 +76,7 @@ export default {
           this.$inertia.form({}).post(route('task.complete', this.task.id));
       },
       myDay() {
-          // this.$inertia.form({}).post(route('task.myday', this.task.id));
-          axios.post(route('task.myday', this.task.id)).then(res => (console.log(res)));
+          axios.post(route('task.myday', this.task.id));
       },
     },
 }

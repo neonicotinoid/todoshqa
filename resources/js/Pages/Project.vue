@@ -63,6 +63,7 @@
                        :open="quickTaskEdit"
                        :task-initial="openedTask"
                        @close="quickTaskEdit = false;" />
+
     </main>
 </template>
 
