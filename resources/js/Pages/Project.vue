@@ -58,12 +58,6 @@
 
             </div>
         </div>
-        <ModalTaskEdit
-                       v-if="quickTaskEdit"
-                       :open="quickTaskEdit"
-                       :task-initial="openedTask"
-                       @close="quickTaskEdit = false;" />
-
     </main>
 </template>
 
@@ -72,14 +66,13 @@ import TTask from "@/components/TTask";
 import {Inertia} from "@inertiajs/inertia";
 import TModal from "@/components/TModal";
 import TButton from "@/components/TButton";
-import ModalTaskEdit from "@/components/ModalTaskEdit";
 import NewTaskForm from "@/components/NewTaskForm";
 import NavHeader from "@/components/NavHeader";
 import ProjectHeader from "@/components/ProjectHeader";
 
 export default {
     name: "Project",
-    components: {ProjectHeader, NavHeader, NewTaskForm, ModalTaskEdit, TButton, TModal, TTask},
+    components: {ProjectHeader, NavHeader, NewTaskForm, TButton, TModal, TTask},
     props: {
         errors: {
             type: Object,

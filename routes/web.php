@@ -43,7 +43,7 @@ Route::resource('task', \App\Http\Controllers\TaskController::class)
 Route::post('task/{task}/toggle', [\App\Http\Controllers\TaskController::class, 'completeTask'])->name('task.complete')->middleware(['auth']);
 Route::post('task/{task}/myday', [\App\Http\Controllers\TaskController::class, 'toggleToMyDay'])->name('task.myday')->middleware(['auth']);
 
-Route::get('myday', [\App\Http\Controllers\TaskController::class, 'myDay'])
+Route::get('myday', [\App\Http\Controllers\MyDayController::class, 'show'])
     ->middleware(['auth'])
     ->name('myDay');
 

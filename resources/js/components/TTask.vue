@@ -33,7 +33,7 @@
 
         <div class="relative ml-auto">
             <div class="flex space-x-0.5 items-center">
-                <button @click="$emit('openTaskEdit', task)">
+                <button @click="isEditOpen = true">
                     <DotsVerticalIcon class="w-4 h-4 text-gray-300"/>
                 </button>
 
@@ -50,24 +50,31 @@
                             v-model="task.isInMyDay"
                         >
                 </label>
-
             </div>
-
         </div>
+        <ModalTaskEdit
+            v-if="isEditOpen"
+            :open="isEditOpen"
+            :task-initial="this.task"
+            @close="isEditOpen = false;" />
     </div>
 
 </template>
 
 <script>
-import axios from 'axios';
+import ModalTaskEdit from "@/components/ModalTaskEdit";
 import {DotsVerticalIcon, LightBulbIcon, LinkIcon} from '@heroicons/vue/solid';
-import {Inertia} from "@inertiajs/inertia";
 export default {
     name: "TTask",
-    components: {DotsVerticalIcon, LightBulbIcon, LinkIcon},
+    components: {DotsVerticalIcon, LightBulbIcon, LinkIcon, ModalTaskEdit},
     props: {
         task: {
             type: Object,
+        }
+    },
+    data() {
+        return {
+            isEditOpen: false,
         }
     },
     emits: ['openTaskEdit'],
@@ -76,7 +83,7 @@ export default {
           this.$inertia.form({}).post(route('task.complete', this.task.id));
       },
       myDay() {
-          axios.post(route('task.myday', this.task.id));
+          this.$inertia.form({}).post(route('task.myday', this.task.id));
       },
     },
 }
