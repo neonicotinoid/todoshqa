@@ -56,6 +56,11 @@ class Task extends Model
         return $query->where('completed_at', '!=', null);
     }
 
+    public function scopeByDeadline(Builder $query): Builder
+    {
+        return $query->orderByRaw("ifnull(deadline_date, '9999-12-31') ASC");
+    }
+
     public function isInMyDay(User $user): bool
     {
         return $user->myDayTasks->contains($this);

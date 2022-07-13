@@ -83,7 +83,7 @@ class ProjectController extends Controller
                 return $query->orderBy('created_at', 'ASC');
             })
             ->when($request->sorting === 'deadline', function (Builder $query) {
-                return $query->orderByRaw("ifnull(deadline_date, '9999-12-31') ASC");
+                return $query->byDeadline();
             })
             ->get();
 

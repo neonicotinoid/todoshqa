@@ -36,7 +36,7 @@
                 </TransitionGroup>
 
                 <div>
-                    <div class="flex justify-between">
+                    <div class="flex justify-between mb-4">
                         <h2 class="text-xl font-semibold text-gray-500">
                             Законченные задачи
                         </h2>
@@ -51,7 +51,7 @@
                             leave-to-class="opacity-0 translate-y-95"
                             appear>
                             <TTask v-for="task in completedTasks" :task="task" :key="task.id"
-                                   @openTaskEdit="openTaskEdit"/>
+                                   />
                         </TransitionGroup>
                     </div>
                 </div>
@@ -102,7 +102,7 @@ export default {
     },
     watch: {
         sorting: {
-            handler: function () {
+            handler() {
                 Inertia.visit(route('project.show', this.project.id), {
                     only: ['actualTasks'],
                     data: {sorting: this.sorting},

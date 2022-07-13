@@ -17,7 +17,7 @@
         </div>
             <div class="flex space-x-1">
                 <div v-if="task.description">
-                    <span class="px-1.5 py-0.5 bg-gray-100 text-gray-700 text-xs rounded-lg">Note</span>
+                    <span class="px-1.5 py-0.5 bg-gray-100 text-gray-700 text-xs rounded-lg">Заметка</span>
                 </div>
                 <div v-if="task.deadline_date">
                 <span class="px-1.5 py-0.5 text-xs rounded-lg" :class="{
@@ -80,10 +80,10 @@ export default {
     emits: ['openTaskEdit'],
     methods: {
       toggle() {
-          this.$inertia.form({}).post(route('task.complete', this.task.id));
+          this.$inertia.form({}).post(route('task.complete', this.task.id), {preserveState: true, only: ['actualTasks', 'completedTasks']});
       },
       myDay() {
-          this.$inertia.form({}).post(route('task.myday', this.task.id));
+          this.$inertia.form({}).post(route('task.myday', this.task.id), {preserveState: true});
       },
     },
 }
