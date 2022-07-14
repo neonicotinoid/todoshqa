@@ -49,4 +49,13 @@ Route::get('myday', [\App\Http\Controllers\MyDayController::class, 'show'])
 
 Route::view('/ui-library', 'library')->middleware(['prod']);
 
+
+Route::post('user/{user}/', [\App\Http\Controllers\UserController::class, 'update'])
+    ->middleware(['auth'])
+    ->name('user.update');
+
+Route::delete('user/{user}/removeAvatar', [\App\Http\Controllers\UserController::class, 'removeAvatar'])
+    ->middleware(['auth'])
+    ->name('user.removeAvatar');
+
 require __DIR__.'/auth.php';

@@ -10,7 +10,7 @@ class Initials
      * @param string $name
      * @return string
      */
-    public function generate(string $name) : string
+    static public function generate(string $name) : string
     {
         $words = explode(' ', $name);
         if (count($words) >= 2) {
@@ -19,7 +19,7 @@ class Initials
                 mb_substr(end($words), 0, 1, 'UTF-8'),
                 'UTF-8');
         }
-        return $this->makeInitialsFromSingleWord($name);
+        return self::makeInitialsFromSingleWord($name);
     }
 
     /**
@@ -28,7 +28,7 @@ class Initials
      * @param string $name
      * @return string
      */
-    protected function makeInitialsFromSingleWord(string $name) : string
+    static protected function makeInitialsFromSingleWord(string $name) : string
     {
         preg_match_all('#([A-Z]+)#', $name, $capitals);
         if (count($capitals[1]) >= 2) {

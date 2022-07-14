@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Actions\GetNCacheInitialBackgroundColorAction;
+use App\Services\Initials;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -51,6 +53,8 @@ class User extends Authenticatable implements HasMedia
         'remember_token',
     ];
 
+    protected $appends = ['avatarPlaceholderColor', 'initials'];
+
     /**
      * The attributes that should be cast.
      *
@@ -81,8 +85,17 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->belongsToMany(Task::class, 'my_day_tasks', 'user_id', 'task_id')
             ->withTimestamps()
-            ->as(MyDayTask::class)
             ->whereDate('day', Carbon::today());
+    }
+
+    public function getAvatarPlaceholderColorAttribute()
+    {
+        return (new GetNCacheInitialBackgroundColorAction())($this->id);
+    }
+
+    public function getInitialsAttribute()
+    {
+        return Initials::generate($this->name);
     }
 
 
