@@ -1,6 +1,6 @@
 <template>
     <div>
-        <NavHeader/>
+        <NavHeader :user="this.auth.user"/>
         <MyDayHeader/>
         <main>
             <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
@@ -68,6 +68,12 @@ export default {
         completedTasks: {
             type: Array,
         },
+        auth: {
+            type: Object,
+            user: {
+                type: Object,
+            }
+        }
     },
     data() {
         return {

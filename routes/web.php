@@ -15,9 +15,7 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [\App\Http\Controllers\HomeController::class, 'home']);
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -54,8 +52,12 @@ Route::post('user/{user}/', [\App\Http\Controllers\UserController::class, 'updat
     ->middleware(['auth'])
     ->name('user.update');
 
-Route::delete('user/{user}/removeAvatar', [\App\Http\Controllers\UserController::class, 'removeAvatar'])
+Route::delete('user/{user}/remove-avatar', [\App\Http\Controllers\UserController::class, 'removeAvatar'])
     ->middleware(['auth'])
     ->name('user.removeAvatar');
+
+Route::post('user/{user}/upload-avatar', [\App\Http\Controllers\UserController::class, 'uploadAvatar'])
+    ->middleware(['auth'])
+    ->name('user.uploadAvatar');
 
 require __DIR__.'/auth.php';

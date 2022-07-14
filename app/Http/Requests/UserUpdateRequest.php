@@ -28,7 +28,6 @@ class UserUpdateRequest extends FormRequest
         return [
             'name' => ['string', 'required', 'min:3'],
             'email' => ['email'],
-            'avatar' => ['file', 'image', 'max:1024', 'nullable'],
             'password' => ['nullable', 'confirmed', Password::min(8)],
         ];
     }

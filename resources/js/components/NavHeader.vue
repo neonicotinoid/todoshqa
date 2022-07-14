@@ -8,51 +8,26 @@
                     </div>
                     <div class="hidden md:block">
                         <div class="ml-10 flex items-baseline space-x-4">
-                            <a class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" href="//localhost:8081/dashboard">
+                            <Link :href="route('dashboard')" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                                 Дашборд
-                            </a>
-                            <a class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" href="//localhost:8081/myday">
+                            </Link>
+
+                            <Link :href="route('myDay')" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                                 Мой день
-                            </a>
-                            <a class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" href="//localhost:8081/project">
+                            </Link>
+
+                            <Link :href="route('project.index')" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                                 Проекты
-                            </a>
-                            <a class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" href="//localhost:8081/profile">
+                            </Link>
+                            <Link :href="route('profile')" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                                 Профиль
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>
                 <div class="hidden md:block">
                     <div class="ml-4 flex items-center md:ml-6">
-                        <!-- Profile dropdown -->
-<!--                        <div class="ml-3 relative">-->
-<!--                            <div>-->
-<!--                                <button  type="button" class="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" aria-expanded="false" aria-haspopup="true">-->
-<!--                                    <span class="sr-only">Open user menu</span>-->
-
-<!--                                    <div class="w-8 h-8 bg-gray-100 rounded-full">-->
-
-<!--                                    </div>-->
-<!--                                </button>-->
-<!--                            </div>-->
-<!--                            <div  class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">-->
-<!--                                &lt;!&ndash; Active: "bg-gray-100", Not Active: "" &ndash;&gt;-->
-<!--                                <a href="//localhost:8081/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1">-->
-<!--                                    Ваш профиль-->
-<!--                                </a>-->
-
-<!--                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1">-->
-<!--                                    Настройки-->
-<!--                                </a>-->
-
-<!--                                <form id="logout" method="POST" action="//localhost:8081/logout" class="hidden">-->
-<!--                                                               </form>-->
-<!--                                <button form="logout" class="block text-left w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1">-->
-<!--                                    Выйти-->
-<!--                                </button>-->
-<!--                            </div>-->
-<!--                        </div>-->
+                        <HeaderDropdown :user="this.user"/>
                     </div>
                 </div>
                 <div class="-mr-2 flex md:hidden">
@@ -85,7 +60,16 @@
 </template>
 
 <script>
+import HeaderDropdown from "@/components/HeaderDropdown";
+import { Link } from '@inertiajs/inertia-vue3';
+
 export default {
-    name: "NavHeader"
+    name: "NavHeader",
+    components: {HeaderDropdown, Link},
+    props: {
+        user: {
+            type: Object,
+        }
+    },
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <NavHeader/>
+        <NavHeader :user="this.auth.user"/>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
             <div class="mt-6">
@@ -94,6 +94,12 @@ export default {
         },
         trashedProjects: {
             type: Array,
+        },
+        auth: {
+            type: Object,
+            user: {
+                type: Object,
+            }
         }
     },
     data() {

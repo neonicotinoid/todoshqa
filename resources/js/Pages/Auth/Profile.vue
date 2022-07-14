@@ -1,6 +1,6 @@
 <template xmlns="http://www.w3.org/1999/html">
     <div>
-        <NavHeader/>
+        <NavHeader :user="this.auth.user"/>
 
             <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
                 <div class="text-3xl mt-6 font-semibold mb-6">
@@ -48,16 +48,16 @@
                         </div>
 
                         <div>
-                            <div v-if="profile.media.length > 0" class="relative inline-block mx-auto w-24 h-24 mb-4 rounded-full">
-                                <img :src="profile.media[0].original_url"
+                            <div v-if="profile.avatar" class="relative inline-block mx-auto w-24 h-24 mb-4 rounded-full">
+                                <img :src="profile.avatar.original_url"
                                      class="inline-block mx-auto w-24 h-24 rounded-full">
                                 <TButton @click.prevent="removeAvatar" color="red" size="xs">Удалить аватар</TButton>
                             </div>
                             <div v-else>
                                 <AvatarPlaceholder class="w-24 h-24 mx-auto" :fill="profile.avatarPlaceholderColor" :initials="profile.initials"/>
                             </div>
-                            <div v-if="avatarFileName" class="text-sm text-gray-700 font-medium mt-6">
-                                Выбран файл: {{ avatarFileName }}
+                            <div v-if="avatarForm.avatarFileName" class="text-sm text-gray-700 font-medium mt-6">
+                                Выбран файл: {{ avatarForm.avatarFileName }}
                             </div>
                         </div>
 
@@ -69,7 +69,7 @@
                                 Выбрать файл
                             </TButton>
 
-                            <TButton @click.prevent="submitProfileForm" size="xs" class="w-full">
+                            <TButton @click.prevent="uploadAvatar" size="xs" class="w-full">
                                 Загрузить
                             </TButton>
 
@@ -77,8 +77,8 @@
 
                         <input ref="avatarInput"
                                type="file"
-                               @change="profileForm.avatar = $event.target.files[0];
-                               this.avatarFileName = $event.target.files[0].name"
+                               @change="avatarForm.avatar = $event.target.files[0];
+                               avatarForm.avatarFileName = $event.target.files[0].name"
                                accept="image/png, image/jpeg, image/jpg, image/bmp, image/webp"
                                hidden/>
                         <progress class="w-full" v-if="profileForm.progress" :value="profileForm.progress.percentage" max="100">
@@ -118,16 +118,23 @@ export default {
         },
         errors: {
             type: Object,
+        },
+        auth: {
+            type: Object,
+            user: {
+                type: Object,
+            }
         }
     },
     data() {
         return {
-            avatarFileName: null,
-
+            avatarForm: this.$inertia.form({
+               avatar: null,
+               avatarFileName: '',
+            }),
             profileForm: this.$inertia.form({
                name: this.profile.name,
                email: this.profile.email,
-               avatar: null,
                password: '',
                password_confirmation: '',
             }),
@@ -139,7 +146,12 @@ export default {
         },
         removeAvatar() {
             this.$inertia.delete(route('user.removeAvatar', this.profile.id));
-        }
+        },
+        uploadAvatar() {
+            this.avatarForm.post(route('user.uploadAvatar', this.profile.id), {
+                onSuccess: () => {this.avatarForm.reset();}
+            });
+        },
     }
 }
 </script>

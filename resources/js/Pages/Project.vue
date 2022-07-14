@@ -1,5 +1,5 @@
 <template>
-    <NavHeader/>
+    <NavHeader :user="this.auth.user"/>
     <ProjectHeader :project="this.project"/>
 
     <main>
@@ -86,6 +86,12 @@ export default {
         completedTasks: {
             type: Array,
         },
+        auth: {
+            type: Object,
+            user: {
+                type: Object,
+            }
+        }
     },
     data() {
         return {

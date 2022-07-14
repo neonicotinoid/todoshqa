@@ -15,7 +15,7 @@ class UserController extends Controller
     public function show(Request $request)
     {
         return Inertia::render('Auth/Profile', [
-            'profile' => auth()->user()->load('media'),
+            'profile' => auth()->user(),
         ]);
     }
 
@@ -41,5 +41,18 @@ class UserController extends Controller
         $removeAvatar($user);
 
         return back()->with('success', 'Avatar removed');
+    }
+
+    public function uploadAvatar(Request $request, User $user, AttachAvatarToUserAction $attachAvatar)
+    {
+        Gate::allowIf($user->id === auth()->user()->id);
+        $request->validate([
+            'avatar' => ['required', 'file', 'image', 'max:1024', 'nullable'],
+        ]);
+        $attachAvatar($user, $request->file('avatar'));
+
+        return back()->with('success', 'Avatar uploaded');
+
+
     }
 }

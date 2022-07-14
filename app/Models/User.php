@@ -15,6 +15,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Ramsey\Collection\Collection;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 
 /**
@@ -53,7 +54,7 @@ class User extends Authenticatable implements HasMedia
         'remember_token',
     ];
 
-    protected $appends = ['avatarPlaceholderColor', 'initials'];
+    protected $appends = ['avatarPlaceholderColor', 'initials', 'avatar'];
 
     /**
      * The attributes that should be cast.
@@ -86,6 +87,11 @@ class User extends Authenticatable implements HasMedia
         return $this->belongsToMany(Task::class, 'my_day_tasks', 'user_id', 'task_id')
             ->withTimestamps()
             ->whereDate('day', Carbon::today());
+    }
+
+    public function getAvatarAttribute()
+    {
+        return $this->media()->where('collection_name', 'avatar')->first();
     }
 
     public function getAvatarPlaceholderColorAttribute()
