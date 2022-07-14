@@ -9,7 +9,7 @@ class DashboardController extends Controller
 {
     public function __invoke()
     {
-        return view('dashboard')->with([
+        return Inertia::render('Dashboard', [
             'projects' => auth()->user()->projects
         ]);
     }

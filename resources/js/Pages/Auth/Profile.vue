@@ -4,7 +4,7 @@
 
             <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
                 <div class="text-3xl mt-6 font-semibold mb-6">
-                    Ваш профиль
+                    Редактировать профиль
                 </div>
             <form class="grid grid-cols-1 md:grid-cols-4 gap-y-6 md:gap-y-0 md:gap-x-6" @submit.prevent="submitProfileForm">
                 <div class="col-span-3 bg-white shadow rounded-lg p-4">
