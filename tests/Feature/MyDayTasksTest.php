@@ -2,12 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Http\Livewire\MyDayTasksPage;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Livewire;
+use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
 class MyDayTasksTest extends TestCase
@@ -28,8 +27,9 @@ class MyDayTasksTest extends TestCase
             ->create());
 
         $this->get(route('myDay'))
-            ->assertStatus(200)
-            ->assertSeeLivewire(MyDayTasksPage::class);
+            ->assertInertia(function( Assert $page) {
+                $page->component('MyDay');
+            });
     }
 
     public function test_it_doesnt_render_for_guests()
@@ -52,10 +52,19 @@ class MyDayTasksTest extends TestCase
                 ['title' => 'My Day Task #3']
             )
             ->create();
+        $this->actingAs($user);
 
-        Livewire::actingAs($user)
-            ->test(MyDayTasksPage::class, ['user' => $user])
-            ->assertSee(['My Day Task #1', 'My Day Task #2', 'My Day Task #3']);
+        $this->get(route('myDay'))
+            ->assertStatus(200)
+            ->assertInertia(function( Assert $page) {
+                $page->component('MyDay');
+                $page->has('actualTasks')
+                    ->whereAll([
+                        'actualTasks.0.title' => 'My Day Task #1',
+                        'actualTasks.1.title' => 'My Day Task #2',
+                        'actualTasks.2.title' => 'My Day Task #3',
+                    ]);
+            });
     }
 
     public function test_it_show_today_tasks_from_different_projects()
@@ -74,17 +83,23 @@ class MyDayTasksTest extends TestCase
             ), 'tasks')
             ->for($user, 'user')
             ->create();
+        $this->actingAs($user);
 
-        Livewire::actingAs($user)
-            ->test(MyDayTasksPage::class, ['user' => $user])
-            ->assertSee([
-                'My Day Task #1',
-                'My Day Task #2',
-                'My Day Task #3',
-                'My Day Task #4',
-                'My Day Task #5',
-                'My Day Task #6',
-            ]);
+
+        $this->get(route('myDay'))
+            ->assertStatus(200)
+            ->assertInertia(function( Assert $page) {
+                $page->component('MyDay');
+                $page->has('actualTasks')
+                    ->whereAll([
+                        'actualTasks.0.title' => 'My Day Task #1',
+                        'actualTasks.1.title' => 'My Day Task #2',
+                        'actualTasks.2.title' => 'My Day Task #3',
+                        'actualTasks.3.title' => 'My Day Task #4',
+                        'actualTasks.4.title' => 'My Day Task #5',
+                        'actualTasks.5.title' => 'My Day Task #6',
+                    ]);
+            });
     }
 
 

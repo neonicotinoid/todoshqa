@@ -106,9 +106,6 @@ class TasksListPageTest extends TestCase
                 ->has('actualTasks', 3)
             );
 
-//        Livewire::actingAs($user)
-//            ->test(TasksListPage::class, ['project' => Project::find(1)])
-//            ->assertSee(['Task 1', 'Task 2', 'Task 3']);
     }
 
     public function test_it_create_new_task()
