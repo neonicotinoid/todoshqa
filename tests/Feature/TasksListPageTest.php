@@ -3,13 +3,11 @@
 namespace Tests\Feature;
 
 use App\Actions\ShareProjectToUserAction;
-use App\Http\Livewire\TasksListPage;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use Inertia\Testing\AssertableInertia as Assert;
 use Livewire\Livewire;
 use Tests\TestCase;
 
@@ -87,26 +85,9 @@ class TasksListPageTest extends TestCase
 
     }
 
-    public function test_it_renders_component()
-    {
-        $this->actingAs(User::factory()
-            ->has(Project::factory(['id' => 1])->afterCreating(function (Project $project, User $user) {
-                Task::factory(3)
-                    ->for($user, 'author')
-                    ->for($project, 'project')
-                    ->create();
-            })
-                , 'projects')
-            ->create());
-
-        $this->get(route('project.show', ['project' => 1]))
-            ->assertSeeLivewire(TasksListPage::class);
-    }
-
     public function test_it_display_tasks()
     {
-
-        $user= User::factory()
+        $user = User::factory()
             ->has(Project::factory(['id' => 1])->afterCreating(function (Project $project, User $user) {
                 Task::factory(3)
                     ->sequence(['title' => 'Task 1'], ['title' => 'Task 2'], ['title' => 'Task 3'])
@@ -116,10 +97,18 @@ class TasksListPageTest extends TestCase
             })
                 , 'projects')
             ->create();
+        $this->actingAs($user);
 
-        Livewire::actingAs($user)
-            ->test(TasksListPage::class, ['project' => Project::find(1)])
-            ->assertSee(['Task 1', 'Task 2', 'Task 3']);
+        $this->get(route('project.show', ['project' => 1]))
+            ->assertStatus(200)
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Project')
+                ->has('actualTasks', 3)
+            );
+
+//        Livewire::actingAs($user)
+//            ->test(TasksListPage::class, ['project' => Project::find(1)])
+//            ->assertSee(['Task 1', 'Task 2', 'Task 3']);
     }
 
     public function test_it_create_new_task()
@@ -135,17 +124,10 @@ class TasksListPageTest extends TestCase
             ->create();
         $this->actingAs($user);
 
-        Livewire::actingAs($user)
-            ->test(TasksListPage::class, ['project' => Project::find(1)])
-            ->set('newTaskTitle', 'This is new task title')
-            ->call('addNewTask')
-            ->assertSee('This is new task title')
-            ->assertSet('newTaskTitle', '');
+        $this->post(route('task.store'), ['title' => 'New Task', 'project_id' => 1])
+            ->assertStatus(302);
 
-        $this->assertDatabaseHas('tasks', [
-            'title' => 'This is new task title',
-            'user_id' => $user->id
-        ]);
+        $this->assertDatabaseHas('tasks', ['title' => 'New Task', 'project_id' => 1, 'user_id' => $user->id]);
     }
 
     public function test_it_sort_tasks()
@@ -165,21 +147,40 @@ class TasksListPageTest extends TestCase
             })
                 , 'projects')
             ->create();
+        $this->actingAs($user);
 
-        // Livewire не умеет видеть дочерние компоненты в динамике,
-        // поэтому проект инициализируется 3 раза на каждый вид сортировки
+        $this->get(route('project.show', ['project' => 1]))
+            ->assertInertia(function (Assert $page) {
+                $page->component('Project');
+                $page->has('actualTasks')->whereAll([
+                    'actualTasks.0.title' => 'Task #4',
+                    'actualTasks.1.title' => 'Task #3',
+                    'actualTasks.2.title' => 'Task #2',
+                    'actualTasks.3.title' => 'Task #1',
+                ]);
+            });
 
-        Livewire::actingAs($user)
-            ->test(TasksListPage::class, ['project' => Project::find(1)])
-            ->assertSeeInOrder(['Task #4', 'Task #3', 'Task #2', 'Task #1']);
+        $this->get(route('project.show', ['project' => 1, 'sorting' => 'deadline']))
+            ->assertInertia(function (Assert $page) {
+                $page->component('Project');
+                $page->has('actualTasks')->whereAll([
+                    'actualTasks.0.title' => 'Task #1',
+                    'actualTasks.1.title' => 'Task #4',
+                    'actualTasks.2.title' => 'Task #3',
+                    'actualTasks.3.title' => 'Task #2',
+                ]);
+            });
 
-        Livewire::actingAs($user)
-            ->test(TasksListPage::class, ['project' => Project::find(1), 'sortBy' => 'created_asc'])
-            ->assertSeeInOrder(['Task #1', 'Task #2', 'Task #3', 'Task #4']);
-
-        Livewire::actingAs($user)
-            ->test(TasksListPage::class, ['project' => Project::find(1), 'sortBy' => 'deadline'])
-            ->assertSeeInOrder(['Task #1', 'Task #4', 'Task #3', 'Task #2']);
+        $this->get(route('project.show', ['project' => 1, 'sorting' => 'created_asc']))
+            ->assertInertia(function (Assert $page) {
+                $page->component('Project');
+                $page->has('actualTasks')->whereAll([
+                    'actualTasks.0.title' => 'Task #1',
+                    'actualTasks.1.title' => 'Task #2',
+                    'actualTasks.2.title' => 'Task #3',
+                    'actualTasks.3.title' => 'Task #4',
+                ]);
+            });
 
     }
 

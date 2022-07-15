@@ -21,7 +21,7 @@ class TaskController extends Controller
         $task->author()->associate(auth()->user());
         $task->project()->associate(Project::find($request->project_id))->save();
 
-        return \Redirect::back()->with('success', 'Task created');
+        return redirect()->back()->with('success', 'Task created');
     }
 
     public function show(Request $request, Task $task)
