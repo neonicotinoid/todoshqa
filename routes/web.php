@@ -42,9 +42,6 @@ Route::get('myday', [\App\Http\Controllers\MyDayController::class, 'show'])
     ->middleware(['auth'])
     ->name('myDay');
 
-Route::view('/ui-library', 'library')->middleware(['prod']);
-
-
 Route::post('user/{user}/', [\App\Http\Controllers\UserController::class, 'update'])
     ->middleware(['auth'])
     ->name('user.update');
