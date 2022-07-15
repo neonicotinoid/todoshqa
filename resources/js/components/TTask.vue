@@ -37,9 +37,9 @@
                     <DotsVerticalIcon class="w-4 h-4 text-gray-300"/>
                 </button>
 
-                <a :href="route('task.show', task.id)">
+                <Link :href="route('task.show', task.id)">
                     <LinkIcon class="w-4 h-4 text-gray-300"/>
-                </a>
+                </Link>
 
                 <label>
                       <LightBulbIcon class="w-5 h-5 cursor-pointer" :class="{'text-yellow-500': task.isInMyDay, 'text-gray-300': !task.isInMyDay}"/>
@@ -63,10 +63,11 @@
 
 <script>
 import ModalTaskEdit from "@/components/ModalTaskEdit";
+import { Link } from '@inertiajs/inertia-vue3';
 import {DotsVerticalIcon, LightBulbIcon, LinkIcon} from '@heroicons/vue/solid';
 export default {
     name: "TTask",
-    components: {DotsVerticalIcon, LightBulbIcon, LinkIcon, ModalTaskEdit},
+    components: {DotsVerticalIcon, LightBulbIcon, LinkIcon, ModalTaskEdit, Link},
     props: {
         task: {
             type: Object,

@@ -9,6 +9,7 @@ use App\Http\Requests\Task\UpdateTaskRequest;
 use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class TaskController extends Controller
 {
@@ -25,8 +26,8 @@ class TaskController extends Controller
 
     public function show(Request $request, Task $task)
     {
-        return view('task')->with([
-            'task' => $task
+        return Inertia::render('Task', [
+           'task' => $task->load('project'),
         ]);
     }
 
