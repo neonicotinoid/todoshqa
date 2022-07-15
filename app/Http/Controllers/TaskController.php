@@ -21,11 +21,13 @@ class TaskController extends Controller
         $task->author()->associate(auth()->user());
         $task->project()->associate(Project::find($request->project_id))->save();
 
-        return redirect()->back()->with('success', 'Task created');
+        return back()->with('success', 'Task created');
     }
 
     public function show(Request $request, Task $task)
     {
+        $this->authorize('view', $task);
+
         return Inertia::render('Task', [
            'task' => $task->load('project'),
         ]);
