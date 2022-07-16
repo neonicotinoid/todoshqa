@@ -10,10 +10,10 @@
 
                 <div class="w-8 h-8 bg-gray-100 rounded-full">
                     <div v-if="user.avatar">
-                        <img :src="user.avatar.original_url">
+                        <img class="h-8 w-8 rounded-full" :src="user.avatar.original_url">
                     </div>
                     <div v-else>
-                        <AvatarPlaceholder :initials="user.initials" :fill="user.avatarPlaceholderColor"/>
+                        <AvatarPlaceholder class="w-8 h-8 rounded-full" :initials="user.initials" :fill="user.avatarPlaceholderColor"/>
                     </div>
                 </div>
             </button>
@@ -28,7 +28,7 @@
             </Link>
 
             <Link class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" :href="route('logout')" method="post">
-                Logout
+                Выйти
             </Link>
         </div>
     </div>
@@ -37,10 +37,9 @@
 <script>
 import AvatarPlaceholder from "@/components/AvatarPlaceholder";
 import { Link } from '@inertiajs/inertia-vue3';
-import BreezeResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 export default {
     name: "HeaderDropdown",
-    components: {AvatarPlaceholder, Link, BreezeResponsiveNavLink},
+    components: {AvatarPlaceholder, Link},
     props: {
         user: {
             type: Object,

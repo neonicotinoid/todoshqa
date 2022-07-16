@@ -47,11 +47,26 @@
                             Фото профиля
                         </div>
 
-                        <div>
-                            <div v-if="profile.avatar" class="relative inline-block mx-auto w-24 h-24 mb-4 rounded-full">
-                                <img :src="profile.avatar.original_url"
-                                     class="inline-block mx-auto w-24 h-24 rounded-full">
-                                <TButton @click.prevent="removeAvatar" color="red" size="xs">Удалить аватар</TButton>
+                        <div class="mx-auto">
+                            <div v-if="profile.avatar" class="relative mx-auto rounded-full">
+                                <Transition
+                                    enter-active-class="transition ease-out duration-1000"
+                                    enter-from-class="opacity-0"
+                                    enter-to-class="opacity-100"
+                                    leave-active-class="transition ease-in duration-300"
+                                    leave-from-class="opacity-100 translate-y-100"
+                                    leave-to-class="opacity-0 translate-y-95"
+                                    appear
+                                >
+                                <div class="relative w-24 h-24 mx-auto mb-4">
+                                    <img :src="profile.avatar.original_url"
+                                         class="block mx-auto w-24 h-24 rounded-full">
+                                    <button @click.prevent="removeAvatar"
+                                        title="Удалить ааватр" class="absolute right-0 bottom-0 bg-red-100 border border-red-300 rounded-full p-1">
+                                        <TrashIcon class="text-red-300 w-5 h-5"/>
+                                    </button>
+                                </div>
+                            </Transition>
                             </div>
                             <div v-else>
                                 <AvatarPlaceholder class="w-24 h-24 mx-auto" :fill="profile.avatarPlaceholderColor" :initials="profile.initials"/>
@@ -69,7 +84,7 @@
                                 Выбрать файл
                             </TButton>
 
-                            <TButton @click.prevent="uploadAvatar" size="xs" class="w-full">
+                            <TButton @click.prevent="uploadAvatar" size="xs" class="w-full" v-bind:disabled="!avatarForm.avatar">
                                 Загрузить
                             </TButton>
 
@@ -108,10 +123,11 @@ import FormGroup from "@/components/Form/FormGroup";
 import TextInput from "@/components/Form/TextInput";
 import TButton from "@/components/TButton";
 import AvatarPlaceholder from "@/components/AvatarPlaceholder";
+import {TrashIcon} from "@heroicons/vue/solid";
 
 export default {
     name: "Profile",
-    components: {AvatarPlaceholder, TButton, TextInput, FormGroup, NavHeader},
+    components: {AvatarPlaceholder, TButton, TextInput, FormGroup, NavHeader, TrashIcon},
     props: {
         profile: {
             type: Object,
