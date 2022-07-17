@@ -26,7 +26,7 @@ class UserUpdateRequest extends FormRequest
     {
         return [
             'name' => ['string', 'required', 'min:3'],
-            'email' => ['email'],
+            'email' => ['email', 'nullable'],
             'password' => ['nullable', 'confirmed', Password::min(8)],
         ];
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\AttachAvatarToUserAction;
 use App\Actions\RemoveUserAvatarAction;
+use App\Actions\UpdateUserFromAttributesAction;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -20,13 +21,9 @@ class UserController extends Controller
         ]);
     }
 
-    public function update(UserUpdateRequest $request, User $user, AttachAvatarToUserAction $attachAvatar)
+    public function update(UserUpdateRequest $request, User $user, UpdateUserFromAttributesAction $update)
     {
-        $user->fill([
-            'name' => $request->name,
-            'email' => $request->email,
-        ]);
-        $user->save();
+        $update($user, array_filter($request->validated()));
 
         return back()->with('success', 'Profile updated');
     }

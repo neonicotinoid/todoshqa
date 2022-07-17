@@ -24,6 +24,9 @@
                             <FormGroup label="Email" :error="this.errors.email">
                                 <TextInput v-model="profileForm.email" :is-error="Boolean(this.errors.email)"/>
                             </FormGroup>
+                            <div class="font-medium text-sm" v-if="!this.profile.email_verified_at">
+                                <span class="text-yellow-500">Не подтвержден</span> – <Link class="text-blue-500 underline" :href="route('verification.notice')">Подтвердить</Link>
+                            </div>
                         </div>
                     </div>
 
@@ -33,11 +36,11 @@
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-y-6 md:gap-x-6">
                                 <FormGroup label="Новый пароль" :error="this.errors.password">
-                                    <TextInput v-model="profileForm.password" :is-error="Boolean(this.errors.password)" disabled=""/>
+                                    <TextInput v-model="profileForm.password" :is-error="Boolean(this.errors.password)"/>
                                 </FormGroup>
 
                                 <FormGroup label="Подтверждение пароля" :error="this.errors.password_confirmation">
-                                    <TextInput v-model="profileForm.password_confirmation" :is-error="Boolean(this.errors.password_confirmation)" disabled=""/>
+                                    <TextInput v-model="profileForm.password_confirmation" :is-error="Boolean(this.errors.password_confirmation)"/>
                                 </FormGroup>
 
                         </div>
@@ -130,10 +133,11 @@ import TButton from "@/components/TButton";
 import AvatarPlaceholder from "@/components/AvatarPlaceholder";
 import {TrashIcon} from "@heroicons/vue/solid";
 import { Head } from '@inertiajs/inertia-vue3'
+import { Link } from "@inertiajs/inertia-vue3";
 
 export default {
     name: "Profile",
-    components: {AvatarPlaceholder, TButton, TextInput, FormGroup, NavHeader, TrashIcon, Head},
+    components: {AvatarPlaceholder, TButton, TextInput, FormGroup, NavHeader, TrashIcon, Head, Link},
     props: {
         profile: {
             type: Object,

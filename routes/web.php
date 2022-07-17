@@ -18,8 +18,9 @@ use Inertia\Inertia;
 Route::get('/', [\App\Http\Controllers\HomeController::class, 'home']);
 
 Route::get('/dashboard', \App\Http\Controllers\DashboardController::class)
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth'])
     ->name('dashboard');
+
 Route::get('/profile', [\App\Http\Controllers\UserController::class, 'show'])->middleware(['auth'])->name('profile');
 
 Route::resource('project', \App\Http\Controllers\ProjectController::class)

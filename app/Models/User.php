@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use App\Actions\GetNCacheInitialBackgroundColorAction;
+use App\Notifications\UserPasswordChanged;
 use App\Services\Initials;
 use Carbon\Carbon;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -26,7 +28,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property Collection<Task> createdTasks;
  */
 
-class User extends Authenticatable implements HasMedia
+class User extends Authenticatable implements HasMedia, MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
     use InteractsWithMedia;
@@ -100,6 +102,18 @@ class User extends Authenticatable implements HasMedia
     public function getInitialsAttribute()
     {
         return Initials::generate($this->name);
+    }
+
+    public function markEmailAsUnverified(): bool
+    {
+        return $this->forceFill([
+            'email_verified_at' => null,
+        ])->save();
+    }
+
+    public function sendPasswordChangedNotification()
+    {
+        $this->notify(new UserPasswordChanged);
     }
 
 
