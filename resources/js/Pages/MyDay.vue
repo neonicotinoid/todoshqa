@@ -1,5 +1,10 @@
 <template>
     <div>
+        <Head>
+            <title>
+                Мой День
+            </title>
+        </Head>
         <NavHeader :user="this.auth.user"/>
         <MyDayHeader/>
         <main>
@@ -57,10 +62,11 @@ import NavHeader from "@/components/NavHeader";
 import TTask from "@/components/TTask";
 import MyDayHeader from "@/components/MyDay/MyDayHeader";
 import TButton from "@/components/TButton";
+import { Head } from "@inertiajs/inertia-vue3";
 
 export default {
     name: "MyDay",
-    components: {TButton, MyDayHeader, TTask, NavHeader},
+    components: {TButton, MyDayHeader, TTask, NavHeader, Head},
     props: {
         actualTasks: {
             type: Array,

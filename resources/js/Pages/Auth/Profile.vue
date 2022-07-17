@@ -1,5 +1,10 @@
 <template xmlns="http://www.w3.org/1999/html">
     <div>
+        <Head>
+            <title>
+                Редактировать профиль
+            </title>
+        </Head>
         <NavHeader :user="this.auth.user"/>
 
             <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
@@ -62,8 +67,8 @@
                                     <img :src="profile.avatar.original_url"
                                          class="block mx-auto w-24 h-24 rounded-full">
                                     <button @click.prevent="removeAvatar"
-                                        title="Удалить ааватр" class="absolute right-0 bottom-0 bg-red-100 border border-red-300 rounded-full p-1">
-                                        <TrashIcon class="text-red-300 w-5 h-5"/>
+                                        title="Удалить ааватр" class="absolute hover:bg-red-200 text-red-300 hover:text-red-400 right-0 bottom-0 bg-red-100 border border-red-300 rounded-full p-1 duration-150 transform active:scale-[0.98]">
+                                        <TrashIcon class="w-5 h-5"/>
                                     </button>
                                 </div>
                             </Transition>
@@ -124,10 +129,11 @@ import TextInput from "@/components/Form/TextInput";
 import TButton from "@/components/TButton";
 import AvatarPlaceholder from "@/components/AvatarPlaceholder";
 import {TrashIcon} from "@heroicons/vue/solid";
+import { Head } from '@inertiajs/inertia-vue3'
 
 export default {
     name: "Profile",
-    components: {AvatarPlaceholder, TButton, TextInput, FormGroup, NavHeader, TrashIcon},
+    components: {AvatarPlaceholder, TButton, TextInput, FormGroup, NavHeader, TrashIcon, Head},
     props: {
         profile: {
             type: Object,

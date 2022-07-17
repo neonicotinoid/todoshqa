@@ -1,4 +1,9 @@
 <template>
+    <Head>
+        <title>
+            Дашборд
+        </title>
+    </Head>
     <NavHeader :user="auth.user"/>
     <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between">
@@ -25,8 +30,10 @@
 <script>
 import NavHeader from "@/components/NavHeader";
 import ProjectCard from "@/components/ProjectCard";
+import {Head} from "@inertiajs/inertia-vue3";
+
 export default {
-    components: {NavHeader, ProjectCard},
+    components: {NavHeader, ProjectCard, Head},
     props: {
         auth: {
             user: {

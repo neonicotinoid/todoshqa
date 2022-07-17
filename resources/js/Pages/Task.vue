@@ -1,5 +1,10 @@
 <template>
     <div>
+    <Head>
+        <title>
+            {{ this.task.title }} – задача
+        </title>
+    </Head>
         <NavHeader :user="auth.user"/>
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
 
@@ -67,9 +72,11 @@ import {ChevronLeftIcon} from "@heroicons/vue/solid";
 import { Link } from '@inertiajs/inertia-vue3';
 import NavHeader from "@/components/NavHeader";
 import TButton from "@/components/TButton";
+import {Head} from "@inertiajs/inertia-vue3";
+
 export default {
     name: "Task",
-    components: {TButton, NavHeader, ChevronLeftIcon, Link},
+    components: {TButton, NavHeader, ChevronLeftIcon, Link, Head},
     props: {
         auth: {
             user: {

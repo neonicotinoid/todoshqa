@@ -1,4 +1,9 @@
 <template>
+    <Head>
+        <title>
+            {{ this.project.title }}
+        </title>
+    </Head>
     <NavHeader :user="this.auth.user"/>
     <ProjectHeader :project="this.project"/>
 
@@ -69,10 +74,11 @@ import TButton from "@/components/TButton";
 import NewTaskForm from "@/components/NewTaskForm";
 import NavHeader from "@/components/NavHeader";
 import ProjectHeader from "@/components/ProjectHeader";
+import { Head } from "@inertiajs/inertia-vue3";
 
 export default {
     name: "Project",
-    components: {ProjectHeader, NavHeader, NewTaskForm, TButton, TModal, TTask},
+    components: {ProjectHeader, NavHeader, NewTaskForm, TButton, TModal, TTask, Head},
     props: {
         errors: {
             type: Object,

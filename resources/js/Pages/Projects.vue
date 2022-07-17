@@ -1,5 +1,8 @@
 <template>
     <div>
+        <Head>
+            <title>Ваши проекты</title>
+        </Head>
         <NavHeader :user="this.auth.user"/>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
@@ -82,9 +85,11 @@ import ModalProjectCreate from "@/components/ModalProjectCreate";
 import ModalProjectEdit from "@/components/ModalProjectEdit";
 import {TrashIcon} from "@heroicons/vue/solid";
 import TrashedProjectCard from "@/components/TrashedProjectCard";
+import {Head} from "@inertiajs/inertia-vue3";
+
 export default {
     name: "Projects",
-    components: {TrashedProjectCard, ModalProjectEdit, ModalProjectCreate, TButton, NavHeader, ProjectCard, TrashIcon},
+    components: {TrashedProjectCard, ModalProjectEdit, ModalProjectCreate, TButton, NavHeader, ProjectCard, TrashIcon, Head},
     props: {
         ownProjects: {
             type: Array,

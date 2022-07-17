@@ -1,4 +1,9 @@
 <template>
+    <Head>
+        <title>
+            Todoshqa – ToDo app build with TailwindCSS, VueJS, Inertia and Laravel
+        </title>
+    </Head>
     <div class="bg-white">
         <Transition enter-active-class="transition duration-300"
                     enter-from-class="opacity-0 translate-y-95"
@@ -166,7 +171,7 @@
 
 
                     <div
-                        class="relative overflow-hidden bg-gradient-to-r from-slate-100 to-stone-100 shadow-sm py-12 px-8 rounded-xl before:block before:absolute before:w-36 before:h-10 before:bg-blue-400 before:right-4 before:blur-3xl">
+                        class="relative overflow-hidden bg-gradient-to-r from-slate-100 to-stone-100 shadow-sm py-12 px-8 rounded-xl before:block before:absolute before:w-36 before:h-10 before:bg-sky-400 before:right-4 before:blur-3xl">
                         <div class="text-2xl font-medium">
                             Категоризуйте задачи по проектам
                         </div>
@@ -177,7 +182,7 @@
                     </div>
 
                     <div
-                        class="relative overflow-hidden bg-gradient-to-r from-slate-100 to-stone-100 py-12 px-8 rounded-xl before:block before:absolute before:w-36 before:h-10 before:bg-purple-400 before:right-4 before:bottom-4 before:blur-3xl">
+                        class="relative overflow-hidden bg-gradient-to-r from-slate-100 to-stone-100 py-12 px-8 rounded-xl before:block before:absolute before:w-36 before:h-10 before:bg-amber-400 before:right-4 before:bottom-4 before:blur-3xl">
                         <div class="text-2xl font-medium">
                             Управляйте задачами
                         </div>
@@ -187,7 +192,7 @@
                     </div>
 
                     <div
-                        class="relative overflow-hidden bg-gradient-to-r from-slate-100 to-stone-100 py-12 px-8 rounded-xl before:block before:absolute before:w-36 before:h-10 before:bg-purple-400 before:right-4 before:bottom-4 before:blur-3xl">
+                        class="relative overflow-hidden bg-gradient-to-r from-slate-100 to-stone-100 py-12 px-8 rounded-xl before:block before:absolute before:w-36 before:h-10 before:bg-fuchsia-400 before:right-12 before:top-12 before:blur-3xl">
                         <div class="text-2xl font-medium">
                             Делитесь доступом к проекту
                         </div>
@@ -225,9 +230,10 @@
 import { Link } from '@inertiajs/inertia-vue3';
 import TButton from "@/components/TButton";
 import TTask from "@/components/TTask";
+import {Head} from "@inertiajs/inertia-vue3";
 
 export default {
-    components: {TTask, TButton, Link},
+    components: {TTask, TButton, Link, Head},
     props: {
         tasks: {
             type: Array,

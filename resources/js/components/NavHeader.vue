@@ -4,7 +4,7 @@
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center">
                     <div class="flex-shrink-0">
-                        <img src="css/icon.png" class="w-8 h-8">
+                        <img src="/css/icon.png" class="w-8 h-8">
                     </div>
                     <div class="hidden md:block">
                         <div class="ml-10 flex items-baseline space-x-4">
