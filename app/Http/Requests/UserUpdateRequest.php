@@ -14,8 +14,7 @@ class UserUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        // TODO: Auth via Policy
-        return true;
+        return auth()->user()->can('update', auth()->user());
     }
 
     /**

@@ -36,9 +36,10 @@ class TaskController extends Controller
 
     public function update(UpdateTaskRequest $request, Task $task)
     {
-        $task->fill($request->only(['title', 'description', 'deadline_date']))->save();
-        return redirect()->back()->with('success', 'Task updated');
+        $task->fill($request->only(['title', 'description', 'deadline_date']))
+            ->save();
 
+        return redirect()->back()->with('success', 'Task updated');
     }
 
     public function completeTask(Request $request, Task $task)
