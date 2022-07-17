@@ -10,26 +10,44 @@
                 </div>
             </div>
 
-            <div class="ml-auto">
-                <button @click="$emit('openProjectEdit', project)">
+            <div v-if="this.withActions" class="ml-auto">
+                <button @click="showEditModal = true">
                     <CogIcon class="w-5 h-5 text-gray-300"/>
                 </button>
             </div>
 
         </div>
+
+        <ModalProjectEdit
+            v-if="showEditModal"
+            :open="showEditModal"
+            :project="this.project"
+            @close="showEditModal = false"
+        />
     </div>
 </template>
 
 <script>
 import {CogIcon} from "@heroicons/vue/outline";
+import ModalProjectEdit from "@/components/ModalProjectEdit";
+
 export default {
     name: "ProjectCard",
     emits: ['openProjectEdit'],
-    components: {CogIcon},
+    components: {CogIcon, ModalProjectEdit},
     props: {
         project: {
             type: Object,
+        },
+        withActions: {
+            type: Boolean,
+            default: true,
+        },
+    },
+    data() {
+        return {
+            showEditModal: false,
         }
-    }
+    },
 }
 </script>

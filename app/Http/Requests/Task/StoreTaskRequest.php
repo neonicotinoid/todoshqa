@@ -27,7 +27,7 @@ class StoreTaskRequest extends FormRequest
     {
         return [
             'title' => ['string', 'required', 'min:3'],
-            'project_id' => ['integer', 'exists:projects,id'],
+            'project_id' => ['required', 'integer', 'exists:projects,id'],
         ];
     }
 }

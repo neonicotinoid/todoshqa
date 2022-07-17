@@ -22,7 +22,7 @@
                         leave-from-class="opacity-100 translate-y-100"
                         leave-to-class="opacity-0 translate-y-95"
                         appear>
-                    <ProjectCard v-for="project in ownProjects" :project="project" :key="project.id" @openProjectEdit="openProjectEdit"/>
+                    <ProjectCard v-for="project in ownProjects" :project="project" :key="project.id"/>
                     </TransitionGroup>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                     </div>
                 </div>
                 <div class="space-y-4">
-                    <ProjectCard v-for="project in sharedProjects" :project="project" :key="project.id"/>
+                    <ProjectCard v-for="project in sharedProjects" :project="project" :key="project.id" :with-actions="false"/>
                 </div>
             </div>
 
@@ -67,12 +67,7 @@
             :open="showCreateModal"
             @close="showCreateModal = false;" />
 
-        <ModalProjectEdit
-            v-if="showEditModal"
-            :open="showEditModal"
-            :project="this.editableProject"
-            @close="showEditModal = false"
-            />
+
     </div>
 </template>
 
@@ -110,8 +105,6 @@ export default {
     data() {
         return {
             showCreateModal: false,
-            showEditModal: false,
-            editableProject: null,
         }
     },
     methods: {

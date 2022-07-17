@@ -20,7 +20,7 @@
                 leave-from-class="opacity-100 translate-y-100"
                 leave-to-class="opacity-0 translate-y-95"
                 appear>
-                <ProjectCard v-for="project in projects" :project="project" :key="project.id" @openProjectEdit="openProjectEdit"/>
+                <ProjectCard v-for="project in projects" :project="project" :key="project.id"/>
             </TransitionGroup>
         </div>
     </div>

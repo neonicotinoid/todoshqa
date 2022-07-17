@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Actions\AddTaskToMyDayAction;
+use App\Actions\CreateTaskAction;
 use App\Actions\RemoveTaskFromMyDayAction;
 use App\Http\Requests\Task\StoreTaskRequest;
 use App\Http\Requests\Task\UpdateTaskRequest;
-use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -14,12 +14,13 @@ use Inertia\Inertia;
 class TaskController extends Controller
 {
 
-    public function store(StoreTaskRequest $request)
+    public function store(StoreTaskRequest $request, CreateTaskAction $create)
     {
-        $task = new Task();
-        $task->fill(['user_id' => auth()->user()->id, ...$request->validated()]);
-        $task->author()->associate(auth()->user());
-        $task->project()->associate(Project::find($request->project_id))->save();
+        $create(
+            user: auth()->user(),
+            project: $request->get('project_id'),
+            attributes: $request->validated(),
+        );
 
         return back()->with('success', 'Task created');
     }
