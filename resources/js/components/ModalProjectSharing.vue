@@ -12,18 +12,9 @@
                     </div>
 
                 </div>
-                <div class="mt-2 flex items-center p-2 border border-gray-200 bg-gray-50 rounded-lg">
-
-                    <div class="text-sm text-gray-800">
-                        <p>
-                            {{ project.user.name }}
-                        </p>
-                        <p class="text-gray-400 text-xs font-normal">
-                            {{ project.user.email }}
-                        </p>
-                    </div>
+                <div class="mt-2">
+                    <UserCard :user="project.user"/>
                 </div>
-
 
                 <div v-if="project.users.length > 0" class="mt-8">
                     <div class="text-sm text-gray-900 font-medium">
@@ -39,23 +30,17 @@
                             leave-from-class="opacity-100 translate-y-100"
                             leave-to-class="opacity-0 translate-y-95"
                             appear>
-                        <div v-for="user in project.users" :key="user.id" class="flex items-center p-2 border border-gray-200 bg-gray-50 rounded-lg">
-                            <div class="text-sm text-gray-800">
-                                <p>
-                                    {{ user.name }}
-                                </p>
-                                <p class="text-gray-400 text-xs font-normal">
-                                    {{ user.email }}
-                                </p>
-                            </div>
 
-                            <button
-                                @click.prevent="unshareProject(user.id)"
-                                class="text-red-600 w-5 h-5 ml-auto"
-                                title="Удалить доступ у пользователя">
-                                <UserRemoveIcon/>
-                            </button>
-                        </div>
+                            <UserCard v-for="user in project.users" :user="user" :key="user.id">
+                                <template v-slot:actions>
+                                    <button
+                                        @click.prevent="unshareProject(user.id)"
+                                        class="text-red-600 w-5 h-5 ml-auto"
+                                        title="Удалить доступ у пользователя">
+                                        <UserRemoveIcon/>
+                                    </button>
+                                </template>
+                            </UserCard>
                         </TransitionGroup>
                     </div>
                 </div>
@@ -94,10 +79,11 @@ import {UserRemoveIcon} from "@heroicons/vue/solid";
 import FormGroup from "@/components/Form/FormGroup";
 import TextInput from "@/components/Form/TextInput";
 import TButton from "@/components/TButton";
+import UserCard from "@/components/UserCard";
 
 export default {
     name: "ModalProjectSharing",
-    components: {TButton, TextInput, FormGroup, TModal, UserRemoveIcon},
+    components: {UserCard, TButton, TextInput, FormGroup, TModal, UserRemoveIcon},
     props: {
         open: {
             type: Boolean,
