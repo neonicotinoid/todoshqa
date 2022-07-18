@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Foundation\Application;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,43 +17,50 @@ use Inertia\Inertia;
 */
 
 Route::get('/', [\App\Http\Controllers\HomeController::class, 'home']);
-
 Route::get('/dashboard', \App\Http\Controllers\DashboardController::class)
     ->middleware(['auth'])
     ->name('dashboard');
 
-Route::get('/profile', [\App\Http\Controllers\UserController::class, 'show'])->middleware(['auth'])->name('profile');
 
-Route::resource('project', \App\Http\Controllers\ProjectController::class)
+// Projects
+Route::controller(ProjectController::class)
+    ->prefix('project')
+    ->as('project.')
+    ->middleware(['auth'])
+    ->group(function () {
+        Route::delete('/{project}/force-delete', [ProjectController::class, 'forceDelete'])->name('force-delete');
+        Route::post('/{project}/restore', [ProjectController::class, 'restore'])->name('restore');
+        Route::post('/{project}/share', [ProjectController::class, 'share'])->name('share');
+        Route::post('/{project}/unshare', [ProjectController::class, 'unshare'])->name('unshare');
+    });
+Route::resource('project', ProjectController::class)
     ->middleware(['auth'])
     ->only(['index', 'show', 'store', 'update', 'destroy']);
-Route::delete('project/{project}/force-delete', [\App\Http\Controllers\ProjectController::class, 'forceDelete'])->middleware(['auth'])->name('project.force-delete');
-Route::post('project/{project}/restore', [\App\Http\Controllers\ProjectController::class, 'restore'])->middleware(['auth'])->name('project.restore');
-Route::post('project/{project}/share', [\App\Http\Controllers\ProjectController::class, 'share'])->middleware(['auth'])->name('project.share');
-Route::post('project/{project}/unshare', [\App\Http\Controllers\ProjectController::class, 'unshare'])->middleware(['auth'])->name('project.unshare');
 
-
-Route::resource('task', \App\Http\Controllers\TaskController::class)
+// Tasks
+Route::post('task/{task}/toggle', [TaskController::class, 'completeTask'])->name('task.complete')->middleware(['auth']);
+Route::post('task/{task}/myday', [TaskController::class, 'toggleToMyDay'])->name('task.myday')->middleware(['auth']);
+Route::resource('task', TaskController::class)
     ->middleware(['auth'])
     ->only(['show', 'update', 'store', 'destroy']);
 
-Route::post('task/{task}/toggle', [\App\Http\Controllers\TaskController::class, 'completeTask'])->name('task.complete')->middleware(['auth']);
-Route::post('task/{task}/myday', [\App\Http\Controllers\TaskController::class, 'toggleToMyDay'])->name('task.myday')->middleware(['auth']);
-
+// MyDay Page
 Route::get('myday', [\App\Http\Controllers\MyDayController::class, 'show'])
     ->middleware(['auth'])
     ->name('myDay');
 
-Route::post('user/{user}/', [\App\Http\Controllers\UserController::class, 'update'])
-    ->middleware(['auth'])
-    ->name('user.update');
 
-Route::delete('user/{user}/remove-avatar', [\App\Http\Controllers\UserController::class, 'removeAvatar'])
+// Users
+Route::get('/profile', [UserController::class, 'show'])->middleware(['auth'])->name('profile');
+Route::controller(UserController::class)
+    ->prefix('user')
     ->middleware(['auth'])
-    ->name('user.removeAvatar');
+    ->as('user.')
+    ->group(function () {
 
-Route::post('user/{user}/upload-avatar', [\App\Http\Controllers\UserController::class, 'uploadAvatar'])
-    ->middleware(['auth'])
-    ->name('user.uploadAvatar');
+        Route::post('/{user}', 'update')->name('update');
+        Route::delete('/{user}/remove-avatar', 'removeAvatar')->name('removeAvatar');
+        Route::post('/{user}/upload-avatar', 'uploadAvatar')->name('uploadAvatar');
+    });
 
 require __DIR__.'/auth.php';
