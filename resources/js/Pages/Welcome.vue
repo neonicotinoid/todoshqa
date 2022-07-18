@@ -68,14 +68,12 @@
                             </div>
 
                             <div v-if="!isLoggedIn">
-                                <TButton color="blue" size="lg">
-                                    <Link :href="route('login')" method="get">
-                                        Залогиниться
-                                    </Link>
+                                <TButton tag="Link" :href="route('login')" method="get" color="blue" size="lg">
+                                    Залогиниться
                                 </TButton>
                             </div>
 
-                            <TButton size="lg" color="white">
+                            <TButton color="white" size="lg" tag="a" href="https://jolly-scion-c13.notion.site/Todoshqa-e5f3332c7fc641bf9f6fe65c70b121a8" target="_blank">
                                 Документация
                             </TButton>
                         </div>

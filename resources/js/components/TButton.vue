@@ -1,23 +1,26 @@
 <template>
-    <button :type="type"
-            class="flex items-center justify-center whitespace-nowrap space-x-2 text-center
+    <component :is="this.tag"
+                class="flex items-center justify-center whitespace-nowrap space-x-2 text-center
                     active:ring-2 active:ring-offset-1
                     focus:ring-2 focus:ring-offset-1
                     disabled:bg-gray-300 disabled:text-gray-100 disabled:cursor-not-allowed disabled:active:shadow-none
                     duration-200
                     outline-none"
-            :class="classObject"
+                :class="classObject"
     >
         <slot />
-    </button>
+    </component>
 </template>
 
 <script>
+import {Link} from "@inertiajs/inertia-vue3";
+
 export default {
+    components: {Link},
     props: {
-        type: {
-            type: String,
-            default: 'submit',
+        tag: {
+           type: String,
+           default: 'button',
         },
         color: {
             type: String,
