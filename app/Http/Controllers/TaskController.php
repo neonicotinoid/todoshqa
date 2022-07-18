@@ -7,6 +7,7 @@ use App\Actions\CreateTaskAction;
 use App\Actions\RemoveTaskFromMyDayAction;
 use App\Http\Requests\Task\StoreTaskRequest;
 use App\Http\Requests\Task\UpdateTaskRequest;
+use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -17,7 +18,7 @@ class TaskController extends Controller
     public function store(StoreTaskRequest $request, CreateTaskAction $create)
     {
         $create(
-            user: auth()->user(),
+            user: $request->user(),
             project: $request->get('project_id'),
             attributes: $request->validated(),
         );
@@ -42,7 +43,7 @@ class TaskController extends Controller
         return redirect()->back()->with('success', 'Task updated');
     }
 
-    public function completeTask(Request $request, Task $task)
+    public function toggleTaskCompletion(Request $request, Task $task)
     {
         $this->authorize('update', $task);
         $task->completed_at ?
@@ -55,7 +56,7 @@ class TaskController extends Controller
 
     public function toggleToMyDay(Request $request, Task $task, AddTaskToMyDayAction $add, RemoveTaskFromMyDayAction $remove)
     {
-        // TODO: Auth
+        $this->authorize('update', $task);
 
         if ($task->isInMyDay(auth()->user())) {
             $remove($task, auth()->user());

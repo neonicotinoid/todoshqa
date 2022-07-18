@@ -38,7 +38,7 @@ Route::resource('project', ProjectController::class)
     ->only(['index', 'show', 'store', 'update', 'destroy']);
 
 // Tasks
-Route::post('task/{task}/toggle', [TaskController::class, 'completeTask'])->name('task.complete')->middleware(['auth']);
+Route::post('task/{task}/toggle', [TaskController::class, 'toggleTaskCompletion'])->name('task.complete')->middleware(['auth']);
 Route::post('task/{task}/myday', [TaskController::class, 'toggleToMyDay'])->name('task.myday')->middleware(['auth']);
 Route::resource('task', TaskController::class)
     ->middleware(['auth'])
