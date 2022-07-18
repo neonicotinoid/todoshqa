@@ -11,5 +11,4 @@ class ShareProjectToUserAction
     {
         $user->shared_projects()->syncWithoutDetaching($project);
     }
-
 }
