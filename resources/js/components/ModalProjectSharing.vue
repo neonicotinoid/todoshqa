@@ -103,12 +103,12 @@ export default {
     },
     methods: {
         shareProject() {
-            this.shareForm.post(route('project.share', this.project.id), {
+            this.shareForm.post(route('projects.share', this.project.id), {
                 onSuccess: () => {this.shareForm.reset();}
             })
         },
         unshareProject(userId) {
-            this.$inertia.post(route('project.unshare', this.project.id), {
+            this.$inertia.post(route('projects.unshare', this.project.id), {
                 user_id: userId,
             });
         },

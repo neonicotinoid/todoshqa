@@ -1,8 +1,6 @@
 <template>
     <div>
-        <Head>
-            <title>Ваши проекты</title>
-        </Head>
+        <Head><title>Ваши проекты</title></Head>
         <NavHeader :user="this.auth.user"/>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 

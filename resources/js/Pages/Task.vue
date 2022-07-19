@@ -11,7 +11,7 @@
             <form class="mt-6" @submit.prevent="saveTask">
                 <div class="bg-white shadow rounded-lg p-4">
                     <Link class="inline-flex bg-purple-50 rounded-full pl-2 pr-3 py-0.5 mb-6 items-center text-sm text-purple-600 hover:bg-purple-100 duration-150"
-                        :href="route('project.show', this.task.project.id)">
+                        :href="route('projects.show', this.task.project.id)">
                         <ChevronLeftIcon class="h-5 w-5"/>
                         {{this.task.project.title}}
                     </Link>

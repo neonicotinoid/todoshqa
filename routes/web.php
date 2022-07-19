@@ -24,8 +24,8 @@ Route::get('/dashboard', \App\Http\Controllers\DashboardController::class)
 
 // Projects
 Route::controller(ProjectController::class)
-    ->prefix('project')
-    ->as('project.')
+    ->prefix('projects')
+    ->as('projects.')
     ->middleware(['auth'])
     ->group(function () {
         Route::delete('/{project}/force-delete', [ProjectController::class, 'forceDelete'])->name('force-delete');
@@ -33,13 +33,13 @@ Route::controller(ProjectController::class)
         Route::post('/{project}/share', [ProjectController::class, 'share'])->name('share');
         Route::post('/{project}/unshare', [ProjectController::class, 'unshare'])->name('unshare');
     });
-Route::resource('project', ProjectController::class)
+Route::resource('projects', ProjectController::class)
     ->middleware(['auth'])
     ->only(['index', 'show', 'store', 'update', 'destroy']);
 
 // Tasks
-Route::post('task/{task}/toggle', [TaskController::class, 'toggleTaskCompletion'])->name('task.complete')->middleware(['auth']);
-Route::post('task/{task}/myday', [TaskController::class, 'toggleToMyDay'])->name('task.myday')->middleware(['auth']);
+Route::post('tasks/{task}/toggle', [TaskController::class, 'toggleTaskCompletion'])->name('task.complete')->middleware(['auth']);
+Route::post('tasks/{task}/myday', [TaskController::class, 'toggleToMyDay'])->name('task.myday')->middleware(['auth']);
 Route::resource('task', TaskController::class)
     ->middleware(['auth'])
     ->only(['show', 'update', 'store', 'destroy']);
@@ -53,11 +53,10 @@ Route::get('myday', [\App\Http\Controllers\MyDayController::class, 'show'])
 // Users
 Route::get('/profile', [UserController::class, 'show'])->middleware(['auth'])->name('profile');
 Route::controller(UserController::class)
-    ->prefix('user')
+    ->prefix('users')
     ->middleware(['auth'])
     ->as('user.')
     ->group(function () {
-
         Route::post('/{user}', 'update')->name('update');
         Route::delete('/{user}/remove-avatar', 'removeAvatar')->name('removeAvatar');
         Route::post('/{user}/upload-avatar', 'uploadAvatar')->name('uploadAvatar');

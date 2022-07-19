@@ -115,7 +115,7 @@ export default {
     watch: {
         sorting: {
             handler() {
-                Inertia.visit(route('project.show', this.project.id), {
+                Inertia.visit(route('projects.show', this.project.id), {
                     only: ['actualTasks'],
                     data: {sorting: this.sorting},
                     preserveState: true,

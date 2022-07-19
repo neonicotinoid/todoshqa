@@ -27,7 +27,7 @@ class TasksListPageTest extends TestCase
                 , 'projects')
             ->create());
 
-        $this->get(route('project.show', ['project' => 1]))
+        $this->get(route('projects.show', ['project' => 1]))
             ->assertStatus(200);
     }
 
@@ -47,7 +47,7 @@ class TasksListPageTest extends TestCase
         (new ShareProjectToUserAction())(Project::find(1), $sharedUser);
 
         $this->actingAs($sharedUser)
-            ->get(route('project.show', ['project' => 1]))
+            ->get(route('projects.show', ['project' => 1]))
             ->assertStatus(200);
     }
 
@@ -64,7 +64,7 @@ class TasksListPageTest extends TestCase
             ->create();
 
         $this->actingAs(User::factory()->create())
-            ->get(route('project.show', ['project' => 1]))
+            ->get(route('projects.show', ['project' => 1]))
             ->assertForbidden();
     }
 
@@ -80,7 +80,7 @@ class TasksListPageTest extends TestCase
                 , 'projects')
             ->create();
 
-        $this->get(route('project.show', ['project' => 1]))
+        $this->get(route('projects.show', ['project' => 1]))
             ->assertRedirect('login');
 
     }
@@ -99,7 +99,7 @@ class TasksListPageTest extends TestCase
             ->create();
         $this->actingAs($user);
 
-        $this->get(route('project.show', ['project' => 1]))
+        $this->get(route('projects.show', ['project' => 1]))
             ->assertStatus(200)
             ->assertInertia(fn (Assert $page) => $page
                 ->component('Project')
@@ -146,7 +146,7 @@ class TasksListPageTest extends TestCase
             ->create();
         $this->actingAs($user);
 
-        $this->get(route('project.show', ['project' => 1]))
+        $this->get(route('projects.show', ['project' => 1]))
             ->assertInertia(function (Assert $page) {
                 $page->component('Project');
                 $page->has('actualTasks')->whereAll([
@@ -157,7 +157,7 @@ class TasksListPageTest extends TestCase
                 ]);
             });
 
-        $this->get(route('project.show', ['project' => 1, 'sorting' => 'deadline']))
+        $this->get(route('projects.show', ['project' => 1, 'sorting' => 'deadline']))
             ->assertInertia(function (Assert $page) {
                 $page->component('Project');
                 $page->has('actualTasks')->whereAll([
@@ -168,7 +168,7 @@ class TasksListPageTest extends TestCase
                 ]);
             });
 
-        $this->get(route('project.show', ['project' => 1, 'sorting' => 'created_asc']))
+        $this->get(route('projects.show', ['project' => 1, 'sorting' => 'created_asc']))
             ->assertInertia(function (Assert $page) {
                 $page->component('Project');
                 $page->has('actualTasks')->whereAll([

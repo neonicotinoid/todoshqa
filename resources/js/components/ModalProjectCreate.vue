@@ -43,7 +43,7 @@ export default {
     },
     methods: {
         createProject() {
-            this.projectForm.post(route('project.store'), {
+            this.projectForm.post(route('projects.store'), {
                 onSuccess: () => {this.$emit('close');}
             })
         }
