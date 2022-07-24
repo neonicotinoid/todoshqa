@@ -2,15 +2,12 @@
 
 namespace Tests\Feature;
 
-use App\Http\Livewire\ProfilePage;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Http\File;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
-use Livewire\Livewire;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use \Illuminate\Http\Testing\File;
+use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
 class ProfilePageTest extends TestCase
@@ -30,11 +27,19 @@ class ProfilePageTest extends TestCase
             ->assertRedirect();
     }
 
-    public function test_it_renders()
+    public function test_it_renders_for_user()
     {
-        $this->actingAs(User::factory()->create());
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
         $this->get(route('profile'))
-            ->assertSeeLivewire(ProfilePage::class);
+            ->assertStatus(200)
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Auth/Profile')
+                ->has('profile')->whereAll([
+                    'profile.id' => $user->id,
+                    'profile.name' => $user->name,
+                ]));
     }
 
     public function test_it_uploads_avatar_for_user()
@@ -43,32 +48,27 @@ class ProfilePageTest extends TestCase
         $this->actingAs($user);
         $uploadedAvatar = UploadedFile::fake()->image('avatar.png');
 
-        Livewire::test(ProfilePage::class, ['user' => $user])
-            ->set('preloadedAvatar', $uploadedAvatar)
-            ->call('approvePreloadedAvatar');
-        $user->refresh();
+        $this->postJson(route('user.uploadAvatar', ['user' => $user->id]), [
+            'avatar' => $uploadedAvatar,
+        ]);
 
         $this->assertFileExists($user->getFirstMedia('avatar')->getPath());
         $this->assertDatabaseHas('media', ['file_name' => 'avatar.png']);
         $this->assertTrue($user->hasMedia('avatar'));
     }
 
-    public function test_it_removes_current_avatar()
+    public function test_it_can_remove_current_avatar()
     {
         $user = User::factory()->create();
         $this->actingAs($user);
 
-        $user->addMedia(\Illuminate\Http\Testing\File::fake()->image('avatar.png'))
+        $user->addMedia(File::fake()->image('avatar.png'))
             ->toMediaCollection('avatar');
 
-        Livewire::test(ProfilePage::class, ['user' => $user])
-            ->call('removeAvatar');
-        $user->refresh();
+        $this->deleteJson(route('user.removeAvatar', ['user' => $user->id]));
 
         $this->assertDatabaseMissing('media', ['file_name' => 'avatar.png']);
         $this->assertFalse($user->hasMedia('avatar'));
-
-
     }
 
     public function test_user_cant_be_edited_by_another_user()
@@ -76,11 +76,14 @@ class ProfilePageTest extends TestCase
         [$owner, $random_user] = User::factory(2)->create();
         $this->actingAs($random_user);
 
-        Livewire::test(ProfilePage::class, ['user' => $owner])
-            ->assertSet('user.name', $owner->name)
-            ->call('saveUser')
-            ->assertForbidden()
-            ->call('approvePreloadedAvatar')
-            ->assertForbidden();
+        $this->postJson(route('user.update', ['user' => $owner->id]), [
+            'name' => 'new username',
+            'email' => 'newemail@example.com'
+        ])->assertForbidden();
+
+        $this->assertDatabaseMissing('users', [
+            'name' => 'new username',
+            'email' => 'newemail@example.com'
+        ]);
     }
 }

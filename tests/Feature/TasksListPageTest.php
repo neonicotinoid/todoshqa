@@ -8,7 +8,6 @@ use App\Models\Task;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
-use Livewire\Livewire;
 use Tests\TestCase;
 
 class TasksListPageTest extends TestCase
