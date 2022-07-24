@@ -54,13 +54,13 @@ export default {
     },
     methods: {
         restoreProject() {
-            this.$inertia.post(route('project.restore', this.project.id));
+            this.$inertia.post(route('projects.restore', this.project.id));
         },
         confirmRemoveProject() {
             this.removalConfirmation = true;
         },
         removeProject() {
-            this.$inertia.delete(route('project.force-delete', this.project.id), {
+            this.$inertia.delete(route('projects.force-delete', this.project.id), {
                 onSuccess: () => {this.removalConfirmation = false;}
             });
         }

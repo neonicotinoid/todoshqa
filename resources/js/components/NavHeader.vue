@@ -16,7 +16,7 @@
                                 Мой день
                             </Link>
 
-                            <Link :href="route('project.index')" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                            <Link :href="route('projects.index')" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                                 Проекты
                             </Link>
                             <Link :href="route('profile')" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">

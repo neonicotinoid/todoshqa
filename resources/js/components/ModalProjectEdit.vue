@@ -50,14 +50,14 @@ export default {
     },
     methods: {
         saveProject() {
-            this.projectForm.put(route('project.update', this.project.id), {
+            this.projectForm.put(route('projects.update', this.project.id), {
                 onSuccess: () => {this.$emit('close')},
             });
         },
         deleteProject() {
             this.$inertia.form({
                 id: this.project.id
-            }).delete(route('project.destroy', this.project.id), {
+            }).delete(route('projects.destroy', this.project.id), {
                 onSuccess: () => {this.$emit('close')}
             });
         }
