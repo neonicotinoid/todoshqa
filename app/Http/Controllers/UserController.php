@@ -8,7 +8,6 @@ use App\Actions\UpdateUserFromAttributesAction;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class UserController extends Controller
@@ -16,6 +15,7 @@ class UserController extends Controller
     public function show(Request $request)
     {
         $this->authorize('update', auth()->user());
+
         return Inertia::render('Auth/Profile', [
             'profile' => auth()->user(),
         ]);
@@ -33,6 +33,7 @@ class UserController extends Controller
         $this->authorize('update', $user);
 
         $removeAvatar($user);
+
         return back()->with('success', 'Avatar removed');
     }
 
@@ -46,7 +47,5 @@ class UserController extends Controller
         $attachAvatar($user, $request->file('avatar'));
 
         return back()->with('success', 'Avatar uploaded');
-
-
     }
 }

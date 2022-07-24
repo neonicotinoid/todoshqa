@@ -6,19 +6,16 @@ use App\Events\UserEmailChanged;
 use App\Events\UserPasswordChanged;
 use App\Models\User;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\DB;
 
 class UpdateUserFromAttributesAction
 {
-
     public function __invoke(User $user, array $attributes)
     {
         $user->fill($attributes)->save();
 
-
         if (Arr::exists($user->getChanges(), 'email')) {
             $user->markEmailAsUnverified();
-          event(new UserEmailChanged($user));
+            event(new UserEmailChanged($user));
         }
 
         if (Arr::exists($user->getChanges(), 'password')) {
@@ -27,5 +24,4 @@ class UpdateUserFromAttributesAction
 
         return $user;
     }
-
 }

@@ -5,8 +5,8 @@ namespace Tests\Feature;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\Testing\File;
 use Illuminate\Http\UploadedFile;
-use \Illuminate\Http\Testing\File;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
@@ -78,12 +78,12 @@ class ProfilePageTest extends TestCase
 
         $this->postJson(route('user.update', ['user' => $owner->id]), [
             'name' => 'new username',
-            'email' => 'newemail@example.com'
+            'email' => 'newemail@example.com',
         ])->assertForbidden();
 
         $this->assertDatabaseMissing('users', [
             'name' => 'new username',
-            'email' => 'newemail@example.com'
+            'email' => 'newemail@example.com',
         ]);
     }
 }

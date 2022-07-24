@@ -2,12 +2,9 @@
 
 namespace Tests\Feature;
 
-use App\Actions\ShareProjectToUserAction;
 use App\Models\Project;
-use App\Models\Task;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class TaskTest extends TestCase
@@ -21,7 +18,7 @@ class TaskTest extends TestCase
 
         $this->post(route('task.store'), [
             'project_id' => 1,
-            'title' => 'This is new task'
+            'title' => 'This is new task',
         ])->assertStatus(302);
 
         $this->assertDatabaseHas('tasks', [
@@ -35,7 +32,7 @@ class TaskTest extends TestCase
     {
         $this->post(route('task.store'), [
             'project_id' => 1,
-            'title' => 'This is new task'
+            'title' => 'This is new task',
         ])->assertRedirect('/login');
 
         $this->assertDatabaseMissing('tasks', [
@@ -65,9 +62,8 @@ class TaskTest extends TestCase
         $this->actingAs(User::factory()->has(Project::factory(['id' => 1]), 'projects')->create());
         $this->post(route('task.store'), [
             'project_id' => 1,
-            'title' => ''
+            'title' => '',
         ])->assertSessionHasErrors('title');
-
     }
 
     public function test_user_can_create_task_in_shared_project()
@@ -87,7 +83,7 @@ class TaskTest extends TestCase
         $this->assertDatabaseHas('tasks', [
             'title' => 'New task in shared project',
             'project_id' => 1,
-            'user_id' => $user_with_access->id
+            'user_id' => $user_with_access->id,
         ]);
     }
 }

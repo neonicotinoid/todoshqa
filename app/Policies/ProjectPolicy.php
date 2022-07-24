@@ -30,7 +30,6 @@ class ProjectPolicy
 
     public function delete(User $user, Project $project): bool|Response
     {
-
         return $user->id === $project->user->id;
     }
 

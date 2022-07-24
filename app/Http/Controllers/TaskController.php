@@ -7,14 +7,12 @@ use App\Actions\CreateTaskAction;
 use App\Actions\RemoveTaskFromMyDayAction;
 use App\Http\Requests\Task\StoreTaskRequest;
 use App\Http\Requests\Task\UpdateTaskRequest;
-use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class TaskController extends Controller
 {
-
     public function store(StoreTaskRequest $request, CreateTaskAction $create)
     {
         $create(
@@ -31,7 +29,7 @@ class TaskController extends Controller
         $this->authorize('view', $task);
 
         return Inertia::render('Task', [
-           'task' => $task->load('project'),
+            'task' => $task->load('project'),
         ]);
     }
 

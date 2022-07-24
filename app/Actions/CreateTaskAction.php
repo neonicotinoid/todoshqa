@@ -8,14 +8,13 @@ use App\Models\User;
 
 class CreateTaskAction
 {
-
     public function __invoke(User|int $user, Project|int $project, array $attributes): Task
     {
-        if (is_integer($user)) {
+        if (is_int($user)) {
             $user = User::findOrFail($user);
         }
 
-        if (is_integer($project)) {
+        if (is_int($project)) {
             $project = Project::findOrFail($project);
         }
 
@@ -25,5 +24,4 @@ class CreateTaskAction
 
         return $task;
     }
-
 }

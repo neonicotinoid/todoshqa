@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -18,11 +17,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Carbon completed_at;
  * @property Carbon created_at;
  * @property Carbon updated_at;
- *
  * @property Project project;
  * @property User author;
  */
-
 class Task extends Model
 {
     use HasFactory;
@@ -33,7 +30,7 @@ class Task extends Model
     protected $appends = ['is_completed', 'isInMyDay', 'deadline_status'];
 
     protected $casts = [
-        'deadline_date' => 'date:Y-m-d'
+        'deadline_date' => 'date:Y-m-d',
     ];
 
     public function project(): BelongsTo
@@ -48,7 +45,7 @@ class Task extends Model
 
     public function scopeActual(Builder $query): Builder
     {
-        return $query->where('completed_at', '=',null);
+        return $query->where('completed_at', '=', null);
     }
 
     public function scopeCompleted(Builder $query): Builder
@@ -77,7 +74,7 @@ class Task extends Model
             return 'completed';
         }
 
-        if ($this->deadline_date?->isPast() && !$this->deadline_date?->isToday()) {
+        if ($this->deadline_date?->isPast() && ! $this->deadline_date?->isToday()) {
             return 'overdued';
         }
 
@@ -90,5 +87,4 @@ class Task extends Model
     {
         return (bool) $this->completed_at;
     }
-
 }

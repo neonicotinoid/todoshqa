@@ -15,19 +15,17 @@ class MyDayTasksTest extends TestCase
 
     public function test_it_renders_component()
     {
-
         $this->actingAs(User::factory()
             ->has(Project::factory()->afterCreating(function (Project $project, User $user) {
                 Task::factory(3)
                     ->for($user, 'author')
                     ->for($project, 'project')
                     ->create();
-            })
-                , 'projects')
+            }), 'projects')
             ->create());
 
         $this->get(route('myDay'))
-            ->assertInertia(function( Assert $page) {
+            ->assertInertia(function (Assert $page) {
                 $page->component('MyDay');
             });
     }
@@ -56,7 +54,7 @@ class MyDayTasksTest extends TestCase
 
         $this->get(route('myDay'))
             ->assertStatus(200)
-            ->assertInertia(function( Assert $page) {
+            ->assertInertia(function (Assert $page) {
                 $page->component('MyDay');
                 $page->has('actualTasks')
                     ->whereAll([
@@ -85,10 +83,9 @@ class MyDayTasksTest extends TestCase
             ->create();
         $this->actingAs($user);
 
-
         $this->get(route('myDay'))
             ->assertStatus(200)
-            ->assertInertia(function( Assert $page) {
+            ->assertInertia(function (Assert $page) {
                 $page->component('MyDay');
                 $page->has('actualTasks')
                     ->whereAll([
@@ -101,6 +98,4 @@ class MyDayTasksTest extends TestCase
                     ]);
             });
     }
-
-
 }

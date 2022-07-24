@@ -17,17 +17,14 @@ use Ramsey\Collection\Collection;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-
 /**
  * @property int id;
  * @property string email;
  * @property string name;
- *
  * @property Collection<Project> projects;
  * @property Collection<Project> shared_projects;
  * @property Collection<Task> createdTasks;
  */
-
 class User extends Authenticatable implements HasMedia, MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -64,7 +61,6 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
 
     public function projects(): HasMany
     {
@@ -115,6 +111,4 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     {
         $this->notify(new UserPasswordChanged);
     }
-
-
 }

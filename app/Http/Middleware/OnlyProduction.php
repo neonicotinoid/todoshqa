@@ -19,6 +19,7 @@ class OnlyProduction
         if (app()->environment() === 'production') {
             abort(403);
         }
+
         return $next($request);
     }
 }

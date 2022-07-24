@@ -21,7 +21,6 @@ Route::get('/dashboard', \App\Http\Controllers\DashboardController::class)
     ->middleware(['auth'])
     ->name('dashboard');
 
-
 // Projects
 Route::controller(ProjectController::class)
     ->prefix('projects')
@@ -48,7 +47,6 @@ Route::resource('task', TaskController::class)
 Route::get('myday', [\App\Http\Controllers\MyDayController::class, 'show'])
     ->middleware(['auth'])
     ->name('myDay');
-
 
 // Users
 Route::get('/profile', [UserController::class, 'show'])->middleware(['auth'])->name('profile');

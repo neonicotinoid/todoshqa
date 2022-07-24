@@ -22,7 +22,7 @@ class ProjectController extends Controller
         return Inertia::render('Projects', [
             'ownProjects' => auth()->user()->projects,
             'trashedProjects' => auth()->user()->projects()->onlyTrashed()->get(),
-            'sharedProjects' => auth()->user()->shared_projects
+            'sharedProjects' => auth()->user()->shared_projects,
         ]);
     }
 
@@ -45,6 +45,7 @@ class ProjectController extends Controller
     public function destroy(ProjectDeleteRequest $request, Project $project)
     {
         $project->delete();
+
         return redirect()->to(route('projects.index'))->with('success', 'Project deleted');
     }
 
@@ -58,7 +59,6 @@ class ProjectController extends Controller
         return back()->with('success', 'Project deleted');
     }
 
-
     public function restore(Request $request, int $project)
     {
         $project = Project::withTrashed()->findOrFail($project);
@@ -68,7 +68,6 @@ class ProjectController extends Controller
         $project->restore();
 
         return back()->with('success', 'Project restored');
-
     }
 
     public function show(Request $request, Project $project)
@@ -76,7 +75,7 @@ class ProjectController extends Controller
         $this->authorize('view', $project);
         $actualTasks = $project->tasks()
             ->actual()
-            ->when(!$request->sorting || $request->sorting === 'created_desc', function (Builder $query) {
+            ->when(! $request->sorting || $request->sorting === 'created_desc', function (Builder $query) {
                 return $query->orderBy('created_at', 'DESC');
             })
             ->when($request->sorting === 'created_asc', function (Builder $query) {
@@ -92,7 +91,7 @@ class ProjectController extends Controller
         return Inertia::render('Project', [
             'project' => $project->load('users'),
             'actualTasks' => $actualTasks,
-            'completedTasks' => $completedTasks
+            'completedTasks' => $completedTasks,
         ]);
     }
 
@@ -110,8 +109,5 @@ class ProjectController extends Controller
         $unsharing($project, $user);
 
         return back()->with('success', 'Project unshared');
-
     }
-
-
 }

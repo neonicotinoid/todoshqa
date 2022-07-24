@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Project;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -29,7 +28,7 @@ class ProjectShareRequest extends FormRequest
             'email' => ['email', Rule::exists('users', 'email')
                 ->where(function ($query) {
                     return $query->where('id', '!=', $this->route('project')->user->id);
-                })]
+                }), ],
         ];
     }
 }

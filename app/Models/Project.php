@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Ramsey\Collection\Collection;
 
-
 /**
  * @property int id;
  * @property string title;
@@ -19,7 +18,6 @@ use Ramsey\Collection\Collection;
  * @property Collection<Task> tasks;
  * @property Collection<User> users;
  */
-
 class Project extends Model
 {
     use HasFactory;
@@ -28,7 +26,8 @@ class Project extends Model
     protected $fillable = ['title', 'description'];
 
     // В случае мягкого удаления проекта, удаляются и все вложенные в него задачи
-    protected static function boot() {
+    protected static function boot()
+    {
         parent::boot();
 
         static::deleted(function (Project $project) {
@@ -59,7 +58,6 @@ class Project extends Model
     {
         return $this->hasMany(Task::class, 'project_id', 'id')->withTrashed();
     }
-
 
     /**
      * Все пользователя, которым расшарен доступ к проекту (исключая владельца)

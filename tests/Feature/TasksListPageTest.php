@@ -22,8 +22,7 @@ class TasksListPageTest extends TestCase
                     ->for($user, 'author')
                     ->for($project, 'project')
                     ->create();
-            })
-                , 'projects')
+            }), 'projects')
             ->create());
 
         $this->get(route('projects.show', ['project' => 1]))
@@ -38,8 +37,7 @@ class TasksListPageTest extends TestCase
                     ->for($user, 'author')
                     ->for($project, 'project')
                     ->create();
-            })
-                , 'projects')
+            }), 'projects')
             ->create();
 
         $sharedUser = User::factory()->create();
@@ -58,8 +56,7 @@ class TasksListPageTest extends TestCase
                     ->for($user, 'author')
                     ->for($project, 'project')
                     ->create();
-            })
-                , 'projects')
+            }), 'projects')
             ->create();
 
         $this->actingAs(User::factory()->create())
@@ -75,13 +72,11 @@ class TasksListPageTest extends TestCase
                     ->for($user, 'author')
                     ->for($project, 'project')
                     ->create();
-            })
-                , 'projects')
+            }), 'projects')
             ->create();
 
         $this->get(route('projects.show', ['project' => 1]))
             ->assertRedirect('login');
-
     }
 
     public function test_it_display_tasks()
@@ -93,8 +88,7 @@ class TasksListPageTest extends TestCase
                     ->for($user, 'author')
                     ->for($project, 'project')
                     ->create();
-            })
-                , 'projects')
+            }), 'projects')
             ->create();
         $this->actingAs($user);
 
@@ -104,7 +98,6 @@ class TasksListPageTest extends TestCase
                 ->component('Project')
                 ->has('actualTasks', 3)
             );
-
     }
 
     public function test_it_create_new_task()
@@ -115,8 +108,7 @@ class TasksListPageTest extends TestCase
                     ->for($user, 'author')
                     ->for($project, 'project')
                     ->create();
-            })
-                , 'projects')
+            }), 'projects')
             ->create();
         $this->actingAs($user);
 
@@ -140,8 +132,7 @@ class TasksListPageTest extends TestCase
                         ['title' => 'Task #4', 'created_at' => now(), 'deadline_date' => now()->subDays(5)]
                     )
                     ->create();
-            })
-                , 'projects')
+            }), 'projects')
             ->create();
         $this->actingAs($user);
 
@@ -177,8 +168,5 @@ class TasksListPageTest extends TestCase
                     'actualTasks.3.title' => 'Task #4',
                 ]);
             });
-
     }
-
-
 }

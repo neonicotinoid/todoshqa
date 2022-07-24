@@ -23,7 +23,5 @@ class AttachAvatarToUserAction
             return $user->addMediaFromDisk($image)
                 ->toMediaCollection('avatar');
         }
-
-
     }
 }

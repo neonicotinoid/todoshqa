@@ -11,5 +11,4 @@ class UnshareProjectToUserAction
     {
         $user->shared_projects()->detach($project->id);
     }
-
 }

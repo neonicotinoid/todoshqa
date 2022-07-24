@@ -4,9 +4,7 @@ namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Events\Verified;
-use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
@@ -60,8 +58,6 @@ class EmailVerificationTest extends TestCase
 
         Notification::assertSentTo($user, VerifyEmail::class);
     }
-
-
 
     public function test_email_is_not_verified_with_invalid_hash()
     {

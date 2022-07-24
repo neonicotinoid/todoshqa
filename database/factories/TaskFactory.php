@@ -5,7 +5,6 @@ namespace Database\Factories;
 use App\Actions\AddTaskToMyDayAction;
 use App\Models\Task;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -30,7 +29,7 @@ class TaskFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'completed_at' => $this->faker->dateTimeBetween('-120 days')
+                'completed_at' => $this->faker->dateTimeBetween('-120 days'),
             ];
         });
     }
@@ -40,14 +39,14 @@ class TaskFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'completed_at' => null,
-                'deadline_date' => now()->subDays(20)
+                'deadline_date' => now()->subDays(20),
             ];
         });
     }
 
     public function myDay(User $user)
     {
-        return $this->afterCreating(function(Task $task) use(&$user) {
+        return $this->afterCreating(function (Task $task) use (&$user) {
             return (new AddTaskToMyDayAction())($task, $user, now());
         });
     }

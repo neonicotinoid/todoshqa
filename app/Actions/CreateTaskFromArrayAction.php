@@ -13,6 +13,7 @@ class CreateTaskFromArrayAction
         $task = new Task($data);
         $task->author()->associate($user);
         $task->project()->associate($project)->save();
+
         return $task;
     }
 }
