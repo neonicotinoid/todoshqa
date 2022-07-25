@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Project;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ProjectUpdateRequest extends FormRequest
@@ -14,7 +13,7 @@ class ProjectUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->can('update', Project::find($this->get('id')));
+        return auth()->user()->can('update', $this->route('project'));
     }
 
     /**

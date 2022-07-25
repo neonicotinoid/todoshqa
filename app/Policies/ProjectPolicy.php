@@ -35,7 +35,7 @@ class ProjectPolicy
 
     public function share(User $user, Project $project): bool|Response
     {
-        return $project->user->id === $user->id;
+        return ($project->user->id === $user->id) ? Response::allow() : Response::deny('You can\'t share this project');
     }
 
     public function restore(User $user, Project $project): bool|Response

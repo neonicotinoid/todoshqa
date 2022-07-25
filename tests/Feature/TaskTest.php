@@ -40,7 +40,7 @@ class TaskTest extends TestCase
         ]);
     }
 
-    public function test_user_cant_create_task_without_access()
+    public function test_user_cant_create_task_in_someone_else_project()
     {
         User::factory()->has(Project::factory(['id' => 1]), 'projects')->create();
         $user = User::factory()->create();

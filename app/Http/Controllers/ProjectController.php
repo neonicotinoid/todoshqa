@@ -97,6 +97,7 @@ class ProjectController extends Controller
 
     public function share(ProjectShareRequest $request, Project $project, ShareProjectToUserAction $sharing)
     {
+        /** @var User $user */
         $user = User::where('email', $request->email)->firstOrFail();
         $sharing($project, $user);
 
