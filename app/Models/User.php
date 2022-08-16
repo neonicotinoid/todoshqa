@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Arr;
 use Laravel\Sanctum\HasApiTokens;
 use Ramsey\Collection\Collection;
 use Spatie\MediaLibrary\HasMedia;
@@ -24,6 +25,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property Collection<Project> projects;
  * @property Collection<Project> shared_projects;
  * @property Collection<Task> createdTasks;
+ * @property array settings;
  */
 class User extends Authenticatable implements HasMedia, MustVerifyEmail
 {
@@ -60,6 +62,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'settings' => 'array',
     ];
 
     public function projects(): HasMany
@@ -110,5 +113,33 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     public function sendPasswordChangedNotification()
     {
         $this->notify(new UserPasswordChanged);
+    }
+
+
+    public function setSettingByKey(string $name, string|array $value)
+    {
+        $settings = $this->settings ?? [];
+        $settings[$name] = $value;
+        $this->settings = $settings;
+    }
+
+    public function setSettings(array $settingsToSet): void
+    {
+        if (Arr::isAssoc($settingsToSet)) {
+            $settings = $this->settings ?? [];
+            $settings = array_merge($settings, $settingsToSet);
+            $this->settings = $settings;
+        }
+    }
+
+    public function syncSettings(array $settingsToSet): void
+    {
+        $this->settings = null;
+        $this->setSettings($settingsToSet);
+    }
+
+    public function getSettingByKey(string $name): mixed
+    {
+        return $this->settings[$name];
     }
 }
