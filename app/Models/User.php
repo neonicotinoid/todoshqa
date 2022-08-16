@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Actions\GetNCacheInitialBackgroundColorAction;
 use App\Notifications\UserPasswordChanged;
 use App\Services\Initials;
 use Carbon\Carbon;
