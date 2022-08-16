@@ -95,7 +95,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
 
     public function getAvatarPlaceholderColorAttribute()
     {
-        return (new GetNCacheInitialBackgroundColorAction())($this->id);
+        return $this->settings['placeholder_hex'];
     }
 
     public function getInitialsAttribute()
@@ -130,6 +130,14 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
             $settings = array_merge($settings, $settingsToSet);
             $this->settings = $settings;
         }
+    }
+
+    public function hasSetting(string $key): bool
+    {
+        if ($this->settings) {
+            return array_key_exists($key, $this->settings);
+        }
+        return false;
     }
 
     public function syncSettings(array $settingsToSet): void
